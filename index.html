@@ -24,11 +24,11 @@
 <body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
 <div class="max-w-md mx-auto">
 
-    <!-- 标题 + 日期 + 免责声明 -->
+    <!-- 标题 + 数据时间 + 免责声明 -->
     <div class="mb-5 mt-2">
         <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
-        <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在载入最新收盘数据...</p>
-        <!-- ✅ 免责声明 -->
+        <!-- ✅ 直接显示 yfinance 数据的实际时间 -->
+        <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在载入数据...</p>
         <p class="text-[10px] text-slate-300 mt-1.5 leading-relaxed">
             📌 数据来自第三方（Yahoo Finance / CNN），由 AI 辅助生成，仅供参考，不构成任何投资建议。
         </p>
@@ -184,8 +184,6 @@
         <div class="flex justify-center pt-3 pb-1">
             <div class="w-10 h-1 bg-slate-200 rounded-full"></div>
         </div>
-
-        <!-- 标题栏 -->
         <div class="flex items-center justify-between px-5 pt-2 pb-2">
             <div>
                 <h2 class="text-base font-black text-slate-800" id="modal-title">走势图</h2>
@@ -199,8 +197,8 @@
         <div class="px-5 mb-3 flex items-baseline gap-2 flex-wrap">
             <span class="text-2xl font-black text-slate-800" id="modal-price">--</span>
             <span class="text-sm font-bold" id="modal-change">--</span>
-            <!-- ✅ 区间标签：显示当前是哪个时段的涨跌 -->
-            <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-400" id="modal-period-label"></span>
+            <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-400"
+                  id="modal-period-label"></span>
         </div>
 
         <!-- Tab 按钮 -->
@@ -216,7 +214,6 @@
                     onclick="switchTab('1mo', this)">近一个月</button>
         </div>
 
-        <!-- 图表 -->
         <div class="px-5">
             <div style="position:relative; height:220px;">
                 <canvas id="price-chart"></canvas>
@@ -229,7 +226,6 @@
 </div>
 
 <script>
-// ── 全局状态 ────────────────────────────────────────────
 let appData    = null;
 let priceChart = null;
 let activeKey  = null;
@@ -245,14 +241,8 @@ const CHART_META = {
     GOLD:   { name: '黄金期货 (Gold)',    priceKey: 'GOLD_price',   changeKey: 'GOLD_change'   },
     DXY:    { name: '美元指数 (DXY)',     priceKey: 'DXY_price',    changeKey: 'DXY_change'    },
 };
+const PERIOD_LABEL = { intraday: '当日涨跌', '5d': '五日涨跌', '1mo': '月度涨跌' };
 
-const PERIOD_LABEL = {
-    intraday: '当日涨跌',
-    '5d':     '五日涨跌',
-    '1mo':    '月度涨跌',
-};
-
-// ── 渲染涨跌幅 ──────────────────────────────────────────
 function renderTrend(val, changeId) {
     const num = parseFloat(val);
     const el  = document.getElementById(changeId);
@@ -269,31 +259,12 @@ function renderTrend(val, changeId) {
     }
 }
 
-// ── ✅ 判断数据是否来自前一交易日 ───────────────────────
-function getDateLabel(data) {
-    if (!data.date_iso) return "📅 " + data.date + " 收盘数据";
-
-    // 获取当前美东时间的日期（用 UTC-4 近似，全年误差不超过1小时）
-    const now      = new Date();
-    const etOffset = -4 * 60; // EDT offset in minutes
-    const etNow    = new Date(now.getTime() + (etOffset - now.getTimezoneOffset()) * 60000);
-    const todayET  = etNow.toISOString().split('T')[0];
-
-    if (data.date_iso === todayET) {
-        return "📅 " + data.date + " 收盘数据";
-    } else {
-        return "📅 " + data.date + " 收盘数据  ·  当日收盘前显示前一交易日数据";
-    }
-}
-
-// ── 主数据加载 ──────────────────────────────────────────
 fetch('public/data.json?t=' + Date.now())
     .then(r => r.json())
     .then(data => {
         appData = data;
-
-        // ✅ 日期标签：若非今天，标注前一交易日
-        document.getElementById('date-display').innerText = getDateLabel(data);
+        // ✅ 直接显示 yfinance 数据的实际时间戳
+        document.getElementById('date-display').innerText = "🕐 数据时间：" + data.date;
 
         document.getElementById('sp500-price').innerText  = data.SP500_price;
         renderTrend(data.SP500_change, 'sp500-change');
@@ -322,7 +293,6 @@ fetch('public/data.json?t=' + Date.now())
         renderTrend(data.HYG_change, 'hyg-change');
         document.getElementById('jnk-price').innerText = "$" + data.JNK_price;
         renderTrend(data.JNK_change, 'jnk-change');
-
         document.getElementById('tnx-price').innerText  = data.TNX_price;
         renderTrend(data.TNX_change, 'tnx-change');
         document.getElementById('gold-price').innerText = "$" + data.GOLD_price;
@@ -339,18 +309,15 @@ fetch('public/data.json?t=' + Date.now())
         document.getElementById('date-display').innerText = "数据载入失败，请检查 Actions 是否正常运行。";
     });
 
-// ── 打开图表弹窗 ────────────────────────────────────────
 function openChart(key) {
     if (!appData || !appData.charts || !appData.charts[key]) return;
     activeKey = key;
-
     const meta   = CHART_META[key];
     const charts = appData.charts[key];
 
     document.getElementById('modal-title').innerText    = meta.name;
-    document.getElementById('modal-subtitle').innerText = appData.date + ' 收盘';
+    document.getElementById('modal-subtitle').innerText = "数据时间：" + appData.date;
 
-    // 配置 Tab：无数据则禁用
     const tabs = { intraday: 'tab-intraday', '5d': 'tab-5d', '1mo': 'tab-1mo' };
     let firstAvailable = null;
     for (const [t, id] of Object.entries(tabs)) {
@@ -368,11 +335,9 @@ function openChart(key) {
     modal.style.opacity       = '1';
     modal.style.pointerEvents = 'auto';
     sheet.style.transform     = 'translateY(0)';
-
     renderChart(key, activeTab);
 }
 
-// ── 关闭弹窗 ────────────────────────────────────────────
 function closeChart() {
     const modal = document.getElementById('chart-modal');
     const sheet = document.getElementById('modal-sheet');
@@ -385,7 +350,6 @@ function handleBackdrop(e) {
     if (e.target === document.getElementById('chart-modal')) closeChart();
 }
 
-// ── 切换 Tab ────────────────────────────────────────────
 function switchTab(tab, btn) {
     if (btn.disabled) return;
     activeTab = tab;
@@ -394,23 +358,19 @@ function switchTab(tab, btn) {
     renderChart(activeKey, tab);
 }
 
-// ── ✅ 渲染图表（同步更新价格和涨跌幅）─────────────────
 function renderChart(key, tab) {
     const points = (appData.charts[key] && appData.charts[key][tab]) || [];
-
     if (priceChart) { priceChart.destroy(); priceChart = null; }
 
     if (points.length === 0) {
         const ctx = document.getElementById('price-chart').getContext('2d');
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle   = '#94a3b8';
-        ctx.font        = '13px sans-serif';
-        ctx.textAlign   = 'center';
+        ctx.fillStyle = '#94a3b8'; ctx.font = '13px sans-serif';
+        ctx.textAlign = 'center';
         ctx.fillText('暂无数据', ctx.canvas.width / 2, 110);
-        // 无数据时显示原始日涨跌
-        const meta    = CHART_META[key];
-        const rawChg  = parseFloat(appData[meta.changeKey]);
-        document.getElementById('modal-price').innerText   = appData[meta.priceKey];
+        const meta   = CHART_META[key];
+        const rawChg = parseFloat(appData[meta.changeKey]);
+        document.getElementById('modal-price').innerText = appData[meta.priceKey];
         const chgEl = document.getElementById('modal-change');
         chgEl.innerText = (rawChg >= 0 ? '▲ +' : '▼ ') + Math.abs(rawChg).toFixed(2) + '%';
         chgEl.className = 'text-sm font-bold ' + (rawChg >= 0 ? 'text-green-600' : 'text-red-600');
@@ -422,22 +382,17 @@ function renderChart(key, tab) {
     const values   = points.map(p => p.v);
     const firstVal = values[0];
     const lastVal  = values[values.length - 1];
+    const pctChg   = firstVal !== 0 ? ((lastVal - firstVal) / firstVal * 100) : 0;
+    const isUp     = pctChg >= 0;
+    const color    = isUp ? '#16a34a' : '#dc2626';
+    const fillC    = isUp ? 'rgba(22,163,74,0.08)' : 'rgba(220,38,38,0.08)';
 
-    // ✅ 根据所选时段的数据动态计算涨跌幅
-    const periodChangePct = firstVal !== 0
-        ? ((lastVal - firstVal) / firstVal * 100)
-        : 0;
-    const isUp   = periodChangePct >= 0;
-    const color  = isUp ? '#16a34a' : '#dc2626';
-    const fillC  = isUp ? 'rgba(22,163,74,0.08)' : 'rgba(220,38,38,0.08)';
-
-    // 更新弹窗顶部：最新价格 + 该时段涨跌幅
+    // ✅ 根据所选时段动态更新价格和涨跌幅
     document.getElementById('modal-price').innerText =
         lastVal.toLocaleString(undefined, { maximumFractionDigits: 4 });
     const chgEl = document.getElementById('modal-change');
-    chgEl.innerText = (isUp ? '▲ +' : '▼ ') + Math.abs(periodChangePct).toFixed(2) + '%';
+    chgEl.innerText = (isUp ? '▲ +' : '▼ ') + Math.abs(pctChg).toFixed(2) + '%';
     chgEl.className = 'text-sm font-bold ' + (isUp ? 'text-green-600' : 'text-red-600');
-    // 时段标签
     document.getElementById('modal-period-label').innerText = PERIOD_LABEL[tab] || '';
 
     const step = Math.max(1, Math.ceil(labels.length / 6));
@@ -447,19 +402,13 @@ function renderChart(key, tab) {
         data: {
             labels,
             datasets: [{
-                data:            values,
-                borderColor:     color,
-                backgroundColor: fillC,
-                borderWidth:     2,
-                pointRadius:     0,
-                pointHoverRadius:4,
-                fill:            true,
-                tension:         0.3,
+                data: values, borderColor: color, backgroundColor: fillC,
+                borderWidth: 2, pointRadius: 0, pointHoverRadius: 4,
+                fill: true, tension: 0.3,
             }]
         },
         options: {
-            responsive:          true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             plugins: {
                 legend: { display: false },
@@ -473,10 +422,8 @@ function renderChart(key, tab) {
             scales: {
                 x: {
                     ticks: {
-                        maxTicksLimit: 6,
-                        maxRotation:   0,
-                        font:  { size: 10 },
-                        color: '#94a3b8',
+                        maxTicksLimit: 6, maxRotation: 0,
+                        font: { size: 10 }, color: '#94a3b8',
                         callback: function(val, i) {
                             return i % step === 0 ? this.getLabelForValue(val) : '';
                         }
@@ -486,10 +433,8 @@ function renderChart(key, tab) {
                 y: {
                     position: 'right',
                     ticks: {
-                        font:  { size: 10 },
-                        color: '#94a3b8',
-                        callback: v => v.toLocaleString(
-                            undefined, { maximumFractionDigits: 4 })
+                        font: { size: 10 }, color: '#94a3b8',
+                        callback: v => v.toLocaleString(undefined, { maximumFractionDigits: 4 })
                     },
                     grid: { color: 'rgba(0,0,0,0.04)' }
                 }
