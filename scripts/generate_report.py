@@ -27,8 +27,8 @@ def get_market_data():
     market_data = {}
     for name, sym in TICKERS.items():
         try:
-            t    = yf.Ticker(sym)
-            info = t.fast_info
+            t       = yf.Ticker(sym)
+            info    = t.fast_info
             current = getattr(info, 'last_price', None) or getattr(info, 'regularMarketPrice', None)
             prev    = getattr(info, 'previous_close', None) or getattr(info, 'regularMarketPreviousClose', None)
 
@@ -46,7 +46,7 @@ def get_market_data():
                 else:
                     market_data[name] = {'price': 0.0, 'change_pct': 0.0}
 
-            print(f"{name}: {market_data[name]['price']:.2f} ({market_data[name]['change_pct']:+.2f}%)")
+            print(f"{name}: {market_data[name]['price']:.4f} ({market_data[name]['change_pct']:+.2f}%)")
 
         except Exception as e:
             print(f"Warning: Error fetching {name}: {e}")
@@ -55,73 +55,48 @@ def get_market_data():
     return market_data
 
 # ==========================================
-# 3. 抓取走势图数据（SP500 & NASDAQ）
+# 3. 抓取走势图数据（全部资产）
 # ==========================================
+def fetch_series(sym, period, interval):
+    """抓取一段时间序列，返回 [{t, v}, ...] 列表，失败返回空列表"""
+    try:
+        df    = yf.download(sym, period=period, interval=interval, progress=False)
+        close = df['Close'].squeeze()
+        if close.empty:
+            return []
+        idx = close.index
+        # 盘中时间序列转为美东时间
+        if hasattr(idx, 'tz') and idx.tz is not None:
+            idx = idx.tz_convert('America/New_York')
+        # 日期格式
+        if interval == '1d':
+            fmt = "%m/%d"
+        elif interval in ('5m', '15m', '30m'):
+            fmt = "%H:%M" if period == "1d" else "%m/%d %H:%M"
+        else:
+            fmt = "%m/%d"
+        return [
+            {"t": ts.strftime(fmt), "v": round(float(v), 4)}
+            for ts, v in zip(idx, close)
+            if not pd.isna(v)
+        ]
+    except Exception as e:
+        print(f"  Warning: fetch_series {sym} {period}/{interval} failed: {e}")
+        return []
+
 def get_chart_data():
     chart_data = {}
-    targets = [('SP500', '^GSPC'), ('NASDAQ', '^IXIC')]
-
-    for name, sym in targets:
-        ticker_data = {}
-
-        # 当日走势：5分钟 K 线
-        try:
-            df = yf.download(sym, period="1d", interval="5m", progress=False)
-            close = df['Close'].squeeze()
-            if not close.empty:
-                # 转换为美东时间
-                idx = close.index
-                if hasattr(idx, 'tz') and idx.tz is not None:
-                    idx = idx.tz_convert('America/New_York')
-                ticker_data['intraday'] = [
-                    {"t": ts.strftime("%H:%M"), "v": round(float(v), 2)}
-                    for ts, v in zip(idx, close)
-                    if not pd.isna(v)
-                ]
-            else:
-                ticker_data['intraday'] = []
-        except Exception as e:
-            print(f"Warning: intraday chart failed for {name}: {e}")
-            ticker_data['intraday'] = []
-
-        # 近五日走势：30分钟 K 线
-        try:
-            df = yf.download(sym, period="5d", interval="30m", progress=False)
-            close = df['Close'].squeeze()
-            if not close.empty:
-                idx = close.index
-                if hasattr(idx, 'tz') and idx.tz is not None:
-                    idx = idx.tz_convert('America/New_York')
-                ticker_data['5d'] = [
-                    {"t": ts.strftime("%m/%d %H:%M"), "v": round(float(v), 2)}
-                    for ts, v in zip(idx, close)
-                    if not pd.isna(v)
-                ]
-            else:
-                ticker_data['5d'] = []
-        except Exception as e:
-            print(f"Warning: 5d chart failed for {name}: {e}")
-            ticker_data['5d'] = []
-
-        # 近一个月走势：日线
-        try:
-            df = yf.download(sym, period="1mo", interval="1d", progress=False)
-            close = df['Close'].squeeze()
-            if not close.empty:
-                ticker_data['1mo'] = [
-                    {"t": ts.strftime("%m/%d"), "v": round(float(v), 2)}
-                    for ts, v in zip(close.index, close)
-                    if not pd.isna(v)
-                ]
-            else:
-                ticker_data['1mo'] = []
-        except Exception as e:
-            print(f"Warning: 1mo chart failed for {name}: {e}")
-            ticker_data['1mo'] = []
-
+    for name, sym in TICKERS.items():
+        print(f"Fetching chart data for {name} ({sym})...")
+        ticker_data = {
+            'intraday': fetch_series(sym, "1d",  "5m"),   # 当日走势（5分钟）
+            '5d':       fetch_series(sym, "5d",  "30m"),  # 近五日（30分钟）
+            '1mo':      fetch_series(sym, "1mo", "1d"),   # 近一个月（日线）
+        }
+        print(f"  intraday={len(ticker_data['intraday'])} pts, "
+              f"5d={len(ticker_data['5d'])} pts, "
+              f"1mo={len(ticker_data['1mo'])} pts")
         chart_data[name] = ticker_data
-        print(f"Chart data for {name}: intraday={len(ticker_data['intraday'])} pts, "
-              f"5d={len(ticker_data['5d'])} pts, 1mo={len(ticker_data['1mo'])} pts")
 
     return chart_data
 
@@ -196,7 +171,6 @@ def generate_strategy(data, fg_data, vix_strategy):
     hyg_chg    = data['HYG']['change_pct']
     jnk_chg    = data['JNK']['change_pct']
     fg_score   = fg_data['FG_Score']
-    fg_status  = fg_data['FG_Status']
 
     strategies = []
 
@@ -212,15 +186,15 @@ def generate_strategy(data, fg_data, vix_strategy):
 
     if isinstance(fg_score, int):
         if fg_score >= 75:
-            fg_view = f"恐惧贪婪指数高达 {fg_score}（{fg_status}），市场过热风险上升，追高需谨慎，建议控制新增仓位。"
+            fg_view = f"恐惧贪婪指数高达 {fg_score}（{fg_data['FG_Status']}），市场过热风险上升，追高需谨慎，建议控制新增仓位。"
         elif fg_score >= 55:
-            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_status}），情绪偏乐观但尚未过热，可维持正常定投节奏。"
+            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），情绪偏乐观但尚未过热，可维持正常定投节奏。"
         elif fg_score >= 45:
-            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_status}），市场情绪中性，观望为主，等待方向明确。"
+            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），市场情绪中性，观望为主，等待方向明确。"
         elif fg_score >= 25:
-            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_status}），市场情绪偏悲观，历史上往往是较好的分批入场时机。"
+            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），市场情绪偏悲观，历史上往往是较好的分批入场时机。"
         else:
-            fg_view = f"恐惧贪婪指数仅 {fg_score}（{fg_status}），市场处于极度悲观状态，结合 VIX 可考虑逆向布局。"
+            fg_view = f"恐惧贪婪指数仅 {fg_score}（{fg_data['FG_Status']}），市场处于极度悲观状态，结合 VIX 可考虑逆向布局。"
     else:
         fg_view = f"恐惧贪婪指数获取失败，建议参考 VIX（{vix_val:.1f}）进行情绪判断。"
     strategies.append(f"😰 情绪分析：{fg_view}")
@@ -232,56 +206,38 @@ def generate_strategy(data, fg_data, vix_strategy):
     elif vix_val < 30:
         vix_view = f"VIX 升至 {vix_val:.2f}，恐慌情绪升温，市场波动加剧，策略建议：{vix_strategy['tip']}。"
     else:
-        vix_view = f"VIX 飙升至 {vix_val:.2f}，市场处于高度恐慌状态，历史上 VIX>30 往往预示阶段性底部临近，策略建议：{vix_strategy['tip']}。"
+        vix_view = f"VIX 飙升至 {vix_val:.2f}，市场处于高度恐慌状态，VIX>30 往往预示阶段性底部临近，策略建议：{vix_strategy['tip']}。"
     strategies.append(f"⚡ VIX 信号：{vix_view}")
 
     if tnx_val > 4.5:
-        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显，建议适当降低科技股仓位比例。"
+        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显。"
     elif tnx_val > 4.0:
-        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围，保持均衡配置。"
+        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围。"
     else:
-        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，对权益资产压制有限，有利于成长股估值修复。"
-    if dxy_chg > 0.5:
-        dxy_view = f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。"
-    elif dxy_chg < -0.5:
-        dxy_view = f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。"
-    else:
-        dxy_view = f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。"
+        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，有利于成长股估值修复。"
+    dxy_view = (f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。" if dxy_chg > 0.5
+                else f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。" if dxy_chg < -0.5
+                else f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。")
     strategies.append(f"🏦 利率与美元：{rate_view} {dxy_view}")
 
     avg_credit_chg = (hyg_chg + jnk_chg) / 2
-    if avg_credit_chg > 0.3:
-        credit_view = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日上涨，信用市场流动性健康，风险偏好提升，有利于权益市场。"
-    elif avg_credit_chg < -0.3:
-        credit_view = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日下跌，信用溢价走阔，需警惕流动性收紧对股市的传导风险。"
-    else:
-        credit_view = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日基本持平，流动性状况稳定。"
+    credit_view = (f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日上涨，信用市场流动性健康，风险偏好提升。" if avg_credit_chg > 0.3
+                   else f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日下跌，信用溢价走阔，需警惕流动性收紧风险。" if avg_credit_chg < -0.3
+                   else f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日基本持平，流动性状况稳定。")
     strategies.append(f"💧 流动性信号：{credit_view}")
 
-    if gold_chg > 1.0 and sp500_chg < 0:
-        gold_view = f"黄金今日上涨 {gold_chg:.2f}% 而股市下跌，避险资金明显流入黄金，市场风险偏好下降，建议适当增加防御性配置。"
-    elif gold_chg > 1.0:
-        gold_view = f"黄金今日上涨 {gold_chg:.2f}%，在股市同步上涨背景下，或反映通胀预期升温，关注 CPI 等经济数据。"
-    elif gold_chg < -1.0:
-        gold_view = f"黄金今日下跌 {abs(gold_chg):.2f}%，避险需求减弱，市场风险偏好整体较好。"
-    else:
-        gold_view = f"黄金今日变动 {gold_chg:+.2f}%，避险情绪基本平稳。"
+    gold_view = (f"黄金今日上涨 {gold_chg:.2f}% 而股市下跌，避险资金明显流入黄金，建议适当增加防御性配置。" if gold_chg > 1.0 and sp500_chg < 0
+                 else f"黄金今日上涨 {gold_chg:.2f}%，或反映通胀预期升温，关注 CPI 等经济数据。" if gold_chg > 1.0
+                 else f"黄金今日下跌 {abs(gold_chg):.2f}%，避险需求减弱，市场风险偏好整体较好。" if gold_chg < -1.0
+                 else f"黄金今日变动 {gold_chg:+.2f}%，避险情绪基本平稳。")
     strategies.append(f"🥇 避险信号：{gold_view}")
 
-    bullish_signals = sum([
-        sp500_chg > 0,
-        nasdaq_chg > 0,
-        vix_val < 20,
-        isinstance(fg_score, int) and fg_score < 60,
-        avg_credit_chg > 0,
-        tnx_val < 4.3,
-    ])
-    if bullish_signals >= 5:
-        action = "多项指标偏多，市场整体健康，建议维持正常定投计划，持股待涨，不必追高。"
-    elif bullish_signals >= 3:
-        action = "多空信号混杂，建议保持现有仓位，谨慎追加，密切关注后续数据。"
-    else:
-        action = "多项指标偏空，建议降低仓位，保留现金，等待市场企稳后再分批布局。"
+    bullish = sum([sp500_chg > 0, nasdaq_chg > 0, vix_val < 20,
+                   isinstance(fg_score, int) and fg_score < 60,
+                   avg_credit_chg > 0, tnx_val < 4.3])
+    action = ("多项指标偏多，市场整体健康，建议维持正常定投计划，持股待涨，不必追高。" if bullish >= 5
+              else "多空信号混杂，建议保持现有仓位，谨慎追加，密切关注后续数据。" if bullish >= 3
+              else "多项指标偏空，建议降低仓位，保留现金，等待市场企稳后再分批布局。")
     strategies.append(f"🎯 综合操作建议：{action}")
 
     return strategies
@@ -299,9 +255,8 @@ def main():
     vix_val      = data['VIX']['price']
     vix_strategy = get_vix_strategy(vix_val)
     strategies   = generate_strategy(data, fg_data, vix_strategy)
-
-    now_et      = datetime.now(timezone(timedelta(hours=-4)))
-    report_date = now_et.strftime('%Y年%m月%d日')
+    now_et       = datetime.now(timezone(timedelta(hours=-4)))
+    report_date  = now_et.strftime('%Y年%m月%d日')
 
     summary_data = {
         "date":          report_date,
@@ -326,7 +281,7 @@ def main():
         "DXY_price":     f"{data['DXY']['price']:.2f}",
         "DXY_change":    f"{data['DXY']['change_pct']:.2f}",
         "strategies":    strategies,
-        "charts":        chart_data,   # ← 走势数据
+        "charts":        chart_data,
     }
 
     output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public')
@@ -334,9 +289,8 @@ def main():
     with open(os.path.join(output_dir, 'data.json'), 'w', encoding='utf-8') as f:
         json.dump(summary_data, f, ensure_ascii=False, indent=4)
 
-    # PDF 报告
-    def get_color(change): return "#16a34a" if change > 0 else "#dc2626"
-    def get_arrow(change): return "▲" if change > 0 else "▼"
+    def get_color(c): return "#16a34a" if c > 0 else "#dc2626"
+    def get_arrow(c): return "▲" if c > 0 else "▼"
     strategy_rows = "".join([f"<li style='margin-bottom:8px;'>{s}</li>" for s in strategies])
 
     html_template = f"""
@@ -356,7 +310,7 @@ def main():
     </style></head><body>
     <div class="header">
         <h1>美股情绪观察每日报告</h1>
-        <div style="font-size:10pt; opacity:0.85;">📅 {report_date} 收盘数据</div>
+        <div style="font-size:10pt;opacity:0.85;">📅 {report_date} 收盘数据</div>
     </div>
     <div class="section-title">1. 大盘核心指数</div>
     <table class="data-table">
