@@ -177,6 +177,12 @@
     <a href="public/report.pdf"
        class="block w-full bg-slate-100 text-slate-600 text-center text-xs font-bold py-3.5 rounded-xl border border-slate-200 active:bg-slate-200 transition"
        target="_blank">📥 下载完整 PDF 报告</a>
+    <p class="text-center text-[11px] text-slate-300 mt-5">
+        作者联系方式：<a href="mailto:yuntaoli2021@gmail.com"
+                       class="text-slate-400 underline underline-offset-2">
+            yuntaoli2021@gmail.com
+        </a>
+    </p>
 </div>
 
 <!-- 走势图弹窗 -->
@@ -247,7 +253,7 @@ const FG_MAX = 100;
  * @param {Array}  zones        - 区间配置数组
  * @param {number} maxVal       - 显示最大值
  */
-function renderGauge(containerId, value, zones, maxVal) {
+function renderGauge(containerId, value, zones, maxVal, labelOverride = null) {
     const el = document.getElementById(containerId);
     if (!el) return;
 
@@ -290,7 +296,7 @@ function renderGauge(containerId, value, zones, maxVal) {
             <div style="font-size:8.5px;font-weight:900;color:#0f172a;
                         text-align:center;white-space:nowrap;margin-top:1px;
                         text-shadow:0 0 3px #fff,0 0 3px #fff;">
-                ${raw >= 10 ? raw.toFixed(1) : raw.toFixed(2)}
+                ${labelOverride !== null ? labelOverride : (raw >= 10 ? raw.toFixed(1) : raw.toFixed(2))}
             </div>
         </div>`;
 
@@ -409,7 +415,7 @@ fetch('public/data.json?t=' + Date.now())
         }
 
         // ✅ 渲染 VIX 和 F&G 参考区间图
-        renderGauge('vix-gauge', data.VIX_price, VIX_ZONES, VIX_MAX);
+        renderGauge('vix-gauge', data.VIX_price, VIX_ZONES, VIX_MAX, data.VIX_price);
         if (data.FG_Score !== 'N/A') {
             renderGauge('fg-gauge', data.FG_Score, FG_ZONES, FG_MAX);
         }
