@@ -5,91 +5,26 @@ import yfinance as yf
 from weasyprint import HTML
 from datetime import datetime, timezone, timedelta
 
-# Alpaca SDK
-from alpaca.data import StockHistoricalDataClient
-from alpaca.data.requests import StockLatestBarRequest, StockBarsRequest
-from alpaca.data.timeframe import TimeFrame
-
 # ==========================================
 # 1. 资产配置
 # ==========================================
-# Alpaca 实时（无延迟）：美股 ETF
-ALPACA_SYMBOLS = {
-    'SP500':  'SPY',
-    'NASDAQ': 'QQQ',
+TICKERS = {
+    'SP500':  '^GSPC',
+    'NASDAQ': '^IXIC',
+    'VIX':    '^VIX',
     'HYG':    'HYG',
     'JNK':    'JNK',
-}
-
-# yfinance（延迟15分钟）：Alpaca 不提供的期货/指数
-YFINANCE_SYMBOLS = {
-    'VIX':  '^VIX',
-    'TNX':  '^TNX',
-    'GOLD': 'GC=F',
-    'DXY':  'DX-Y.NYB',
+    'TNX':    '^TNX',
+    'GOLD':   'GC=F',
+    'DXY':    'DX-Y.NYB',
 }
 
 # ==========================================
-# 2. 判断当前是否在美股交易时间内
+# 2. 抓取收盘数据
 # ==========================================
-def is_market_open():
-    now_utc = datetime.now(timezone.utc)
-    if now_utc.weekday() >= 5:
-        return False
-    market_start = now_utc.replace(hour=13, minute=20, second=0, microsecond=0)
-    market_end   = now_utc.replace(hour=21, minute=10, second=0, microsecond=0)
-    return market_start <= now_utc <= market_end
-
-# ==========================================
-# 3. Alpaca 实时数据
-# ==========================================
-def get_alpaca_data():
-    api_key    = os.environ["ALPACA_API_KEY"]
-    api_secret = os.environ["ALPACA_API_SECRET"]
-    client     = StockHistoricalDataClient(api_key, api_secret)
-    symbols    = list(ALPACA_SYMBOLS.values())
-
-    # ✅ 免费账户必须指定 feed='iex'，否则默认 SIP 会返回 403
-    latest_bars = client.get_stock_latest_bar(
-        StockLatestBarRequest(symbol_or_symbols=symbols, feed='iex')
-    )
-
-    # 近7天日线，取前一日收盘价做涨跌幅基准
-    end   = datetime.now(timezone.utc)
-    start = end - timedelta(days=7)
-    bars  = client.get_stock_bars(
-        StockBarsRequest(
-            symbol_or_symbols=symbols,
-            timeframe=TimeFrame.Day,
-            start=start,
-            end=end,
-            feed='iex',      # ✅ 同样需要指定 iex
-        )
-    ).df
-
-    result = {}
-    for mapped_name, sym in ALPACA_SYMBOLS.items():
-        try:
-            current = float(latest_bars[sym].close)
-
-            sym_bars = bars.xs(sym, level='symbol') if 'symbol' in bars.index.names else bars.loc[sym]
-            prev     = float(sym_bars['close'].iloc[-2]) if len(sym_bars) >= 2 else current
-
-            change_pct = ((current - prev) / prev) * 100 if prev != 0 else 0.0
-            result[mapped_name] = {'price': current, 'change_pct': change_pct}
-            print(f"Alpaca {sym}: {current:.2f} ({change_pct:+.2f}%)")
-        except Exception as e:
-            print(f"Warning: Alpaca error for {sym}: {e}")
-            result[mapped_name] = {'price': 0.0, 'change_pct': 0.0}
-
-    return result
-
-# ==========================================
-# 4. yfinance 数据（VIX / TNX / GOLD / DXY）
-# ==========================================
-def get_yfinance_data():
-    result = {}
-    for name, sym in YFINANCE_SYMBOLS.items():
+def get_market_data():
+    market_data = {}
+    for name, sym in TICKERS.items():
         try:
             t    = yf.Ticker(sym)
             info = t.fast_info
@@ -98,23 +33,29 @@ def get_yfinance_data():
             prev    = getattr(info, 'previous_close', None) or getattr(info, 'regularMarketPreviousClose', None)
 
             if current and prev and prev != 0:
-                result[name] = {'price': float(current), 'change_pct': ((current - prev) / prev) * 100}
+                market_data[name] = {
+                    'price':      float(current),
+                    'change_pct': ((float(current) - float(prev)) / float(prev)) * 100
+                }
             else:
                 df = yf.download(sym, period="5d", progress=False)['Close']
                 if len(df) >= 2:
                     cur = float(df.iloc[-1].iloc[0])
                     prv = float(df.iloc[-2].iloc[0])
-                    result[name] = {'price': cur, 'change_pct': ((cur - prv) / prv) * 100}
+                    market_data[name] = {'price': cur, 'change_pct': ((cur - prv) / prv) * 100}
                 else:
-                    result[name] = {'price': 0.0, 'change_pct': 0.0}
-            print(f"yfinance {sym}: {result[name]['price']:.2f} ({result[name]['change_pct']:+.2f}%)")
+                    market_data[name] = {'price': 0.0, 'change_pct': 0.0}
+
+            print(f"{name}: {market_data[name]['price']:.2f} ({market_data[name]['change_pct']:+.2f}%)")
+
         except Exception as e:
-            print(f"Warning: yfinance error for {name}: {e}")
-            result[name] = {'price': 0.0, 'change_pct': 0.0}
-    return result
+            print(f"Warning: Error fetching {name}: {e}")
+            market_data[name] = {'price': 0.0, 'change_pct': 0.0}
+
+    return market_data
 
 # ==========================================
-# 5. CNN 恐惧与贪婪指数（含备用方案）
+# 3. CNN 恐惧与贪婪指数
 # ==========================================
 def fetch_fear_greed():
     rating_map = {
@@ -143,7 +84,7 @@ def fetch_fear_greed():
         print(f"CNN F&G: {score} ({rating})")
         return {"FG_Score": score, "FG_Status": rating_map.get(rating, rating)}
     except Exception as e:
-        print(f"Warning: CNN primary failed: {e}, switching to backup...")
+        print(f"Warning: CNN F&G failed: {e}, switching to backup...")
 
     try:
         resp  = requests.get("https://api.alternative.me/fng/?limit=1", timeout=10)
@@ -153,50 +94,153 @@ def fetch_fear_greed():
         print(f"alternative.me F&G: {score} ({cls})")
         return {"FG_Score": score, "FG_Status": rating_map.get(cls, cls)}
     except Exception as e:
-        print(f"Error: F&G backup also failed: {e}")
+        print(f"Error: F&G backup failed: {e}")
         return {"FG_Score": "N/A", "FG_Status": "获取失败"}
 
 # ==========================================
-# 6. VIX 策略映射
+# 4. VIX 策略映射
 # ==========================================
 def get_vix_strategy(vix_val):
     if vix_val < 12:
-        return {"status": "极度乐观", "tip": "谨慎追高", "color": "#dc2626"}
+        return {"status": "极度乐观", "tip": "谨慎追高，控制仓位"}
     elif vix_val < 20:
-        return {"status": "正常区间", "tip": "常规定投", "color": "#15803d"}
+        return {"status": "正常区间", "tip": "常规定投，持股待涨"}
     elif vix_val < 30:
-        return {"status": "恐惧上升", "tip": "加大定投", "color": "#a16207"}
+        return {"status": "恐惧上升", "tip": "加大定投，分批建仓"}
     elif vix_val < 50:
-        return {"status": "市场恐慌", "tip": "加倍定投", "color": "#dc2626"}
+        return {"status": "市场恐慌", "tip": "加倍定投，逢低布局"}
     else:
-        return {"status": "极度恐慌", "tip": "大胆抄底", "color": "#7f1d1d"}
+        return {"status": "极度恐慌", "tip": "大胆抄底，重仓入场"}
 
 # ==========================================
-# 7. 核心执行逻辑
+# 5. 综合策略解读（基于多维数据）
+# ==========================================
+def generate_strategy(data, fg_data, vix_strategy):
+    sp500_chg  = data['SP500']['change_pct']
+    nasdaq_chg = data['NASDAQ']['change_pct']
+    vix_val    = data['VIX']['price']
+    tnx_val    = data['TNX']['price']
+    gold_chg   = data['GOLD']['change_pct']
+    dxy_chg    = data['DXY']['change_pct']
+    hyg_chg    = data['HYG']['change_pct']
+    jnk_chg    = data['JNK']['change_pct']
+    fg_score   = fg_data['FG_Score']
+    fg_status  = fg_data['FG_Status']
+
+    strategies = []
+
+    # ── 大盘研判 ──────────────────────────────────────────────
+    if sp500_chg > 1.5 and nasdaq_chg > 1.5:
+        market_view = f"今日大盘强势上涨，标普500收涨 {sp500_chg:.2f}%，纳指收涨 {nasdaq_chg:.2f}%，市场做多情绪明显占优。"
+    elif sp500_chg > 0 and nasdaq_chg > 0:
+        market_view = f"今日大盘小幅收涨，标普500 {sp500_chg:+.2f}%，纳指 {nasdaq_chg:+.2f}%，整体偏多但动能有限。"
+    elif sp500_chg < -1.5 and nasdaq_chg < -1.5:
+        market_view = f"今日大盘显著下跌，标普500收跌 {abs(sp500_chg):.2f}%，纳指收跌 {abs(nasdaq_chg):.2f}%，市场抛压较重。"
+    else:
+        market_view = f"今日大盘震荡整理，标普500 {sp500_chg:+.2f}%，纳指 {nasdaq_chg:+.2f}%，多空分歧明显。"
+    strategies.append(f"📊 大盘表现：{market_view}")
+
+    # ── 情绪研判 ──────────────────────────────────────────────
+    if isinstance(fg_score, int):
+        if fg_score >= 75:
+            fg_view = f"恐惧贪婪指数高达 {fg_score}（{fg_status}），市场过热风险上升，追高需谨慎，建议控制新增仓位。"
+        elif fg_score >= 55:
+            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_status}），情绪偏乐观但尚未过热，可维持正常定投节奏。"
+        elif fg_score >= 45:
+            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_status}），市场情绪中性，观望为主，等待方向明确。"
+        elif fg_score >= 25:
+            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_status}），市场情绪偏悲观，历史上往往是较好的分批入场时机。"
+        else:
+            fg_view = f"恐惧贪婪指数仅 {fg_score}（{fg_status}），市场处于极度悲观状态，结合 VIX 可考虑逆向布局。"
+    else:
+        fg_view = f"恐惧贪婪指数获取失败，建议参考 VIX（{vix_val:.1f}）进行情绪判断。"
+    strategies.append(f"😰 情绪分析：{fg_view}")
+
+    # ── VIX 研判 ──────────────────────────────────────────────
+    if vix_val < 15:
+        vix_view = f"VIX 收于 {vix_val:.2f}，处于历史低位，市场波动预期极低，适合持股，但需警惕黑天鹅风险。"
+    elif vix_val < 20:
+        vix_view = f"VIX 收于 {vix_val:.2f}，处于正常区间，市场风险可控，策略建议：{vix_strategy['tip']}。"
+    elif vix_val < 30:
+        vix_view = f"VIX 升至 {vix_val:.2f}，恐慌情绪升温，市场波动加剧，策略建议：{vix_strategy['tip']}。"
+    else:
+        vix_view = f"VIX 飙升至 {vix_val:.2f}，市场处于高度恐慌状态，历史上 VIX>30 往往预示阶段性底部临近，策略建议：{vix_strategy['tip']}。"
+    strategies.append(f"⚡ VIX 信号：{vix_view}")
+
+    # ── 宏观利率与美元 ───────────────────────────────────────
+    if tnx_val > 4.5:
+        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显，建议适当降低科技股仓位比例。"
+    elif tnx_val > 4.0:
+        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围，保持均衡配置。"
+    else:
+        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，对权益资产压制有限，有利于成长股估值修复。"
+
+    if dxy_chg > 0.5:
+        dxy_view = f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。"
+    elif dxy_chg < -0.5:
+        dxy_view = f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。"
+    else:
+        dxy_view = f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。"
+    strategies.append(f"🏦 利率与美元：{rate_view} {dxy_view}")
+
+    # ── 流动性信号 ────────────────────────────────────────────
+    avg_credit_chg = (hyg_chg + jnk_chg) / 2
+    if avg_credit_chg > 0.3:
+        credit_view = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日上涨，信用市场流动性健康，风险偏好提升，有利于权益市场。"
+    elif avg_credit_chg < -0.3:
+        credit_view = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日下跌，信用溢价走阔，需警惕流动性收紧对股市的传导风险。"
+    else:
+        credit_view = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日基本持平，流动性状况稳定。"
+    strategies.append(f"💧 流动性信号：{credit_view}")
+
+    # ── 避险资产 ──────────────────────────────────────────────
+    if gold_chg > 1.0 and sp500_chg < 0:
+        gold_view = f"黄金今日上涨 {gold_chg:.2f}% 而股市下跌，避险资金明显流入黄金，市场风险偏好下降，建议适当增加防御性配置。"
+    elif gold_chg > 1.0:
+        gold_view = f"黄金今日上涨 {gold_chg:.2f}%，在股市同步上涨背景下，或反映通胀预期升温，关注 CPI 等经济数据。"
+    elif gold_chg < -1.0:
+        gold_view = f"黄金今日下跌 {abs(gold_chg):.2f}%，避险需求减弱，市场风险偏好整体较好。"
+    else:
+        gold_view = f"黄金今日变动 {gold_chg:+.2f}%，避险情绪基本平稳。"
+    strategies.append(f"🥇 避险信号：{gold_view}")
+
+    # ── 综合操作建议 ──────────────────────────────────────────
+    bullish_signals = sum([
+        sp500_chg > 0,
+        nasdaq_chg > 0,
+        vix_val < 20,
+        isinstance(fg_score, int) and fg_score < 60,
+        avg_credit_chg > 0,
+        tnx_val < 4.3,
+    ])
+
+    if bullish_signals >= 5:
+        action = "多项指标偏多，市场整体健康，建议维持正常定投计划，持股待涨，不必追高。"
+    elif bullish_signals >= 3:
+        action = "多空信号混杂，建议保持现有仓位，谨慎追加，密切关注后续数据。"
+    else:
+        action = "多项指标偏空，建议降低仓位，保留现金，等待市场企稳后再分批布局。"
+    strategies.append(f"🎯 综合操作建议：{action}")
+
+    return strategies
+
+# ==========================================
+# 6. 核心执行逻辑
 # ==========================================
 def main():
-    market_open  = is_market_open()
-    status_label = "盘中实时" if market_open else "收盘数据"
-    print(f"Market: {'OPEN' if market_open else 'CLOSED'}")
+    print("正在抓取收盘数据...")
+    data    = get_market_data()
+    fg_data = fetch_fear_greed()
 
-    alpaca_data   = get_alpaca_data()
-    yfinance_data = get_yfinance_data()
-    data          = {**alpaca_data, **yfinance_data}
-
-    fg_data      = fetch_fear_greed()
     vix_val      = data['VIX']['price']
     vix_strategy = get_vix_strategy(vix_val)
+    strategies   = generate_strategy(data, fg_data, vix_strategy)
 
-    now_et = datetime.now(timezone(timedelta(hours=-4)))
-    report_date = (
-        now_et.strftime('%Y年%m月%d日 %H:%M ET（盘中）')
-        if market_open else
-        now_et.strftime('%Y年%m月%d日 收盘快照')
-    )
+    now_et      = datetime.now(timezone(timedelta(hours=-4)))
+    report_date = now_et.strftime('%Y年%m月%d日')
 
     summary_data = {
         "date":          report_date,
-        "market_status": status_label,
         "SP500_price":   f"{data['SP500']['price']:.2f}",
         "SP500_change":  f"{data['SP500']['change_pct']:.2f}",
         "NASDAQ_price":  f"{data['NASDAQ']['price']:.2f}",
@@ -217,6 +261,7 @@ def main():
         "GOLD_change":   f"{data['GOLD']['change_pct']:.2f}",
         "DXY_price":     f"{data['DXY']['price']:.2f}",
         "DXY_change":    f"{data['DXY']['change_pct']:.2f}",
+        "strategies":    strategies,
     }
 
     output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public')
@@ -228,58 +273,75 @@ def main():
     def get_color(change): return "#16a34a" if change > 0 else "#dc2626"
     def get_arrow(change): return "▲" if change > 0 else "▼"
 
+    strategy_rows = "".join([f"<li style='margin-bottom:8px;'>{s}</li>" for s in strategies])
+
     html_template = f"""
     <!DOCTYPE html><html><head><meta charset="utf-8">
     <style>
         @page {{ size: A4; margin: 15mm 12mm; }}
-        body {{ font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e293b; line-height: 1.5; }}
+        body {{ font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e293b; line-height: 1.6; font-size: 10pt; }}
         .header {{ background-color: #1e3a8a; color: white; padding: 20px; margin: -15mm -12mm 20px -12mm; }}
-        .badge {{ display: inline-block; background: {'#dcfce7' if market_open else '#f1f5f9'}; color: {'#15803d' if market_open else '#64748b'}; padding: 2px 10px; border-radius: 99px; font-size: 11pt; margin-top: 6px; }}
-        .note {{ font-size: 9pt; color: #cbd5e1; margin-top: 4px; }}
-        .section-title {{ font-size: 13pt; color: #1e3a8a; border-left: 4px solid #3b82f6; padding-left: 8px; margin: 20px 0 10px 0; font-weight: bold; }}
+        .header h1 {{ margin: 0 0 4px 0; font-size: 18pt; }}
+        .section-title {{ font-size: 12pt; color: #1e3a8a; border-left: 4px solid #3b82f6; padding-left: 8px; margin: 18px 0 8px 0; font-weight: bold; }}
         .data-table {{ width: 100%; border-collapse: collapse; background-color: white; border: 1px solid #e2e8f0; }}
-        .data-table th {{ background-color: #f1f5f9; padding: 10px; text-align: left; }}
-        .data-table td {{ padding: 10px; border-bottom: 1px solid #f1f5f9; }}
-        .tag-live {{ color: #15803d; font-size: 9pt; }}
-        .tag-delay {{ color: #94a3b8; font-size: 9pt; }}
+        .data-table th {{ background-color: #f1f5f9; padding: 8px 10px; text-align: left; font-size: 9pt; }}
+        .data-table td {{ padding: 8px 10px; border-bottom: 1px solid #f1f5f9; font-size: 9pt; }}
+        .strategy-box {{ background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; margin-top: 8px; border-radius: 4px; }}
+        .strategy-box ul {{ margin: 0; padding: 0 0 0 4px; list-style: none; }}
+        .strategy-box li {{ font-size: 9pt; line-height: 1.7; color: #1e3a8a; }}
     </style></head><body>
     <div class="header">
         <h1>美股情绪观察每日报告</h1>
-        <div>日期：{report_date}</div>
-        <div class="badge">{'🟢 盘中实时' if market_open else '⚫ 收盘快照'}</div>
-        <div class="note">SPY/QQQ/HYG/JNK 实时（IEX）· VIX/TNX/黄金/DXY 延迟15分钟</div>
+        <div style="font-size:10pt; opacity:0.85;">📅 {report_date} 收盘数据</div>
     </div>
-    <div class="section-title">1. 大盘与情绪指标</div>
+
+    <div class="section-title">1. 大盘核心指数</div>
     <table class="data-table">
-        <tr><th>核心资产</th><th>最新数据</th><th>涨跌幅</th><th>状态解读</th></tr>
-        <tr><td>标普500 <span class="tag-live">SPY 实时</span></td><td>${summary_data['SP500_price']}</td>
-            <td style="color:{get_color(data['SP500']['change_pct'])};">{get_arrow(data['SP500']['change_pct'])} {summary_data['SP500_change']}%</td><td>-</td></tr>
-        <tr><td>纳斯达克 <span class="tag-live">QQQ 实时</span></td><td>${summary_data['NASDAQ_price']}</td>
-            <td style="color:{get_color(data['NASDAQ']['change_pct'])};">{get_arrow(data['NASDAQ']['change_pct'])} {summary_data['NASDAQ_change']}%</td><td>-</td></tr>
-        <tr><td>VIX <span class="tag-delay">延迟15分钟</span></td><td>{summary_data['VIX_price']}</td>
+        <tr><th>指数</th><th>收盘价</th><th>单日涨跌</th></tr>
+        <tr><td>标普500 (S&P 500)</td><td>{summary_data['SP500_price']}</td>
+            <td style="color:{get_color(data['SP500']['change_pct'])};">{get_arrow(data['SP500']['change_pct'])} {summary_data['SP500_change']}%</td></tr>
+        <tr><td>纳斯达克综合 (NASDAQ)</td><td>{summary_data['NASDAQ_price']}</td>
+            <td style="color:{get_color(data['NASDAQ']['change_pct'])};">{get_arrow(data['NASDAQ']['change_pct'])} {summary_data['NASDAQ_change']}%</td></tr>
+    </table>
+
+    <div class="section-title">2. 恐慌与情绪指标</div>
+    <table class="data-table">
+        <tr><th>指标</th><th>数值</th><th>涨跌</th><th>解读</th></tr>
+        <tr><td>VIX 恐慌指数</td><td>{summary_data['VIX_price']}</td>
             <td style="color:{get_color(data['VIX']['change_pct'])};">{get_arrow(data['VIX']['change_pct'])} {summary_data['VIX_change']}%</td>
-            <td>【{vix_strategy['status']}】👉 {vix_strategy['tip']}</td></tr>
-        <tr><td>恐惧与贪婪指数</td><td>{summary_data['FG_Score']}</td><td>-</td>
+            <td>【{vix_strategy['status']}】{vix_strategy['tip']}</td></tr>
+        <tr><td>恐惧与贪婪指数</td><td>{summary_data['FG_Score']}</td><td>—</td>
             <td>【{summary_data['FG_Status']}】</td></tr>
     </table>
-    <div class="section-title">2. 信用债与跨资产联动</div>
+
+    <div class="section-title">3. 高收益信用债（流动性）</div>
     <table class="data-table">
-        <tr><th>资产名称</th><th>价格/收益率</th><th>单日涨跌</th></tr>
-        <tr><td>HYG <span class="tag-live">实时</span></td><td>${summary_data['HYG_price']}</td>
-            <td style="color:{get_color(data['HYG']['change_pct'])};">{summary_data['HYG_change']}%</td></tr>
-        <tr><td>JNK <span class="tag-live">实时</span></td><td>${summary_data['JNK_price']}</td>
-            <td style="color:{get_color(data['JNK']['change_pct'])};">{summary_data['JNK_change']}%</td></tr>
-        <tr><td>十年期美债 <span class="tag-delay">延迟15分钟</span></td><td>{summary_data['TNX_price']}</td>
-            <td style="color:{get_color(data['TNX']['change_pct'])};">{summary_data['TNX_change']}%</td></tr>
-        <tr><td>黄金期货 <span class="tag-delay">延迟15分钟</span></td><td>${summary_data['GOLD_price']}</td>
-            <td style="color:{get_color(data['GOLD']['change_pct'])};">{summary_data['GOLD_change']}%</td></tr>
-        <tr><td>美元指数 DXY <span class="tag-delay">延迟15分钟</span></td><td>{summary_data['DXY_price']}</td>
-            <td style="color:{get_color(data['DXY']['change_pct'])};">{summary_data['DXY_change']}%</td></tr>
+        <tr><th>ETF</th><th>收盘价</th><th>单日涨跌</th></tr>
+        <tr><td>HYG 高收益债ETF</td><td>${summary_data['HYG_price']}</td>
+            <td style="color:{get_color(data['HYG']['change_pct'])};">{get_arrow(data['HYG']['change_pct'])} {summary_data['HYG_change']}%</td></tr>
+        <tr><td>JNK 高收益债ETF</td><td>${summary_data['JNK_price']}</td>
+            <td style="color:{get_color(data['JNK']['change_pct'])};">{get_arrow(data['JNK']['change_pct'])} {summary_data['JNK_change']}%</td></tr>
     </table>
+
+    <div class="section-title">4. 跨资产联动（宏观阻力）</div>
+    <table class="data-table">
+        <tr><th>资产</th><th>收盘价/收益率</th><th>单日涨跌</th></tr>
+        <tr><td>十年期美债收益率</td><td>{summary_data['TNX_price']}</td>
+            <td style="color:{get_color(data['TNX']['change_pct'])};">{get_arrow(data['TNX']['change_pct'])} {summary_data['TNX_change']}%</td></tr>
+        <tr><td>黄金期货 (Gold)</td><td>${summary_data['GOLD_price']}</td>
+            <td style="color:{get_color(data['GOLD']['change_pct'])};">{get_arrow(data['GOLD']['change_pct'])} {summary_data['GOLD_change']}%</td></tr>
+        <tr><td>美元指数 (DXY)</td><td>{summary_data['DXY_price']}</td>
+            <td style="color:{get_color(data['DXY']['change_pct'])};">{get_arrow(data['DXY']['change_pct'])} {summary_data['DXY_change']}%</td></tr>
+    </table>
+
+    <div class="section-title">5. 综合投资策略指引</div>
+    <div class="strategy-box">
+        <ul>{strategy_rows}</ul>
+    </div>
     </body></html>
     """
     HTML(string=html_template).write_pdf(os.path.join(output_dir, 'report.pdf'))
-    print("Done!")
+    print("✅ 完成！data.json 和 report.pdf 已生成。")
 
 if __name__ == "__main__":
     main()
