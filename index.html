@@ -13,11 +13,21 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
     <div class="max-w-md mx-auto">
+
+        <!-- 标题 + 日期 + 状态标签 -->
         <div class="mb-5 mt-2">
             <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
-            <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在同步最新盘后资产数据...</p>
+            <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                <!-- 盘中/收盘 状态标签 -->
+                <span id="market-badge" class="text-[11px] font-black px-2 py-0.5 rounded-full bg-slate-200 text-slate-500">
+                    载入中...
+                </span>
+                <!-- 时间戳 -->
+                <p id="date-display" class="text-xs font-semibold text-slate-400">正在同步最新数据...</p>
+            </div>
         </div>
 
+        <!-- 1. 大盘核心指数 -->
         <div class="mb-5">
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
             <div class="grid grid-cols-2 gap-3">
@@ -34,6 +44,7 @@
             </div>
         </div>
 
+        <!-- 2. 恐慌与情绪指标 -->
         <div class="mb-5">
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">2. 恐慌与情绪指标</h3>
             <div class="grid grid-cols-2 gap-3 mb-3">
@@ -59,6 +70,7 @@
             </div>
         </div>
 
+        <!-- 3. 高收益信用债 -->
         <div class="mb-5">
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 高收益信用债 (流动性)</h3>
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
@@ -79,6 +91,7 @@
             </div>
         </div>
 
+        <!-- 4. 跨资产联动 -->
         <div class="mb-5">
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 跨资产联动 (宏观阻力)</h3>
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
@@ -106,10 +119,13 @@
             </div>
         </div>
 
+        <!-- 5. 综合策略指引 -->
         <div class="mb-6">
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">5. 综合投资策略指引</h3>
             <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950">
-                <h4 class="font-black mb-3 flex items-center text-sm tracking-wide text-blue-300">🎯 盘后多维动态研判</h4>
+                <h4 class="font-black mb-3 flex items-center text-sm tracking-wide text-blue-300" id="strategy-title">
+                    🎯 多维动态研判
+                </h4>
                 <ul class="text-xs space-y-2.5 opacity-90 leading-relaxed font-medium" id="strategy-list">
                     <li>• 数据智能解析中...</li>
                 </ul>
@@ -122,80 +138,122 @@
     </div>
 
     <script>
-        function renderTrend(val, priceId, changeId, isCurrency=false) {
+        // ── 渲染涨跌幅 ──────────────────────────────────────────
+        function renderTrend(val, changeId) {
             const num = parseFloat(val);
-            const changeEl = document.getElementById(changeId);
+            const el  = document.getElementById(changeId);
             if (num > 0) {
-                changeEl.innerText = "▲ +" + val + "%";
-                changeEl.className = "text-xs font-bold text-green-600";
+                el.innerText  = "▲ +" + val + "%";
+                el.className  = "text-xs font-bold text-green-600";
             } else if (num < 0) {
-                changeEl.innerText = "▼ " + val + "%";
-                changeEl.className = "text-xs font-bold text-red-600";
+                el.innerText  = "▼ " + val + "%";
+                el.className  = "text-xs font-bold text-red-600";
             } else {
-                changeEl.innerText = val + "%";
-                changeEl.className = "text-xs font-bold text-slate-400";
+                el.innerText  = val + "%";
+                el.className  = "text-xs font-bold text-slate-400";
             }
         }
 
-        // 请把原本的 fetch('public/data.json') 替换成下面这行：
-        fetch('public/data.json?t=' + new Date().getTime())
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('date-display').innerText = "统计截止时间：" + data.date + " (收盘自动化更新)";
-                
-                // 填入核心指数
-                document.getElementById('sp500-price').innerText = data.SP500_price;
-                renderTrend(data.SP500_change, 'sp500-price', 'sp500-change');
-                document.getElementById('nasdaq-price').innerText = data.NASDAQ_price;
-                renderTrend(data.NASDAQ_change, 'nasdaq-price', 'nasdaq-change');
-                
-                // 填入 VIX 与 恐惧贪婪
-                document.getElementById('vix-price').innerText = data.VIX_price;
-                renderTrend(data.VIX_change, 'vix-price', 'vix-change');
-                
-                const vxBadge = document.getElementById('vix-status');
-                vxBadge.innerText = data.VIX_Status;
-                vxBadge.className = data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观') 
-                    ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700" 
-                    : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
-                
-                document.getElementById('vix-tip').innerText = data.VIX_Tip;
+        // ── 渲染所有数据 ─────────────────────────────────────────
+        function renderData(data) {
+            const isLive = data.market_status === "盘中实时";
 
-                document.getElementById('fg-score').innerText = data.FG_Score;
-                const fgBadge = document.getElementById('fg-status');
-                fgBadge.innerText = "状态: " + data.FG_Status;
-                if(data.FG_Status.includes('贪婪')) {
-                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
-                } else if(data.FG_Status.includes('恐惧')) {
-                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700";
-                } else {
-                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600";
-                }
+            // 状态标签
+            const badge = document.getElementById('market-badge');
+            if (isLive) {
+                badge.innerText   = "🟢 盘中实时";
+                badge.className   = "text-[11px] font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700";
+            } else {
+                badge.innerText   = "⚫ 收盘快照";
+                badge.className   = "text-[11px] font-black px-2 py-0.5 rounded-full bg-slate-200 text-slate-500";
+            }
 
-                // 填入高收益债
-                document.getElementById('hyg-price').innerText = "$" + data.HYG_price;
-                renderTrend(data.HYG_change, 'hyg-price', 'hyg-change');
-                document.getElementById('jnk-price').innerText = "$" + data.JNK_price;
-                renderTrend(data.JNK_change, 'jnk-price', 'jnk-change');
+            // 时间戳
+            document.getElementById('date-display').innerText = data.date;
 
-                // 跨资产联动
-                document.getElementById('tnx-price').innerText = data.TNX_price;
-                renderTrend(data.TNX_change, 'tnx-price', 'tnx-change');
-                document.getElementById('gold-price').innerText = "$" + data.GOLD_price;
-                renderTrend(data.GOLD_change, 'gold-price', 'gold-change');
-                document.getElementById('dxy-price').innerText = data.DXY_price;
-                renderTrend(data.DXY_change, 'dxy-price', 'dxy-change');
+            // 大盘核心指数
+            document.getElementById('sp500-price').innerText  = data.SP500_price;
+            renderTrend(data.SP500_change, 'sp500-change');
+            document.getElementById('nasdaq-price').innerText = data.NASDAQ_price;
+            renderTrend(data.NASDAQ_change, 'nasdaq-change');
 
-                // 动态构建底层宏观交易策略
-                document.getElementById('strategy-list').innerHTML = `
-                    <li>• <strong>宏观环境研判</strong>：目前长端美债收益率收在 ${data.TNX_price}，美元指数报 ${data.DXY_price}。在当前的宏观联动下，成长股的长期估值环境正在受到利率因子的博弈压制。</li>
-                    <li>• <strong>情绪仓位调控</strong>：当前恐惧与贪婪指数为 <strong>${data.FG_Score} (${data.FG_Status})</strong>，属于市场做多意愿相对充裕的阶段。结合 VIX 目前处于【${data.VIX_Status}】状态，策略指引维持 <strong>${data.VIX_Tip}</strong>。</li>
-                    <li>• <strong>流动性及避险工具</strong>：高收益信用债（HYG/JNK）盘中未表现出信用溢价大幅走阔的踩踏现象，反映整体流动性仍然可控。当前操作上切勿单笔重仓追高，应严格落实“持股待涨/停止加仓”风控方案，并可适当利用衍生品（如备兑期权策略）增厚收益。</li>
-                `;
-            })
-            .catch(err => {
-                document.getElementById('date-display').innerText = "读取最新收盘数据失败，请检查 Actions 流水线是否正常结束。";
-            });
+            // VIX
+            document.getElementById('vix-price').innerText = data.VIX_price;
+            renderTrend(data.VIX_change, 'vix-change');
+            const vxBadge = document.getElementById('vix-status');
+            vxBadge.innerText = data.VIX_Status;
+            vxBadge.className = (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观'))
+                ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700"
+                : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
+            document.getElementById('vix-tip').innerText = data.VIX_Tip;
+
+            // 恐惧贪婪
+            document.getElementById('fg-score').innerText = data.FG_Score;
+            const fgBadge = document.getElementById('fg-status');
+            fgBadge.innerText = "状态: " + data.FG_Status;
+            if (data.FG_Status.includes('贪婪')) {
+                fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
+            } else if (data.FG_Status.includes('恐惧')) {
+                fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700";
+            } else {
+                fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600";
+            }
+
+            // 高收益债
+            document.getElementById('hyg-price').innerText = "$" + data.HYG_price;
+            renderTrend(data.HYG_change, 'hyg-change');
+            document.getElementById('jnk-price').innerText = "$" + data.JNK_price;
+            renderTrend(data.JNK_change, 'jnk-change');
+
+            // 跨资产联动
+            document.getElementById('tnx-price').innerText  = data.TNX_price;
+            renderTrend(data.TNX_change, 'tnx-change');
+            document.getElementById('gold-price').innerText = "$" + data.GOLD_price;
+            renderTrend(data.GOLD_change, 'gold-change');
+            document.getElementById('dxy-price').innerText  = data.DXY_price;
+            renderTrend(data.DXY_change, 'dxy-change');
+
+            // 策略标题：盘中 or 盘后
+            document.getElementById('strategy-title').innerText =
+                isLive ? "🎯 盘中多维实时研判" : "🎯 盘后多维动态研判";
+
+            // 策略内容
+            const timeNote = isLive
+                ? "当前为<strong>盘中实时数据</strong>，每10分钟自动刷新。"
+                : "当前为<strong>收盘快照</strong>，下一交易日开盘后恢复实时更新。";
+
+            document.getElementById('strategy-list').innerHTML = `
+                <li>• <strong>宏观环境研判</strong>：目前长端美债收益率在 ${data.TNX_price}，美元指数报 ${data.DXY_price}。在当前的宏观联动下，成长股的长期估值环境正在受到利率因子的博弈压制。</li>
+                <li>• <strong>情绪仓位调控</strong>：当前恐惧与贪婪指数为 <strong>${data.FG_Score}（${data.FG_Status}）</strong>，结合 VIX 处于【${data.VIX_Status}】状态，策略指引维持 <strong>${data.VIX_Tip}</strong>。</li>
+                <li>• <strong>流动性及避险工具</strong>：高收益信用债（HYG/JNK）未表现出信用溢价大幅走阔的踩踏现象，整体流动性仍然可控。切勿单笔重仓追高，应严格落实风控方案。</li>
+                <li>• <span class="opacity-60">${timeNote}</span></li>
+            `;
+        }
+
+        // ── 拉取数据 ─────────────────────────────────────────────
+        function loadData() {
+            fetch('public/data.json?t=' + Date.now())
+                .then(res => res.json())
+                .then(data => {
+                    renderData(data);
+                    scheduleNextRefresh(data);
+                })
+                .catch(() => {
+                    document.getElementById('date-display').innerText = "读取数据失败，请检查 Actions 流水线是否正常。";
+                });
+        }
+
+        // ── 盘中每10分钟自动刷新，休市不刷新 ────────────────────
+        function scheduleNextRefresh(data) {
+            if (data.market_status === "盘中实时") {
+                // 10分钟后重新拉取（与 Actions 更新频率同步）
+                setTimeout(loadData, 10 * 60 * 1000);
+            }
+            // 收盘状态不设定时器，页面保持当前收盘快照
+        }
+
+        // 首次加载
+        loadData();
     </script>
 </body>
 </html>
