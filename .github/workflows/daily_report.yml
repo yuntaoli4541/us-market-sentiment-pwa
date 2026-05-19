@@ -3,16 +3,15 @@ name: Generate Daily Market Report
 
 on:
   schedule:
-    - cron: '*/5 13-21 * * 1-5'
-    
+    # 每个交易日收盘后运行：21:15 UTC = 美东 17:15
+    # 兼容夏令时(EDT UTC-4)和冬令时(EST UTC-5)，两个时区都已收盘
+    - cron: '15 21 * * 1-5'
+
+  # 允许手动触发（调试用）
   workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
-concurrency:
-  group: market-update
-  cancel-in-progress: false
 
 jobs:
   build-and-report:
@@ -39,32 +38,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Configure git
+      - name: Run report script
+        run: python scripts/generate_report.py
+
+      - name: Commit and push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Run report script (每分钟循环5次)
-        # ✅ 从 GitHub Secrets 注入 Alpaca 凭证，脚本通过 os.environ 读取
-        env:
-          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
-          ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
-        run: |
-          for i in 1 2 3 4 5; do
-            echo "─── 第 $i/5 次运行 $(date -u '+%H:%M:%S UTC') ───"
-            python scripts/generate_report.py
-
-            git add public/data.json public/report.pdf || true
-            if ! git diff-index --quiet HEAD; then
-              git commit -m "chore: auto update $(date -u '+%H:%M UTC') [skip ci]"
-              git pull --rebase origin main
-              git push
-              echo "✅ 推送成功"
-            else
-              echo "No changes this round"
-            fi
-
-            if [ $i -lt 5 ]; then
-              sleep 60
-            fi
-          done
+          git add public/data.json public/report.pdf || true
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "chore: daily report $(date -u '+%Y-%m-%d') [skip ci]"
+            git pull --rebase origin main
+            git push
+          else
+            echo "No changes to commit"
+          fi
