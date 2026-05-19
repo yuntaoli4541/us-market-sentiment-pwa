@@ -177,12 +177,6 @@
     <a href="public/report.pdf"
        class="block w-full bg-slate-100 text-slate-600 text-center text-xs font-bold py-3.5 rounded-xl border border-slate-200 active:bg-slate-200 transition"
        target="_blank">📥 下载完整 PDF 报告</a>
-    <p class="text-center text-[11px] text-slate-300 mt-5">
-    作者联系方式：<a href="mailto:yuntaoli2021@gmail.com"
-                   class="text-slate-400 underline underline-offset-2">
-        yuntaoli2021@gmail.com
-    </a>
-</p>
 </div>
 
 <!-- 走势图弹窗 -->
@@ -391,9 +385,10 @@ fetch('public/data.json?t=' + Date.now())
         document.getElementById('fg-score').innerText = data.FG_Score;
         const fgB = document.getElementById('fg-status');
         fgB.innerText = "状态：" + data.FG_Status;
-        fgB.className = data.FG_Status.includes('贪婪')
+        const fgLower = data.FG_Status.toLowerCase();
+        fgB.className = (data.FG_Status.includes('贪婪') || fgLower.includes('greed'))
             ? "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700"
-            : data.FG_Status.includes('恐惧')
+            : (data.FG_Status.includes('恐惧') || fgLower.includes('fear'))
             ? "text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700"
             : "text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600";
 
