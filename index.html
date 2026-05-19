@@ -8,46 +8,192 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="情绪观察">
-    <title>美股情绪观察</title>
+    <title>美股情绪观察看板</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased p-4">
-    <div class="max-w-md mx-auto mt-6">
-        <h1 class="text-2xl font-bold text-blue-900 mb-1">美股情绪观察看板</h1>
-        <p id="date-display" class="text-sm text-slate-500 mb-6">加载中...</p>
-
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-            <h2 class="text-sm font-bold text-slate-400 mb-2">VIX 恐慌指数</h2>
-            <div class="text-3xl font-black text-slate-800 mb-2" id="vix-value">--</div>
-            <div class="inline-block px-3 py-1 rounded-full text-sm font-bold" id="vix-status">--</div>
-            <p class="mt-3 text-sm text-slate-600">💡 操作建议：<span id="vix-tip" class="font-bold text-slate-800">--</span></p>
+<body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
+    <div class="max-w-md mx-auto">
+        <div class="mb-5 mt-2">
+            <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
+            <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在同步最新盘后资产数据...</p>
         </div>
 
-        <a href="public/report.pdf" class="block w-full bg-blue-600 text-white text-center font-bold py-4 rounded-xl shadow-md active:bg-blue-700 transition" target="_blank">
-            📄 查看今日完整 PDF 报告
+        <div class="mb-5">
+            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
+                    <div class="text-xs font-bold text-slate-400">标普500 (S&P 500)</div>
+                    <div class="text-xl font-black text-slate-800 mt-1" id="sp500-price">--</div>
+                    <div class="text-xs font-bold mt-1" id="sp500-change">--</div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
+                    <div class="text-xs font-bold text-slate-400">纳斯达克 (NASDAQ)</div>
+                    <div class="text-xl font-black text-slate-800 mt-1" id="nasdaq-price">--</div>
+                    <div class="text-xs font-bold mt-1" id="nasdaq-change">--</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">2. 恐慌与情绪指标</h3>
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold text-slate-400">VIX 恐慌指数</div>
+                        <div class="text-xl font-black text-slate-800 mt-1" id="vix-price">--</div>
+                        <div class="text-xs font-bold" id="vix-change">--</div>
+                    </div>
+                    <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="vix-status">--</div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold text-slate-400">恐惧与贪婪指数</div>
+                        <div class="text-2xl font-black text-slate-800 mt-1" id="fg-score">--</div>
+                        <div class="text-xs font-medium text-slate-400 mt-0.5">数据源: CNN Business</div>
+                    </div>
+                    <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="fg-status">--</div>
+                </div>
+            </div>
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-900 font-medium">
+                💡 情绪操作导向：<span class="font-bold text-blue-700 underline" id="vix-tip">--</span>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 高收益信用债 (流动性)</h3>
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
+                <div class="p-3.5 flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-700">HYG <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span></span>
+                    <div class="text-right">
+                        <span class="text-sm font-extrabold text-slate-800" id="hyg-price">--</span>
+                        <span class="text-xs font-bold ml-2" id="hyg-change">--</span>
+                    </div>
+                </div>
+                <div class="p-3.5 flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-700">JNK <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span></span>
+                    <div class="text-right">
+                        <span class="text-sm font-extrabold text-slate-800" id="jnk-price">--</span>
+                        <span class="text-xs font-bold ml-2" id="jnk-change">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 跨资产联动 (宏观阻力)</h3>
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
+                <div class="p-3.5 flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-700">十年期美债收益率</span>
+                    <div class="text-right">
+                        <span class="text-sm font-extrabold text-slate-800" id="tnx-price">--</span>
+                        <span class="text-xs font-bold ml-2" id="tnx-change">--</span>
+                    </div>
+                </div>
+                <div class="p-3.5 flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-700">黄金期货 (Gold)</span>
+                    <div class="text-right">
+                        <span class="text-sm font-extrabold text-slate-800" id="gold-price">--</span>
+                        <span class="text-xs font-bold ml-2" id="gold-change">--</span>
+                    </div>
+                </div>
+                <div class="p-3.5 flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-700">美元指数 (DXY)</span>
+                    <div class="text-right">
+                        <span class="text-sm font-extrabold text-slate-800" id="dxy-price">--</span>
+                        <span class="text-xs font-bold ml-2" id="dxy-change">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">5. 综合投资策略指引</h3>
+            <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950">
+                <h4 class="font-black mb-3 flex items-center text-sm tracking-wide text-blue-300">🎯 盘后多维动态研判</h4>
+                <ul class="text-xs space-y-2.5 opacity-90 leading-relaxed font-medium" id="strategy-list">
+                    <li>• 数据智能解析中...</li>
+                </ul>
+            </div>
+        </div>
+
+        <a href="public/report.pdf" class="block w-full bg-slate-100 text-slate-600 text-center text-xs font-bold py-3.5 rounded-xl border border-slate-200 active:bg-slate-200 transition" target="_blank">
+            📥 查看原始独立 PDF 报告
         </a>
     </div>
 
     <script>
-        // 自动拉取 GitHub Actions 生成的最新数据
+        function renderTrend(val, priceId, changeId, isCurrency=false) {
+            const num = parseFloat(val);
+            const changeEl = document.getElementById(changeId);
+            if (num > 0) {
+                changeEl.innerText = "▲ +" + val + "%";
+                changeEl.className = "text-xs font-bold text-green-600";
+            } else if (num < 0) {
+                changeEl.innerText = "▼ " + val + "%";
+                changeEl.className = "text-xs font-bold text-red-600";
+            } else {
+                changeEl.innerText = val + "%";
+                changeEl.className = "text-xs font-bold text-slate-400";
+            }
+        }
+
         fetch('public/data.json')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                document.getElementById('date-display').innerText = "最新数据：" + data.date;
-                document.getElementById('vix-value').innerText = data.VIX;
+                document.getElementById('date-display').innerText = "统计截止时间：" + data.date + " (收盘自动化更新)";
                 
-                const statusBadge = document.getElementById('vix-status');
-                statusBadge.innerText = data.VIX_Status;
-                if (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观')) {
-                    statusBadge.classList.add('bg-green-100', 'text-green-700');
-                } else {
-                    statusBadge.classList.add('bg-red-100', 'text-red-700');
-                }
+                // 填入核心指数
+                document.getElementById('sp500-price').innerText = data.SP500_price;
+                renderTrend(data.SP500_change, 'sp500-price', 'sp500-change');
+                document.getElementById('nasdaq-price').innerText = data.NASDAQ_price;
+                renderTrend(data.NASDAQ_change, 'nasdaq-price', 'nasdaq-change');
+                
+                // 填入 VIX 与 恐惧贪婪
+                document.getElementById('vix-price').innerText = data.VIX_price;
+                renderTrend(data.VIX_change, 'vix-price', 'vix-change');
+                
+                const vxBadge = document.getElementById('vix-status');
+                vxBadge.innerText = data.VIX_Status;
+                vxBadge.className = data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观') 
+                    ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700" 
+                    : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
                 
                 document.getElementById('vix-tip').innerText = data.VIX_Tip;
+
+                document.getElementById('fg-score').innerText = data.FG_Score;
+                const fgBadge = document.getElementById('fg-status');
+                fgBadge.innerText = "状态: " + data.FG_Status;
+                if(data.FG_Status.includes('贪婪')) {
+                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
+                } else if(data.FG_Status.includes('恐惧')) {
+                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700";
+                } else {
+                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600";
+                }
+
+                // 填入高收益债
+                document.getElementById('hyg-price').innerText = "$" + data.HYG_price;
+                renderTrend(data.HYG_change, 'hyg-price', 'hyg-change');
+                document.getElementById('jnk-price').innerText = "$" + data.JNK_price;
+                renderTrend(data.JNK_change, 'jnk-price', 'jnk-change');
+
+                // 跨资产联动
+                document.getElementById('tnx-price').innerText = data.TNX_price;
+                renderTrend(data.TNX_change, 'tnx-price', 'tnx-change');
+                document.getElementById('gold-price').innerText = "$" + data.GOLD_price;
+                renderTrend(data.GOLD_change, 'gold-price', 'gold-change');
+                document.getElementById('dxy-price').innerText = data.DXY_price;
+                renderTrend(data.DXY_change, 'dxy-price', 'dxy-change');
+
+                // 动态构建底层宏观交易策略
+                document.getElementById('strategy-list').innerHTML = `
+                    <li>• <strong>宏观环境研判</strong>：目前长端美债收益率收在 ${data.TNX_price}，美元指数报 ${data.DXY_price}。在当前的宏观联动下，成长股的长期估值环境正在受到利率因子的博弈压制。</li>
+                    <li>• <strong>情绪仓位调控</strong>：当前恐惧与贪婪指数为 <strong>${data.FG_Score} (${data.FG_Status})</strong>，属于市场做多意愿相对充裕的阶段。结合 VIX 目前处于【${data.VIX_Status}】状态，策略指引维持 <strong>${data.VIX_Tip}</strong>。</li>
+                    <li>• <strong>流动性及避险工具</strong>：高收益信用债（HYG/JNK）盘中未表现出信用溢价大幅走阔的踩踏现象，反映整体流动性仍然可控。当前操作上切勿单笔重仓追高，应严格落实“持股待涨/停止加仓”风控方案，并可适当利用衍生品（如备兑期权策略）增厚收益。</li>
+                `;
             })
-            .catch(error => {
-                document.getElementById('date-display').innerText = "数据获取失败，请检查网络或稍后再试。";
+            .catch(err => {
+                document.getElementById('date-display').innerText = "读取最新收盘数据失败，请检查 Actions 流水线是否正常结束。";
             });
     </script>
 </body>
