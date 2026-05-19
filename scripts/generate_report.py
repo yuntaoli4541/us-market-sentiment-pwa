@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import cloudscraper
 import yfinance as yf
 from weasyprint import HTML
 from datetime import datetime
@@ -37,22 +38,24 @@ def get_market_data():
     return market_data
 
 def get_fear_and_greed():
-    """通过加强版的 Headers 绕过 CNN 反爬机制获取数据"""
+    """使用 cloudscraper 突破 CNN 的企业级防火墙"""
     url = "https://production.dataviz.cnn.io/index/fearandgreed/graph/current"
     
-    # 增加更逼真的浏览器伪装头
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "application/json, text/plain, */*",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Origin": "https://www.cnn.com",
-        "Referer": "https://www.cnn.com/"
-    }
-    
     try:
-        res = requests.get(url, headers=headers, timeout=10)
-        res.raise_for_status() # 如果遇到 403 或 404 会直接跳转到 except
+        # 创建一个专门绕过防火墙的 scraper 实例
+        scraper = cloudscraper.create_scraper(
+            browser={
+                'browser': 'chrome',
+                'platform': 'windows',
+                'desktop': True
+            }
+        )
+        
+        # 使用 scraper 替代原先的 requests
+        res = scraper.get(url, timeout=15)
+        res.raise_for_status()
         j_data = res.json()
+        
         score = int(round(j_data['fear_and_greed']['score']))
         rating = j_data['fear_and_greed']['rating']
         
@@ -63,7 +66,7 @@ def get_fear_and_greed():
         return {"score": score, "status": rating_map.get(rating.lower(), rating)}
     except Exception as e:
         print(f"Error fetching Fear & Greed: {e}")
-        return {"score": 50, "status": "中立 (获取失败)"}
+        return {"score": "--", "status": "防御拦截 (需手动确认)"}
 
 def get_vix_strategy(vix_val):
     if vix_val < 12:
