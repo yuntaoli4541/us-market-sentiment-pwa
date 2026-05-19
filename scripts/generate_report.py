@@ -58,23 +58,17 @@ def get_market_data():
 # 3. 抓取走势图数据（全部资产）
 # ==========================================
 def fetch_series(sym, period, interval):
-    """抓取一段时间序列，返回 [{t, v}, ...] 列表，失败返回空列表"""
     try:
         df    = yf.download(sym, period=period, interval=interval, progress=False)
         close = df['Close'].squeeze()
         if close.empty:
             return []
         idx = close.index
-        # 盘中时间序列转为美东时间
         if hasattr(idx, 'tz') and idx.tz is not None:
             idx = idx.tz_convert('America/New_York')
-        # 日期格式
-        if interval == '1d':
-            fmt = "%m/%d"
-        elif interval in ('5m', '15m', '30m'):
-            fmt = "%H:%M" if period == "1d" else "%m/%d %H:%M"
-        else:
-            fmt = "%m/%d"
+        fmt = ("%H:%M" if period == "1d" else
+               "%m/%d %H:%M" if interval in ('5m', '15m', '30m') else
+               "%m/%d")
         return [
             {"t": ts.strftime(fmt), "v": round(float(v), 4)}
             for ts, v in zip(idx, close)
@@ -89,15 +83,14 @@ def get_chart_data():
     for name, sym in TICKERS.items():
         print(f"Fetching chart data for {name} ({sym})...")
         ticker_data = {
-            'intraday': fetch_series(sym, "1d",  "5m"),   # 当日走势（5分钟）
-            '5d':       fetch_series(sym, "5d",  "30m"),  # 近五日（30分钟）
-            '1mo':      fetch_series(sym, "1mo", "1d"),   # 近一个月（日线）
+            'intraday': fetch_series(sym, "1d",  "5m"),
+            '5d':       fetch_series(sym, "5d",  "30m"),
+            '1mo':      fetch_series(sym, "1mo", "1d"),
         }
         print(f"  intraday={len(ticker_data['intraday'])} pts, "
               f"5d={len(ticker_data['5d'])} pts, "
               f"1mo={len(ticker_data['1mo'])} pts")
         chart_data[name] = ticker_data
-
     return chart_data
 
 # ==========================================
@@ -131,7 +124,6 @@ def fetch_fear_greed():
         return {"FG_Score": score, "FG_Status": rating_map.get(rating, rating)}
     except Exception as e:
         print(f"Warning: CNN F&G failed: {e}, switching to backup...")
-
     try:
         resp  = requests.get("https://api.alternative.me/fng/?limit=1", timeout=10)
         d     = resp.json()
@@ -186,7 +178,7 @@ def generate_strategy(data, fg_data, vix_strategy):
 
     if isinstance(fg_score, int):
         if fg_score >= 75:
-            fg_view = f"恐惧贪婪指数高达 {fg_score}（{fg_data['FG_Status']}），市场过热风险上升，追高需谨慎，建议控制新增仓位。"
+            fg_view = f"恐惧贪婪指数高达 {fg_score}（{fg_data['FG_Status']}），市场过热风险上升，追高需谨慎。"
         elif fg_score >= 55:
             fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），情绪偏乐观但尚未过热，可维持正常定投节奏。"
         elif fg_score >= 45:
@@ -194,27 +186,24 @@ def generate_strategy(data, fg_data, vix_strategy):
         elif fg_score >= 25:
             fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），市场情绪偏悲观，历史上往往是较好的分批入场时机。"
         else:
-            fg_view = f"恐惧贪婪指数仅 {fg_score}（{fg_data['FG_Status']}），市场处于极度悲观状态，结合 VIX 可考虑逆向布局。"
+            fg_view = f"恐惧贪婪指数仅 {fg_score}（{fg_data['FG_Status']}），市场处于极度悲观状态，可考虑逆向布局。"
     else:
         fg_view = f"恐惧贪婪指数获取失败，建议参考 VIX（{vix_val:.1f}）进行情绪判断。"
     strategies.append(f"😰 情绪分析：{fg_view}")
 
     if vix_val < 15:
-        vix_view = f"VIX 收于 {vix_val:.2f}，处于历史低位，市场波动预期极低，适合持股，但需警惕黑天鹅风险。"
+        vix_view = f"VIX 收于 {vix_val:.2f}，处于历史低位，适合持股，但需警惕黑天鹅风险。"
     elif vix_val < 20:
         vix_view = f"VIX 收于 {vix_val:.2f}，处于正常区间，市场风险可控，策略建议：{vix_strategy['tip']}。"
     elif vix_val < 30:
-        vix_view = f"VIX 升至 {vix_val:.2f}，恐慌情绪升温，市场波动加剧，策略建议：{vix_strategy['tip']}。"
+        vix_view = f"VIX 升至 {vix_val:.2f}，恐慌情绪升温，策略建议：{vix_strategy['tip']}。"
     else:
-        vix_view = f"VIX 飙升至 {vix_val:.2f}，市场处于高度恐慌状态，VIX>30 往往预示阶段性底部临近，策略建议：{vix_strategy['tip']}。"
+        vix_view = f"VIX 飙升至 {vix_val:.2f}，市场高度恐慌，VIX>30 往往预示阶段性底部临近，策略建议：{vix_strategy['tip']}。"
     strategies.append(f"⚡ VIX 信号：{vix_view}")
 
-    if tnx_val > 4.5:
-        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显。"
-    elif tnx_val > 4.0:
-        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围。"
-    else:
-        rate_view = f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，有利于成长股估值修复。"
+    rate_view = (f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显。" if tnx_val > 4.5
+                 else f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围。" if tnx_val > 4.0
+                 else f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，有利于成长股估值修复。")
     dxy_view = (f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。" if dxy_chg > 0.5
                 else f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。" if dxy_chg < -0.5
                 else f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。")
@@ -255,11 +244,15 @@ def main():
     vix_val      = data['VIX']['price']
     vix_strategy = get_vix_strategy(vix_val)
     strategies   = generate_strategy(data, fg_data, vix_strategy)
-    now_et       = datetime.now(timezone(timedelta(hours=-4)))
-    report_date  = now_et.strftime('%Y年%m月%d日')
+
+    now_et      = datetime.now(timezone(timedelta(hours=-4)))
+    report_date = now_et.strftime('%Y年%m月%d日')
+    # ✅ 新增 date_iso：前端用于判断是否为当天数据
+    date_iso    = now_et.strftime('%Y-%m-%d')
 
     summary_data = {
         "date":          report_date,
+        "date_iso":      date_iso,        # ← 新增
         "SP500_price":   f"{data['SP500']['price']:.2f}",
         "SP500_change":  f"{data['SP500']['change_pct']:.2f}",
         "NASDAQ_price":  f"{data['NASDAQ']['price']:.2f}",
@@ -300,6 +293,7 @@ def main():
         body {{ font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e293b; line-height: 1.6; font-size: 10pt; }}
         .header {{ background-color: #1e3a8a; color: white; padding: 20px; margin: -15mm -12mm 20px -12mm; }}
         .header h1 {{ margin: 0 0 4px 0; font-size: 18pt; }}
+        .disclaimer {{ font-size: 8pt; opacity: 0.6; margin-top: 4px; }}
         .section-title {{ font-size: 12pt; color: #1e3a8a; border-left: 4px solid #3b82f6; padding-left: 8px; margin: 18px 0 8px 0; font-weight: bold; }}
         .data-table {{ width: 100%; border-collapse: collapse; background-color: white; border: 1px solid #e2e8f0; }}
         .data-table th {{ background-color: #f1f5f9; padding: 8px 10px; text-align: left; font-size: 9pt; }}
@@ -311,6 +305,7 @@ def main():
     <div class="header">
         <h1>美股情绪观察每日报告</h1>
         <div style="font-size:10pt;opacity:0.85;">📅 {report_date} 收盘数据</div>
+        <div class="disclaimer">数据来自第三方，由 AI 辅助生成，仅供参考，不构成任何投资建议</div>
     </div>
     <div class="section-title">1. 大盘核心指数</div>
     <table class="data-table">
