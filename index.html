@@ -24,19 +24,22 @@
 <body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
 <div class="max-w-md mx-auto">
 
-    <!-- 标题 + 日期 -->
+    <!-- 标题 + 日期 + 免责声明 -->
     <div class="mb-5 mt-2">
         <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
         <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在载入最新收盘数据...</p>
-        <p class="text-[11px] text-slate-300 mt-0.5">💡 点击任意数据卡片可查看走势图</p>
+        <!-- ✅ 免责声明 -->
+        <p class="text-[10px] text-slate-300 mt-1.5 leading-relaxed">
+            📌 数据来自第三方（Yahoo Finance / CNN），由 AI 辅助生成，仅供参考，不构成任何投资建议。
+        </p>
+        <p class="text-[11px] text-slate-300 mt-1">💡 点击任意数据卡片可查看走势图</p>
     </div>
 
     <!-- 1. 大盘核心指数 -->
     <div class="mb-5">
         <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
         <div class="grid grid-cols-2 gap-3">
-            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
-                 onclick="openChart('SP500')">
+            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm" onclick="openChart('SP500')">
                 <div class="flex items-start justify-between">
                     <div class="text-xs font-bold text-slate-400">标普500</div>
                     <span class="text-slate-200 text-xs">📈</span>
@@ -45,8 +48,7 @@
                 <div class="text-xl font-black text-slate-800 mt-1" id="sp500-price">--</div>
                 <div class="text-xs font-bold mt-1" id="sp500-change">--</div>
             </div>
-            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
-                 onclick="openChart('NASDAQ')">
+            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm" onclick="openChart('NASDAQ')">
                 <div class="flex items-start justify-between">
                     <div class="text-xs font-bold text-slate-400">纳斯达克综合</div>
                     <span class="text-slate-200 text-xs">📈</span>
@@ -62,7 +64,6 @@
     <div class="mb-5">
         <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">2. 恐慌与情绪指标</h3>
         <div class="grid grid-cols-2 gap-3 mb-3">
-            <!-- VIX 可点击 -->
             <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between"
                  onclick="openChart('VIX')">
                 <div>
@@ -75,7 +76,6 @@
                 </div>
                 <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="vix-status">--</div>
             </div>
-            <!-- F&G 不可点击（无价格序列） -->
             <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
                 <div>
                     <div class="text-xs font-bold text-slate-400">恐惧与贪婪指数</div>
@@ -181,7 +181,6 @@
          class="w-full max-w-md bg-white rounded-t-3xl shadow-2xl pb-8"
          style="transform:translateY(100%); max-height:82vh; overflow-y:auto;">
 
-        <!-- 拖动条 -->
         <div class="flex justify-center pt-3 pb-1">
             <div class="w-10 h-1 bg-slate-200 rounded-full"></div>
         </div>
@@ -196,14 +195,16 @@
                     class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-sm font-bold">✕</button>
         </div>
 
-        <!-- 价格 + 涨跌 -->
-        <div class="px-5 mb-3 flex items-baseline gap-2">
+        <!-- 价格 + 涨跌 + 区间标签 -->
+        <div class="px-5 mb-3 flex items-baseline gap-2 flex-wrap">
             <span class="text-2xl font-black text-slate-800" id="modal-price">--</span>
             <span class="text-sm font-bold" id="modal-change">--</span>
+            <!-- ✅ 区间标签：显示当前是哪个时段的涨跌 -->
+            <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-400" id="modal-period-label"></span>
         </div>
 
         <!-- Tab 按钮 -->
-        <div class="flex gap-2 px-5 mb-4" id="tab-bar">
+        <div class="flex gap-2 px-5 mb-4">
             <button id="tab-intraday"
                     class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
                     onclick="switchTab('intraday', this)">当日走势</button>
@@ -220,7 +221,9 @@
             <div style="position:relative; height:220px;">
                 <canvas id="price-chart"></canvas>
             </div>
-            <p class="text-[10px] text-slate-300 text-center mt-2">数据来源：Yahoo Finance · 每日收盘后快照</p>
+            <p class="text-[10px] text-slate-300 text-center mt-2">
+                数据来自第三方，仅供参考，不构成投资建议
+            </p>
         </div>
     </div>
 </div>
@@ -232,7 +235,6 @@ let priceChart = null;
 let activeKey  = null;
 let activeTab  = 'intraday';
 
-// 所有可点击资产的元信息
 const CHART_META = {
     SP500:  { name: '标普500 (S&P 500)',  priceKey: 'SP500_price',  changeKey: 'SP500_change'  },
     NASDAQ: { name: '纳斯达克综合',        priceKey: 'NASDAQ_price', changeKey: 'NASDAQ_change' },
@@ -242,6 +244,12 @@ const CHART_META = {
     TNX:    { name: '十年期美债收益率',    priceKey: 'TNX_price',    changeKey: 'TNX_change'    },
     GOLD:   { name: '黄金期货 (Gold)',    priceKey: 'GOLD_price',   changeKey: 'GOLD_change'   },
     DXY:    { name: '美元指数 (DXY)',     priceKey: 'DXY_price',    changeKey: 'DXY_change'    },
+};
+
+const PERIOD_LABEL = {
+    intraday: '当日涨跌',
+    '5d':     '五日涨跌',
+    '1mo':    '月度涨跌',
 };
 
 // ── 渲染涨跌幅 ──────────────────────────────────────────
@@ -261,12 +269,31 @@ function renderTrend(val, changeId) {
     }
 }
 
+// ── ✅ 判断数据是否来自前一交易日 ───────────────────────
+function getDateLabel(data) {
+    if (!data.date_iso) return "📅 " + data.date + " 收盘数据";
+
+    // 获取当前美东时间的日期（用 UTC-4 近似，全年误差不超过1小时）
+    const now      = new Date();
+    const etOffset = -4 * 60; // EDT offset in minutes
+    const etNow    = new Date(now.getTime() + (etOffset - now.getTimezoneOffset()) * 60000);
+    const todayET  = etNow.toISOString().split('T')[0];
+
+    if (data.date_iso === todayET) {
+        return "📅 " + data.date + " 收盘数据";
+    } else {
+        return "📅 " + data.date + " 收盘数据  ·  当日收盘前显示前一交易日数据";
+    }
+}
+
 // ── 主数据加载 ──────────────────────────────────────────
 fetch('public/data.json?t=' + Date.now())
     .then(r => r.json())
     .then(data => {
         appData = data;
-        document.getElementById('date-display').innerText = "📅 " + data.date + " 收盘数据";
+
+        // ✅ 日期标签：若非今天，标注前一交易日
+        document.getElementById('date-display').innerText = getDateLabel(data);
 
         document.getElementById('sp500-price').innerText  = data.SP500_price;
         renderTrend(data.SP500_change, 'sp500-change');
@@ -276,8 +303,8 @@ fetch('public/data.json?t=' + Date.now())
         document.getElementById('vix-price').innerText = data.VIX_price;
         renderTrend(data.VIX_change, 'vix-change');
         const vxB = document.getElementById('vix-status');
-        vxB.innerText  = data.VIX_Status;
-        vxB.className  = (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观'))
+        vxB.innerText = data.VIX_Status;
+        vxB.className = (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观'))
             ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700"
             : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
         document.getElementById('vix-tip').innerText = data.VIX_Tip;
@@ -317,36 +344,25 @@ function openChart(key) {
     if (!appData || !appData.charts || !appData.charts[key]) return;
     activeKey = key;
 
-    const meta    = CHART_META[key];
-    const price   = appData[meta.priceKey];
-    const change  = appData[meta.changeKey];
-    const chgNum  = parseFloat(change);
-    const charts  = appData.charts[key];
+    const meta   = CHART_META[key];
+    const charts = appData.charts[key];
 
-    // 填写弹窗顶部信息
     document.getElementById('modal-title').innerText    = meta.name;
     document.getElementById('modal-subtitle').innerText = appData.date + ' 收盘';
-    document.getElementById('modal-price').innerText    = price;
-    const chgEl = document.getElementById('modal-change');
-    chgEl.innerText = (chgNum >= 0 ? '▲ +' : '▼ ') + change + '%';
-    chgEl.className = 'text-sm font-bold ' + (chgNum >= 0 ? 'text-green-600' : 'text-red-600');
 
-    // 配置 Tab 按钮：无数据则禁用
+    // 配置 Tab：无数据则禁用
     const tabs = { intraday: 'tab-intraday', '5d': 'tab-5d', '1mo': 'tab-1mo' };
     let firstAvailable = null;
     for (const [t, id] of Object.entries(tabs)) {
-        const btn = document.getElementById(id);
+        const btn     = document.getElementById(id);
         const hasData = charts[t] && charts[t].length > 0;
-        btn.disabled = !hasData;
+        btn.disabled  = !hasData;
         btn.classList.remove('active');
         if (hasData && !firstAvailable) firstAvailable = { t, btn };
     }
-
-    // 默认选中第一个有数据的 Tab
     activeTab = firstAvailable ? firstAvailable.t : 'intraday';
     if (firstAvailable) firstAvailable.btn.classList.add('active');
 
-    // 显示弹窗
     const modal = document.getElementById('chart-modal');
     const sheet = document.getElementById('modal-sheet');
     modal.style.opacity       = '1';
@@ -378,32 +394,54 @@ function switchTab(tab, btn) {
     renderChart(activeKey, tab);
 }
 
-// ── 渲染图表 ────────────────────────────────────────────
+// ── ✅ 渲染图表（同步更新价格和涨跌幅）─────────────────
 function renderChart(key, tab) {
     const points = (appData.charts[key] && appData.charts[key][tab]) || [];
 
     if (priceChart) { priceChart.destroy(); priceChart = null; }
 
     if (points.length === 0) {
-        // 无数据时显示提示
         const ctx = document.getElementById('price-chart').getContext('2d');
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '13px sans-serif';
-        ctx.textAlign = 'center';
+        ctx.fillStyle   = '#94a3b8';
+        ctx.font        = '13px sans-serif';
+        ctx.textAlign   = 'center';
         ctx.fillText('暂无数据', ctx.canvas.width / 2, 110);
+        // 无数据时显示原始日涨跌
+        const meta    = CHART_META[key];
+        const rawChg  = parseFloat(appData[meta.changeKey]);
+        document.getElementById('modal-price').innerText   = appData[meta.priceKey];
+        const chgEl = document.getElementById('modal-change');
+        chgEl.innerText = (rawChg >= 0 ? '▲ +' : '▼ ') + Math.abs(rawChg).toFixed(2) + '%';
+        chgEl.className = 'text-sm font-bold ' + (rawChg >= 0 ? 'text-green-600' : 'text-red-600');
+        document.getElementById('modal-period-label').innerText = PERIOD_LABEL[tab] || '';
         return;
     }
 
-    const labels = points.map(p => p.t);
-    const values = points.map(p => p.v);
-    const isUp   = values[values.length - 1] >= values[0];
+    const labels   = points.map(p => p.t);
+    const values   = points.map(p => p.v);
+    const firstVal = values[0];
+    const lastVal  = values[values.length - 1];
+
+    // ✅ 根据所选时段的数据动态计算涨跌幅
+    const periodChangePct = firstVal !== 0
+        ? ((lastVal - firstVal) / firstVal * 100)
+        : 0;
+    const isUp   = periodChangePct >= 0;
     const color  = isUp ? '#16a34a' : '#dc2626';
     const fillC  = isUp ? 'rgba(22,163,74,0.08)' : 'rgba(220,38,38,0.08)';
-    const maxLabels = 6;
-    const step = Math.max(1, Math.ceil(labels.length / maxLabels));
 
-    const ctx = document.getElementById('price-chart').getContext('2d');
+    // 更新弹窗顶部：最新价格 + 该时段涨跌幅
+    document.getElementById('modal-price').innerText =
+        lastVal.toLocaleString(undefined, { maximumFractionDigits: 4 });
+    const chgEl = document.getElementById('modal-change');
+    chgEl.innerText = (isUp ? '▲ +' : '▼ ') + Math.abs(periodChangePct).toFixed(2) + '%';
+    chgEl.className = 'text-sm font-bold ' + (isUp ? 'text-green-600' : 'text-red-600');
+    // 时段标签
+    document.getElementById('modal-period-label').innerText = PERIOD_LABEL[tab] || '';
+
+    const step = Math.max(1, Math.ceil(labels.length / 6));
+    const ctx  = document.getElementById('price-chart').getContext('2d');
     priceChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -427,14 +465,15 @@ function renderChart(key, tab) {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: ctx => ' ' + ctx.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 4 })
+                        label: ctx => ' ' + ctx.parsed.y.toLocaleString(
+                            undefined, { maximumFractionDigits: 4 })
                     }
                 }
             },
             scales: {
                 x: {
                     ticks: {
-                        maxTicksLimit: maxLabels,
+                        maxTicksLimit: 6,
                         maxRotation:   0,
                         font:  { size: 10 },
                         color: '#94a3b8',
@@ -449,7 +488,8 @@ function renderChart(key, tab) {
                     ticks: {
                         font:  { size: 10 },
                         color: '#94a3b8',
-                        callback: v => v.toLocaleString(undefined, { maximumFractionDigits: 4 })
+                        callback: v => v.toLocaleString(
+                            undefined, { maximumFractionDigits: 4 })
                     },
                     grid: { color: 'rgba(0,0,0,0.04)' }
                 }
