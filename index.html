@@ -12,411 +12,451 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        .chart-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
-        .chart-card:active { transform: scale(0.97); }
-        .chart-card:hover { box-shadow: 0 4px 20px rgba(59,130,246,0.15); }
+        .tappable { cursor: pointer; transition: opacity 0.12s; }
+        .tappable:active { opacity: 0.65; }
         .tab-btn { transition: all 0.15s; }
-        .tab-btn.active { background-color: #1e3a8a; color: white; }
+        .tab-btn.active { background-color: #1e3a8a !important; color: white !important; }
+        .tab-btn:disabled { opacity: 0.35; cursor: not-allowed; }
         #chart-modal { transition: opacity 0.2s; }
-        #modal-sheet { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
+        #modal-sheet { transition: transform 0.28s cubic-bezier(0.32,0.72,0,1); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
-    <div class="max-w-md mx-auto">
+<div class="max-w-md mx-auto">
 
-        <!-- 标题 + 日期 -->
-        <div class="mb-5 mt-2">
-            <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
-            <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在载入最新收盘数据...</p>
-        </div>
-
-        <!-- 1. 大盘核心指数（可点击） -->
-        <div class="mb-5">
-            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
-            <p class="text-[11px] text-slate-400 mb-2">💡 点击卡片查看走势图</p>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="chart-card bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
-                     onclick="openChart('SP500')">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="text-xs font-bold text-slate-400">标普500</div>
-                            <div class="text-[11px] text-slate-300 font-medium">S&P 500</div>
-                        </div>
-                        <span class="text-slate-300 text-sm mt-0.5">📈</span>
-                    </div>
-                    <div class="text-xl font-black text-slate-800 mt-1" id="sp500-price">--</div>
-                    <div class="text-xs font-bold mt-1" id="sp500-change">--</div>
-                </div>
-                <div class="chart-card bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
-                     onclick="openChart('NASDAQ')">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="text-xs font-bold text-slate-400">纳斯达克综合</div>
-                            <div class="text-[11px] text-slate-300 font-medium">NASDAQ</div>
-                        </div>
-                        <span class="text-slate-300 text-sm mt-0.5">📈</span>
-                    </div>
-                    <div class="text-xl font-black text-slate-800 mt-1" id="nasdaq-price">--</div>
-                    <div class="text-xs font-bold mt-1" id="nasdaq-change">--</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. 恐慌与情绪指标 -->
-        <div class="mb-5">
-            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">2. 恐慌与情绪指标</h3>
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold text-slate-400">VIX 恐慌指数</div>
-                        <div class="text-xl font-black text-slate-800 mt-1" id="vix-price">--</div>
-                        <div class="text-xs font-bold" id="vix-change">--</div>
-                    </div>
-                    <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="vix-status">--</div>
-                </div>
-                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold text-slate-400">恐惧与贪婪指数</div>
-                        <div class="text-[11px] text-slate-300 font-medium">CNN Business</div>
-                        <div class="text-2xl font-black text-slate-800 mt-1" id="fg-score">--</div>
-                    </div>
-                    <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="fg-status">--</div>
-                </div>
-            </div>
-            <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-900 font-medium">
-                💡 情绪操作导向：<span class="font-bold text-blue-700 underline" id="vix-tip">--</span>
-            </div>
-        </div>
-
-        <!-- 3. 高收益信用债 -->
-        <div class="mb-5">
-            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 高收益信用债 (流动性)</h3>
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
-                <div class="p-3.5 flex justify-between items-center">
-                    <div>
-                        <span class="text-sm font-bold text-slate-700">HYG</span>
-                        <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-sm font-extrabold text-slate-800" id="hyg-price">--</span>
-                        <span class="text-xs font-bold ml-2" id="hyg-change">--</span>
-                    </div>
-                </div>
-                <div class="p-3.5 flex justify-between items-center">
-                    <div>
-                        <span class="text-sm font-bold text-slate-700">JNK</span>
-                        <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-sm font-extrabold text-slate-800" id="jnk-price">--</span>
-                        <span class="text-xs font-bold ml-2" id="jnk-change">--</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. 跨资产联动 -->
-        <div class="mb-5">
-            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 跨资产联动 (宏观阻力)</h3>
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
-                <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">十年期美债收益率</span>
-                    <div class="text-right">
-                        <span class="text-sm font-extrabold text-slate-800" id="tnx-price">--</span>
-                        <span class="text-xs font-bold ml-2" id="tnx-change">--</span>
-                    </div>
-                </div>
-                <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">黄金期货 (Gold)</span>
-                    <div class="text-right">
-                        <span class="text-sm font-extrabold text-slate-800" id="gold-price">--</span>
-                        <span class="text-xs font-bold ml-2" id="gold-change">--</span>
-                    </div>
-                </div>
-                <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">美元指数 (DXY)</span>
-                    <div class="text-right">
-                        <span class="text-sm font-extrabold text-slate-800" id="dxy-price">--</span>
-                        <span class="text-xs font-bold ml-2" id="dxy-change">--</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. 综合投资策略指引 -->
-        <div class="mb-6">
-            <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">5. 综合投资策略指引</h3>
-            <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950">
-                <h4 class="font-black mb-3 text-sm tracking-wide text-blue-300">🎯 盘后多维动态研判</h4>
-                <ul class="text-xs space-y-3 leading-relaxed font-medium" id="strategy-list">
-                    <li class="opacity-60">数据解析中...</li>
-                </ul>
-            </div>
-        </div>
-
-        <a href="public/report.pdf" class="block w-full bg-slate-100 text-slate-600 text-center text-xs font-bold py-3.5 rounded-xl border border-slate-200 active:bg-slate-200 transition" target="_blank">
-            📥 下载完整 PDF 报告
-        </a>
+    <!-- 标题 + 日期 -->
+    <div class="mb-5 mt-2">
+        <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
+        <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在载入最新收盘数据...</p>
+        <p class="text-[11px] text-slate-300 mt-0.5">💡 点击任意数据卡片可查看走势图</p>
     </div>
 
-    <!-- ═══════════════ 走势图弹窗 ═══════════════ -->
-    <div id="chart-modal"
-         class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none"
-         style="background: rgba(0,0,0,0.4);"
-         onclick="handleModalBackdrop(event)">
-
-        <div id="modal-sheet"
-             class="w-full max-w-md bg-white rounded-t-3xl shadow-2xl pb-8"
-             style="transform: translateY(100%); max-height: 85vh; overflow-y: auto;">
-
-            <!-- 拖动条 -->
-            <div class="flex justify-center pt-3 pb-1">
-                <div class="w-10 h-1 bg-slate-200 rounded-full"></div>
+    <!-- 1. 大盘核心指数 -->
+    <div class="mb-5">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
+                 onclick="openChart('SP500')">
+                <div class="flex items-start justify-between">
+                    <div class="text-xs font-bold text-slate-400">标普500</div>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-[11px] text-slate-300 font-medium">S&P 500</div>
+                <div class="text-xl font-black text-slate-800 mt-1" id="sp500-price">--</div>
+                <div class="text-xs font-bold mt-1" id="sp500-change">--</div>
             </div>
+            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
+                 onclick="openChart('NASDAQ')">
+                <div class="flex items-start justify-between">
+                    <div class="text-xs font-bold text-slate-400">纳斯达克综合</div>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-[11px] text-slate-300 font-medium">NASDAQ</div>
+                <div class="text-xl font-black text-slate-800 mt-1" id="nasdaq-price">--</div>
+                <div class="text-xs font-bold mt-1" id="nasdaq-change">--</div>
+            </div>
+        </div>
+    </div>
 
-            <!-- 标题栏 -->
-            <div class="flex items-center justify-between px-5 pt-2 pb-3">
+    <!-- 2. 恐慌与情绪指标 -->
+    <div class="mb-5">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">2. 恐慌与情绪指标</h3>
+        <div class="grid grid-cols-2 gap-3 mb-3">
+            <!-- VIX 可点击 -->
+            <div class="tappable bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between"
+                 onclick="openChart('VIX')">
                 <div>
-                    <h2 class="text-base font-black text-slate-800" id="modal-title">走势图</h2>
-                    <p class="text-xs text-slate-400" id="modal-subtitle">收盘数据</p>
+                    <div class="flex items-start justify-between">
+                        <div class="text-xs font-bold text-slate-400">VIX 恐慌指数</div>
+                        <span class="text-slate-200 text-xs">📈</span>
+                    </div>
+                    <div class="text-xl font-black text-slate-800 mt-1" id="vix-price">--</div>
+                    <div class="text-xs font-bold" id="vix-change">--</div>
                 </div>
-                <button onclick="closeChart()"
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-sm font-bold">
-                    ✕
-                </button>
+                <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="vix-status">--</div>
             </div>
-
-            <!-- 当前价格 + 涨跌 -->
-            <div class="px-5 mb-4">
-                <span class="text-2xl font-black text-slate-800" id="modal-price">--</span>
-                <span class="text-sm font-bold ml-2" id="modal-change">--</span>
-            </div>
-
-            <!-- Tab 按钮 -->
-            <div class="flex gap-2 px-5 mb-4">
-                <button class="tab-btn active flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
-                        onclick="switchTab('intraday', this)">当日走势</button>
-                <button class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
-                        onclick="switchTab('5d', this)">近五日</button>
-                <button class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
-                        onclick="switchTab('1mo', this)">近一个月</button>
-            </div>
-
-            <!-- 图表区域 -->
-            <div class="px-5">
-                <div style="position: relative; height: 220px;">
-                    <canvas id="price-chart"></canvas>
+            <!-- F&G 不可点击（无价格序列） -->
+            <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="text-xs font-bold text-slate-400">恐惧与贪婪指数</div>
+                    <div class="text-[11px] text-slate-300 font-medium">CNN Business</div>
+                    <div class="text-2xl font-black text-slate-800 mt-1" id="fg-score">--</div>
                 </div>
-                <p class="text-[10px] text-slate-300 text-center mt-2">数据来源：Yahoo Finance · 收盘后快照</p>
+                <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="fg-status">--</div>
+            </div>
+        </div>
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-900 font-medium">
+            💡 情绪操作导向：<span class="font-bold text-blue-700 underline" id="vix-tip">--</span>
+        </div>
+    </div>
+
+    <!-- 3. 高收益信用债 -->
+    <div class="mb-5">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 高收益信用债 (流动性)</h3>
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
+            <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('HYG')">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm font-bold text-slate-700">HYG</span>
+                    <span class="text-xs font-normal text-slate-400">高收益债ETF</span>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-extrabold text-slate-800" id="hyg-price">--</span>
+                    <span class="text-xs font-bold ml-2" id="hyg-change">--</span>
+                </div>
+            </div>
+            <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('JNK')">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm font-bold text-slate-700">JNK</span>
+                    <span class="text-xs font-normal text-slate-400">高收益债ETF</span>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-extrabold text-slate-800" id="jnk-price">--</span>
+                    <span class="text-xs font-bold ml-2" id="jnk-change">--</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // ── 全局状态 ─────────────────────────────────────────────
-        let appData    = null;
-        let priceChart = null;
-        let activeKey  = null;
-        let activeTab  = 'intraday';
+    <!-- 4. 跨资产联动 -->
+    <div class="mb-5">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 跨资产联动 (宏观阻力)</h3>
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
+            <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('TNX')">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm font-bold text-slate-700">十年期美债收益率</span>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-extrabold text-slate-800" id="tnx-price">--</span>
+                    <span class="text-xs font-bold ml-2" id="tnx-change">--</span>
+                </div>
+            </div>
+            <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('GOLD')">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm font-bold text-slate-700">黄金期货 (Gold)</span>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-extrabold text-slate-800" id="gold-price">--</span>
+                    <span class="text-xs font-bold ml-2" id="gold-change">--</span>
+                </div>
+            </div>
+            <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('DXY')">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm font-bold text-slate-700">美元指数 (DXY)</span>
+                    <span class="text-slate-200 text-xs">📈</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-sm font-extrabold text-slate-800" id="dxy-price">--</span>
+                    <span class="text-xs font-bold ml-2" id="dxy-change">--</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // ── 渲染涨跌幅 ──────────────────────────────────────────
-        function renderTrend(val, changeId) {
-            const num = parseFloat(val);
-            const el  = document.getElementById(changeId);
-            if (num > 0) {
-                el.innerText = "▲ +" + val + "%";
-                el.className = "text-xs font-bold text-green-600";
-            } else if (num < 0) {
-                el.innerText = "▼ " + val + "%";
-                el.className = "text-xs font-bold text-red-600";
-            } else {
-                el.innerText = val + "%";
-                el.className = "text-xs font-bold text-slate-400";
-            }
+    <!-- 5. 综合投资策略指引 -->
+    <div class="mb-6">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">5. 综合投资策略指引</h3>
+        <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950">
+            <h4 class="font-black mb-3 text-sm tracking-wide text-blue-300">🎯 盘后多维动态研判</h4>
+            <ul class="text-xs space-y-3 leading-relaxed font-medium" id="strategy-list">
+                <li class="opacity-60">数据解析中...</li>
+            </ul>
+        </div>
+    </div>
+
+    <a href="public/report.pdf"
+       class="block w-full bg-slate-100 text-slate-600 text-center text-xs font-bold py-3.5 rounded-xl border border-slate-200 active:bg-slate-200 transition"
+       target="_blank">📥 下载完整 PDF 报告</a>
+</div>
+
+<!-- ═══════════════════ 走势图弹窗 ═══════════════════ -->
+<div id="chart-modal"
+     class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none"
+     style="background:rgba(0,0,0,0.45);"
+     onclick="handleBackdrop(event)">
+    <div id="modal-sheet"
+         class="w-full max-w-md bg-white rounded-t-3xl shadow-2xl pb-8"
+         style="transform:translateY(100%); max-height:82vh; overflow-y:auto;">
+
+        <!-- 拖动条 -->
+        <div class="flex justify-center pt-3 pb-1">
+            <div class="w-10 h-1 bg-slate-200 rounded-full"></div>
+        </div>
+
+        <!-- 标题栏 -->
+        <div class="flex items-center justify-between px-5 pt-2 pb-2">
+            <div>
+                <h2 class="text-base font-black text-slate-800" id="modal-title">走势图</h2>
+                <p class="text-[11px] text-slate-400" id="modal-subtitle"></p>
+            </div>
+            <button onclick="closeChart()"
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-sm font-bold">✕</button>
+        </div>
+
+        <!-- 价格 + 涨跌 -->
+        <div class="px-5 mb-3 flex items-baseline gap-2">
+            <span class="text-2xl font-black text-slate-800" id="modal-price">--</span>
+            <span class="text-sm font-bold" id="modal-change">--</span>
+        </div>
+
+        <!-- Tab 按钮 -->
+        <div class="flex gap-2 px-5 mb-4" id="tab-bar">
+            <button id="tab-intraday"
+                    class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
+                    onclick="switchTab('intraday', this)">当日走势</button>
+            <button id="tab-5d"
+                    class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
+                    onclick="switchTab('5d', this)">近五日</button>
+            <button id="tab-1mo"
+                    class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
+                    onclick="switchTab('1mo', this)">近一个月</button>
+        </div>
+
+        <!-- 图表 -->
+        <div class="px-5">
+            <div style="position:relative; height:220px;">
+                <canvas id="price-chart"></canvas>
+            </div>
+            <p class="text-[10px] text-slate-300 text-center mt-2">数据来源：Yahoo Finance · 每日收盘后快照</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// ── 全局状态 ────────────────────────────────────────────
+let appData    = null;
+let priceChart = null;
+let activeKey  = null;
+let activeTab  = 'intraday';
+
+// 所有可点击资产的元信息
+const CHART_META = {
+    SP500:  { name: '标普500 (S&P 500)',  priceKey: 'SP500_price',  changeKey: 'SP500_change'  },
+    NASDAQ: { name: '纳斯达克综合',        priceKey: 'NASDAQ_price', changeKey: 'NASDAQ_change' },
+    VIX:    { name: 'VIX 恐慌指数',       priceKey: 'VIX_price',    changeKey: 'VIX_change'    },
+    HYG:    { name: 'HYG 高收益债ETF',    priceKey: 'HYG_price',    changeKey: 'HYG_change'    },
+    JNK:    { name: 'JNK 高收益债ETF',    priceKey: 'JNK_price',    changeKey: 'JNK_change'    },
+    TNX:    { name: '十年期美债收益率',    priceKey: 'TNX_price',    changeKey: 'TNX_change'    },
+    GOLD:   { name: '黄金期货 (Gold)',    priceKey: 'GOLD_price',   changeKey: 'GOLD_change'   },
+    DXY:    { name: '美元指数 (DXY)',     priceKey: 'DXY_price',    changeKey: 'DXY_change'    },
+};
+
+// ── 渲染涨跌幅 ──────────────────────────────────────────
+function renderTrend(val, changeId) {
+    const num = parseFloat(val);
+    const el  = document.getElementById(changeId);
+    if (!el) return;
+    if (num > 0) {
+        el.innerText = "▲ +" + val + "%";
+        el.className = "text-xs font-bold text-green-600";
+    } else if (num < 0) {
+        el.innerText = "▼ " + val + "%";
+        el.className = "text-xs font-bold text-red-600";
+    } else {
+        el.innerText = val + "%";
+        el.className = "text-xs font-bold text-slate-400";
+    }
+}
+
+// ── 主数据加载 ──────────────────────────────────────────
+fetch('public/data.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(data => {
+        appData = data;
+        document.getElementById('date-display').innerText = "📅 " + data.date + " 收盘数据";
+
+        document.getElementById('sp500-price').innerText  = data.SP500_price;
+        renderTrend(data.SP500_change, 'sp500-change');
+        document.getElementById('nasdaq-price').innerText = data.NASDAQ_price;
+        renderTrend(data.NASDAQ_change, 'nasdaq-change');
+
+        document.getElementById('vix-price').innerText = data.VIX_price;
+        renderTrend(data.VIX_change, 'vix-change');
+        const vxB = document.getElementById('vix-status');
+        vxB.innerText  = data.VIX_Status;
+        vxB.className  = (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观'))
+            ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700"
+            : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
+        document.getElementById('vix-tip').innerText = data.VIX_Tip;
+
+        document.getElementById('fg-score').innerText = data.FG_Score;
+        const fgB = document.getElementById('fg-status');
+        fgB.innerText = "状态：" + data.FG_Status;
+        fgB.className = data.FG_Status.includes('贪婪')
+            ? "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700"
+            : data.FG_Status.includes('恐惧')
+            ? "text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700"
+            : "text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600";
+
+        document.getElementById('hyg-price').innerText = "$" + data.HYG_price;
+        renderTrend(data.HYG_change, 'hyg-change');
+        document.getElementById('jnk-price').innerText = "$" + data.JNK_price;
+        renderTrend(data.JNK_change, 'jnk-change');
+
+        document.getElementById('tnx-price').innerText  = data.TNX_price;
+        renderTrend(data.TNX_change, 'tnx-change');
+        document.getElementById('gold-price').innerText = "$" + data.GOLD_price;
+        renderTrend(data.GOLD_change, 'gold-change');
+        document.getElementById('dxy-price').innerText  = data.DXY_price;
+        renderTrend(data.DXY_change, 'dxy-change');
+
+        if (data.strategies && data.strategies.length > 0) {
+            document.getElementById('strategy-list').innerHTML =
+                data.strategies.map(s => `<li class="opacity-90">${s}</li>`).join('');
         }
+    })
+    .catch(() => {
+        document.getElementById('date-display').innerText = "数据载入失败，请检查 Actions 是否正常运行。";
+    });
 
-        // ── 加载主数据 ───────────────────────────────────────────
-        fetch('public/data.json?t=' + Date.now())
-            .then(res => res.json())
-            .then(data => {
-                appData = data;
-                document.getElementById('date-display').innerText = "📅 " + data.date + " 收盘数据";
+// ── 打开图表弹窗 ────────────────────────────────────────
+function openChart(key) {
+    if (!appData || !appData.charts || !appData.charts[key]) return;
+    activeKey = key;
 
-                document.getElementById('sp500-price').innerText  = data.SP500_price;
-                renderTrend(data.SP500_change, 'sp500-change');
-                document.getElementById('nasdaq-price').innerText = data.NASDAQ_price;
-                renderTrend(data.NASDAQ_change, 'nasdaq-change');
+    const meta    = CHART_META[key];
+    const price   = appData[meta.priceKey];
+    const change  = appData[meta.changeKey];
+    const chgNum  = parseFloat(change);
+    const charts  = appData.charts[key];
 
-                document.getElementById('vix-price').innerText = data.VIX_price;
-                renderTrend(data.VIX_change, 'vix-change');
-                const vxBadge = document.getElementById('vix-status');
-                vxBadge.innerText = data.VIX_Status;
-                vxBadge.className = (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观'))
-                    ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700"
-                    : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
-                document.getElementById('vix-tip').innerText = data.VIX_Tip;
+    // 填写弹窗顶部信息
+    document.getElementById('modal-title').innerText    = meta.name;
+    document.getElementById('modal-subtitle').innerText = appData.date + ' 收盘';
+    document.getElementById('modal-price').innerText    = price;
+    const chgEl = document.getElementById('modal-change');
+    chgEl.innerText = (chgNum >= 0 ? '▲ +' : '▼ ') + change + '%';
+    chgEl.className = 'text-sm font-bold ' + (chgNum >= 0 ? 'text-green-600' : 'text-red-600');
 
-                document.getElementById('fg-score').innerText = data.FG_Score;
-                const fgBadge = document.getElementById('fg-status');
-                fgBadge.innerText = "状态：" + data.FG_Status;
-                if (data.FG_Status.includes('贪婪')) {
-                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
-                } else if (data.FG_Status.includes('恐惧')) {
-                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-700";
-                } else {
-                    fgBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600";
-                }
+    // 配置 Tab 按钮：无数据则禁用
+    const tabs = { intraday: 'tab-intraday', '5d': 'tab-5d', '1mo': 'tab-1mo' };
+    let firstAvailable = null;
+    for (const [t, id] of Object.entries(tabs)) {
+        const btn = document.getElementById(id);
+        const hasData = charts[t] && charts[t].length > 0;
+        btn.disabled = !hasData;
+        btn.classList.remove('active');
+        if (hasData && !firstAvailable) firstAvailable = { t, btn };
+    }
 
-                document.getElementById('hyg-price').innerText = "$" + data.HYG_price;
-                renderTrend(data.HYG_change, 'hyg-change');
-                document.getElementById('jnk-price').innerText = "$" + data.JNK_price;
-                renderTrend(data.JNK_change, 'jnk-change');
+    // 默认选中第一个有数据的 Tab
+    activeTab = firstAvailable ? firstAvailable.t : 'intraday';
+    if (firstAvailable) firstAvailable.btn.classList.add('active');
 
-                document.getElementById('tnx-price').innerText  = data.TNX_price;
-                renderTrend(data.TNX_change, 'tnx-change');
-                document.getElementById('gold-price').innerText = "$" + data.GOLD_price;
-                renderTrend(data.GOLD_change, 'gold-change');
-                document.getElementById('dxy-price').innerText  = data.DXY_price;
-                renderTrend(data.DXY_change, 'dxy-change');
+    // 显示弹窗
+    const modal = document.getElementById('chart-modal');
+    const sheet = document.getElementById('modal-sheet');
+    modal.style.opacity       = '1';
+    modal.style.pointerEvents = 'auto';
+    sheet.style.transform     = 'translateY(0)';
 
-                if (data.strategies && data.strategies.length > 0) {
-                    document.getElementById('strategy-list').innerHTML =
-                        data.strategies.map(s => `<li class="opacity-90">${s}</li>`).join('');
-                }
-            })
-            .catch(() => {
-                document.getElementById('date-display').innerText = "数据载入失败，请检查 Actions 是否正常运行。";
-            });
+    renderChart(key, activeTab);
+}
 
-        // ── 打开图表弹窗 ─────────────────────────────────────────
-        function openChart(key) {
-            if (!appData || !appData.charts || !appData.charts[key]) return;
-            activeKey = key;
-            activeTab = 'intraday';
+// ── 关闭弹窗 ────────────────────────────────────────────
+function closeChart() {
+    const modal = document.getElementById('chart-modal');
+    const sheet = document.getElementById('modal-sheet');
+    modal.style.opacity       = '0';
+    modal.style.pointerEvents = 'none';
+    sheet.style.transform     = 'translateY(100%)';
+    if (priceChart) { priceChart.destroy(); priceChart = null; }
+}
+function handleBackdrop(e) {
+    if (e.target === document.getElementById('chart-modal')) closeChart();
+}
 
-            // 填写标题和价格
-            const names  = { SP500: '标普500 (S&P 500)', NASDAQ: '纳斯达克综合' };
-            const prices = { SP500: appData.SP500_price, NASDAQ: appData.NASDAQ_price };
-            const changes= { SP500: appData.SP500_change, NASDAQ: appData.NASDAQ_change };
+// ── 切换 Tab ────────────────────────────────────────────
+function switchTab(tab, btn) {
+    if (btn.disabled) return;
+    activeTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderChart(activeKey, tab);
+}
 
-            document.getElementById('modal-title').innerText    = names[key];
-            document.getElementById('modal-subtitle').innerText = appData.date + ' 收盘';
-            document.getElementById('modal-price').innerText    = prices[key];
+// ── 渲染图表 ────────────────────────────────────────────
+function renderChart(key, tab) {
+    const points = (appData.charts[key] && appData.charts[key][tab]) || [];
 
-            const chgEl = document.getElementById('modal-change');
-            const chg   = parseFloat(changes[key]);
-            chgEl.innerText  = (chg >= 0 ? '▲ +' : '▼ ') + changes[key] + '%';
-            chgEl.className  = 'text-sm font-bold ' + (chg >= 0 ? 'text-green-600' : 'text-red-600');
+    if (priceChart) { priceChart.destroy(); priceChart = null; }
 
-            // 重置 tab 状态
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    if (points.length === 0) {
+        // 无数据时显示提示
+        const ctx = document.getElementById('price-chart').getContext('2d');
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('暂无数据', ctx.canvas.width / 2, 110);
+        return;
+    }
 
-            // 显示弹窗
-            const modal = document.getElementById('chart-modal');
-            const sheet = document.getElementById('modal-sheet');
-            modal.style.opacity        = '1';
-            modal.style.pointerEvents  = 'auto';
-            sheet.style.transform      = 'translateY(0)';
+    const labels = points.map(p => p.t);
+    const values = points.map(p => p.v);
+    const isUp   = values[values.length - 1] >= values[0];
+    const color  = isUp ? '#16a34a' : '#dc2626';
+    const fillC  = isUp ? 'rgba(22,163,74,0.08)' : 'rgba(220,38,38,0.08)';
+    const maxLabels = 6;
+    const step = Math.max(1, Math.ceil(labels.length / maxLabels));
 
-            // 渲染图表
-            renderChart(key, 'intraday');
-        }
-
-        // ── 关闭弹窗 ─────────────────────────────────────────────
-        function closeChart() {
-            const modal = document.getElementById('chart-modal');
-            const sheet = document.getElementById('modal-sheet');
-            modal.style.opacity       = '0';
-            modal.style.pointerEvents = 'none';
-            sheet.style.transform     = 'translateY(100%)';
-            if (priceChart) { priceChart.destroy(); priceChart = null; }
-        }
-
-        function handleModalBackdrop(e) {
-            if (e.target === document.getElementById('chart-modal')) closeChart();
-        }
-
-        // ── 切换 Tab ─────────────────────────────────────────────
-        function switchTab(tab, btn) {
-            activeTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderChart(activeKey, tab);
-        }
-
-        // ── 渲染 Chart.js 折线图 ─────────────────────────────────
-        function renderChart(key, tab) {
-            const points = appData.charts[key][tab] || [];
-            const labels = points.map(p => p.t);
-            const values = points.map(p => p.v);
-
-            // 根据首尾涨跌决定颜色
-            const isUp   = values.length > 1 ? values[values.length - 1] >= values[0] : true;
-            const color  = isUp ? '#16a34a' : '#dc2626';
-            const fillC  = isUp ? 'rgba(22,163,74,0.08)' : 'rgba(220,38,38,0.08)';
-
-            // 每次渲染前销毁旧实例
-            if (priceChart) { priceChart.destroy(); priceChart = null; }
-
-            // 根据数据量决定显示多少个 x 轴标签
-            const maxLabels = 6;
-            const step = Math.ceil(labels.length / maxLabels);
-
-            const ctx = document.getElementById('price-chart').getContext('2d');
-            priceChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{
-                        data:            values,
-                        borderColor:     color,
-                        backgroundColor: fillC,
-                        borderWidth:     2,
-                        pointRadius:     0,
-                        pointHoverRadius:4,
-                        fill:            true,
-                        tension:         0.3,
-                    }]
-                },
-                options: {
-                    responsive:          true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => ' ' + ctx.parsed.y.toLocaleString()
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                maxTicksLimit: maxLabels,
-                                maxRotation:   0,
-                                font:          { size: 10 },
-                                color:         '#94a3b8',
-                                callback: function(val, i) {
-                                    return i % step === 0 ? this.getLabelForValue(val) : '';
-                                }
-                            },
-                            grid: { display: false }
-                        },
-                        y: {
-                            position: 'right',
-                            ticks: {
-                                font:  { size: 10 },
-                                color: '#94a3b8',
-                                callback: v => v.toLocaleString()
-                            },
-                            grid: { color: 'rgba(0,0,0,0.04)' }
-                        }
+    const ctx = document.getElementById('price-chart').getContext('2d');
+    priceChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                data:            values,
+                borderColor:     color,
+                backgroundColor: fillC,
+                borderWidth:     2,
+                pointRadius:     0,
+                pointHoverRadius:4,
+                fill:            true,
+                tension:         0.3,
+            }]
+        },
+        options: {
+            responsive:          true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => ' ' + ctx.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 4 })
                     }
                 }
-            });
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: maxLabels,
+                        maxRotation:   0,
+                        font:  { size: 10 },
+                        color: '#94a3b8',
+                        callback: function(val, i) {
+                            return i % step === 0 ? this.getLabelForValue(val) : '';
+                        }
+                    },
+                    grid: { display: false }
+                },
+                y: {
+                    position: 'right',
+                    ticks: {
+                        font:  { size: 10 },
+                        color: '#94a3b8',
+                        callback: v => v.toLocaleString(undefined, { maximumFractionDigits: 4 })
+                    },
+                    grid: { color: 'rgba(0,0,0,0.04)' }
+                }
+            }
         }
-    </script>
+    });
+}
+</script>
 </body>
 </html>
