@@ -14,7 +14,7 @@
 <body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
     <div class="max-w-md mx-auto">
 
-        <!-- 标题 + 日期 + 状态标签 -->
+        <!-- 标题 + 状态标签 + 时间戳 -->
         <div class="mb-5 mt-2">
             <h1 class="text-2xl font-black text-blue-950 tracking-tight">美股情绪观察看板</h1>
             <div class="flex items-center gap-2 mt-1.5 flex-wrap">
@@ -23,6 +23,15 @@
                 </span>
                 <p id="date-display" class="text-xs font-semibold text-slate-400">正在同步最新数据...</p>
             </div>
+            <!-- 数据源图例 -->
+            <div class="flex items-center gap-3 mt-2">
+                <span class="flex items-center gap-1 text-[11px] text-green-600 font-semibold">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>实时（Alpaca IEX）
+                </span>
+                <span class="flex items-center gap-1 text-[11px] text-slate-400 font-semibold">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-slate-400"></span>延迟约15分钟（yfinance）
+                </span>
+            </div>
         </div>
 
         <!-- 1. 大盘核心指数 -->
@@ -30,13 +39,21 @@
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
-                    <div class="text-xs font-bold text-slate-400">标普500 (S&P 500)</div>
-                    <div class="text-xl font-black text-slate-800 mt-1" id="sp500-price">--</div>
+                    <div class="flex items-center justify-between mb-0.5">
+                        <div class="text-xs font-bold text-slate-400">标普500 ETF</div>
+                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded bg-green-50 text-green-600">实时</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-medium mb-1">SPY</div>
+                    <div class="text-xl font-black text-slate-800" id="sp500-price">--</div>
                     <div class="text-xs font-bold mt-1" id="sp500-change">--</div>
                 </div>
                 <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
-                    <div class="text-xs font-bold text-slate-400">纳斯达克 (NASDAQ)</div>
-                    <div class="text-xl font-black text-slate-800 mt-1" id="nasdaq-price">--</div>
+                    <div class="flex items-center justify-between mb-0.5">
+                        <div class="text-xs font-bold text-slate-400">纳斯达克100 ETF</div>
+                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded bg-green-50 text-green-600">实时</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-medium mb-1">QQQ</div>
+                    <div class="text-xl font-black text-slate-800" id="nasdaq-price">--</div>
                     <div class="text-xs font-bold mt-1" id="nasdaq-change">--</div>
                 </div>
             </div>
@@ -48,7 +65,10 @@
             <div class="grid grid-cols-2 gap-3 mb-3">
                 <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
                     <div>
-                        <div class="text-xs font-bold text-slate-400">VIX 恐慌指数</div>
+                        <div class="flex items-center justify-between mb-0.5">
+                            <div class="text-xs font-bold text-slate-400">VIX 恐慌指数</div>
+                            <span class="text-[10px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-400">15min延迟</span>
+                        </div>
                         <div class="text-xl font-black text-slate-800 mt-1" id="vix-price">--</div>
                         <div class="text-xs font-bold" id="vix-change">--</div>
                     </div>
@@ -56,9 +76,12 @@
                 </div>
                 <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col justify-between">
                     <div>
-                        <div class="text-xs font-bold text-slate-400">恐惧与贪婪指数</div>
-                        <div class="text-2xl font-black text-slate-800 mt-1" id="fg-score">--</div>
-                        <div class="text-xs font-medium text-slate-400 mt-0.5">数据源: CNN Business</div>
+                        <div class="flex items-center justify-between mb-0.5">
+                            <div class="text-xs font-bold text-slate-400">恐惧与贪婪</div>
+                            <span class="text-[10px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-400">每小时</span>
+                        </div>
+                        <div class="text-[11px] text-slate-400 font-medium mb-1">CNN Business</div>
+                        <div class="text-2xl font-black text-slate-800" id="fg-score">--</div>
                     </div>
                     <div class="inline-block text-[11px] font-black px-2 py-1 rounded-md mt-3 w-max" id="fg-status">--</div>
                 </div>
@@ -73,14 +96,22 @@
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 高收益信用债 (流动性)</h3>
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
                 <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">HYG <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span></span>
+                    <div>
+                        <span class="text-sm font-bold text-slate-700">HYG</span>
+                        <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span>
+                        <span class="ml-1.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-green-50 text-green-600">实时</span>
+                    </div>
                     <div class="text-right">
                         <span class="text-sm font-extrabold text-slate-800" id="hyg-price">--</span>
                         <span class="text-xs font-bold ml-2" id="hyg-change">--</span>
                     </div>
                 </div>
                 <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">JNK <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span></span>
+                    <div>
+                        <span class="text-sm font-bold text-slate-700">JNK</span>
+                        <span class="text-xs font-normal text-slate-400 ml-1">高收益债ETF</span>
+                        <span class="ml-1.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-green-50 text-green-600">实时</span>
+                    </div>
                     <div class="text-right">
                         <span class="text-sm font-extrabold text-slate-800" id="jnk-price">--</span>
                         <span class="text-xs font-bold ml-2" id="jnk-change">--</span>
@@ -94,21 +125,30 @@
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 跨资产联动 (宏观阻力)</h3>
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
                 <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">十年期美债收益率</span>
+                    <div>
+                        <span class="text-sm font-bold text-slate-700">十年期美债收益率</span>
+                        <span class="ml-1.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-400">15min延迟</span>
+                    </div>
                     <div class="text-right">
                         <span class="text-sm font-extrabold text-slate-800" id="tnx-price">--</span>
                         <span class="text-xs font-bold ml-2" id="tnx-change">--</span>
                     </div>
                 </div>
                 <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">黄金期货 (Gold)</span>
+                    <div>
+                        <span class="text-sm font-bold text-slate-700">黄金期货 (Gold)</span>
+                        <span class="ml-1.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-400">15min延迟</span>
+                    </div>
                     <div class="text-right">
                         <span class="text-sm font-extrabold text-slate-800" id="gold-price">--</span>
                         <span class="text-xs font-bold ml-2" id="gold-change">--</span>
                     </div>
                 </div>
                 <div class="p-3.5 flex justify-between items-center">
-                    <span class="text-sm font-bold text-slate-700">美元指数 (DXY)</span>
+                    <div>
+                        <span class="text-sm font-bold text-slate-700">美元指数 (DXY)</span>
+                        <span class="ml-1.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-slate-100 text-slate-400">15min延迟</span>
+                    </div>
                     <div class="text-right">
                         <span class="text-sm font-extrabold text-slate-800" id="dxy-price">--</span>
                         <span class="text-xs font-bold ml-2" id="dxy-change">--</span>
@@ -169,10 +209,10 @@
             // 时间戳
             document.getElementById('date-display').innerText = data.date;
 
-            // 大盘核心指数
-            document.getElementById('sp500-price').innerText  = data.SP500_price;
+            // 大盘
+            document.getElementById('sp500-price').innerText  = "$" + data.SP500_price;
             renderTrend(data.SP500_change, 'sp500-change');
-            document.getElementById('nasdaq-price').innerText = data.NASDAQ_price;
+            document.getElementById('nasdaq-price').innerText = "$" + data.NASDAQ_price;
             renderTrend(data.NASDAQ_change, 'nasdaq-change');
 
             // VIX
@@ -217,11 +257,11 @@
 
             // 策略内容
             const timeNote = isLive
-                ? "当前为<strong>盘中实时数据</strong>，每分钟自动刷新。"
+                ? "当前为<strong>盘中实时数据</strong>，每5分钟自动刷新。"
                 : "当前为<strong>收盘快照</strong>，下一交易日开盘后恢复实时更新。";
 
             document.getElementById('strategy-list').innerHTML = `
-                <li>• <strong>宏观环境研判</strong>：目前长端美债收益率在 ${data.TNX_price}，美元指数报 ${data.DXY_price}。在当前的宏观联动下，成长股的长期估值环境正在受到利率因子的博弈压制。</li>
+                <li>• <strong>宏观环境研判</strong>：目前长端美债收益率在 ${data.TNX_price}，美元指数报 ${data.DXY_price}。在当前宏观联动下，成长股的长期估值环境正受到利率因子的博弈压制。</li>
                 <li>• <strong>情绪仓位调控</strong>：当前恐惧与贪婪指数为 <strong>${data.FG_Score}（${data.FG_Status}）</strong>，结合 VIX 处于【${data.VIX_Status}】状态，策略指引维持 <strong>${data.VIX_Tip}</strong>。</li>
                 <li>• <strong>流动性及避险工具</strong>：高收益信用债（HYG/JNK）未表现出信用溢价大幅走阔的踩踏现象，整体流动性仍然可控。切勿单笔重仓追高，应严格落实风控方案。</li>
                 <li>• <span class="opacity-60">${timeNote}</span></li>
@@ -241,10 +281,10 @@
                 });
         }
 
-        // ── 盘中每分钟自动刷新，休市不刷新 ──────────────────────
+        // ── 盘中每5分钟自动刷新，休市不刷新 ─────────────────────
         function scheduleNextRefresh(data) {
             if (data.market_status === "盘中实时") {
-                setTimeout(loadData, 60 * 1000);  // 1分钟
+                setTimeout(loadData, 5 * 60 * 1000);
             }
         }
 
