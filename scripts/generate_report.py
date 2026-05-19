@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-import cloudscraper
 import yfinance as yf
 from weasyprint import HTML
 from datetime import datetime
@@ -26,8 +25,9 @@ def get_market_data():
         try:
             df = yf.download(ticker, period="5d", progress=False)['Close']
             if len(df) >= 2:
-                current_price = float(df.iloc[-1])
-                prev_price = float(df.iloc[-2])
+                # ✅ 修复 FutureWarning：使用 .iloc[0] 提取标量
+                current_price = float(df.iloc[-1].iloc[0])
+                prev_price = float(df.iloc[-2].iloc[0])
                 change_pct = ((current_price - prev_price) / prev_price) * 100
                 market_data[name] = {'price': current_price, 'change_pct': change_pct}
             else:
@@ -37,9 +37,16 @@ def get_market_data():
             market_data[name] = {'price': 0.0, 'change_pct': 0.0}
     return market_data
 
+# ==========================================
+# 2. CNN 恐惧与贪婪指数
+# ==========================================
 def fetch_fear_greed():
+    """
+    主方案：CNN 官方内部 API
+    备用方案：alternative.me（无需任何 headers，GitHub Actions 友好）
+    """
+    # --- 主方案 ---
     url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
-    
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                       "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -49,30 +56,40 @@ def fetch_fear_greed():
         "Referer": "https://edition.cnn.com/markets/fear-and-greed",
         "Origin": "https://edition.cnn.com",
     }
-    
+    rating_map = {
+        "Extreme Fear": "极度恐惧",
+        "Fear": "恐惧",
+        "Neutral": "中性",
+        "Greed": "贪婪",
+        "Extreme Greed": "极度贪婪",
+    }
     try:
         resp = requests.get(url, headers=headers, timeout=10)
         resp.raise_for_status()
         data = resp.json()
-        
         score = round(data["fear_and_greed"]["score"])
-        rating = data["fear_and_greed"]["rating"]  # e.g. "Fear", "Extreme Fear", "Greed"
-        
-        # 把英文状态转为中文
-        rating_map = {
-            "Extreme Fear": "极度恐惧",
-            "Fear": "恐惧",
-            "Neutral": "中性",
-            "Greed": "贪婪",
-            "Extreme Greed": "极度贪婪",
-        }
-        
+        rating = data["fear_and_greed"]["rating"]
+        print(f"✅ CNN F&G 获取成功：{score} ({rating})")
         return {
             "FG_Score": score,
             "FG_Status": rating_map.get(rating, rating)
         }
     except Exception as e:
-        print(f"CNN F&G 获取失败: {e}")
+        print(f"⚠️ CNN F&G 主方案失败：{e}，切换备用方案...")
+
+    # --- 备用方案：alternative.me ---
+    try:
+        resp = requests.get("https://api.alternative.me/fng/?limit=1", timeout=10)
+        data = resp.json()
+        score = int(data["data"][0]["value"])
+        classification = data["data"][0]["value_classification"]
+        print(f"✅ alternative.me F&G 获取成功：{score} ({classification})")
+        return {
+            "FG_Score": score,
+            "FG_Status": rating_map.get(classification, classification)
+        }
+    except Exception as e:
+        print(f"❌ 备用方案也失败：{e}")
         return {"FG_Score": "N/A", "FG_Status": "获取失败"}
 
 def get_vix_strategy(vix_val):
@@ -93,13 +110,14 @@ def get_vix_strategy(vix_val):
 def main():
     print("正在抓取全球资产及情绪数据...")
     data = get_market_data()
-    fg_data = get_fear_and_greed()
-    
+
+    # ✅ 修复1：函数名统一为 fetch_fear_greed()
+    fg_data = fetch_fear_greed()
+
     report_date = datetime.now().strftime('%Y年%m月%d日')
     vix_val = data['VIX']['price']
     vix_strategy = get_vix_strategy(vix_val)
 
-    # 重构更细颗粒度的 JSON 数据字段，完美供应网页端
     summary_data = {
         "date": report_date,
         "SP500_price": f"{data['SP500']['price']:.2f}",
@@ -107,11 +125,12 @@ def main():
         "NASDAQ_price": f"{data['NASDAQ']['price']:.2f}",
         "NASDAQ_change": f"{data['NASDAQ']['change_pct']:.2f}",
         "VIX_price": f"{vix_val:.2f}",
-        "VIX_change": f"{vix_change:.2f}" if 'vix_change' in locals() else f"{data['VIX']['change_pct']:.2f}",
+        "VIX_change": f"{data['VIX']['change_pct']:.2f}",
         "VIX_Status": vix_strategy['status'],
         "VIX_Tip": vix_strategy['tip'],
-        "FG_Score": str(fg_data['score']),
-        "FG_Status": fg_data['status'],
+        # ✅ 修复2：key 名与 fetch_fear_greed() 的返回值一致
+        "FG_Score": str(fg_data['FG_Score']),
+        "FG_Status": fg_data['FG_Status'],
         "HYG_price": f"{data['HYG']['price']:.2f}",
         "HYG_change": f"{data['HYG']['change_pct']:.2f}",
         "JNK_price": f"{data['JNK']['price']:.2f}",
