@@ -46,7 +46,7 @@ jobs:
         # 检查是否有文件变动
         if ! git diff-index --quiet HEAD; then
           git commit -m "chore: automated daily report update [skip ci]"
-          # 关键新增：在推送前先拉取网页上的最新变动，防止冲突
+          # 关键：先拉取远程最新代码，防止冲突
           git pull --rebase origin main
           git push
         else
