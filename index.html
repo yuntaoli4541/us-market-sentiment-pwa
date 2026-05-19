@@ -10,6 +10,16 @@
     <meta name="apple-mobile-web-app-title" content="情绪观察">
     <title>美股情绪观察看板</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .chart-card { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+        .chart-card:active { transform: scale(0.97); }
+        .chart-card:hover { box-shadow: 0 4px 20px rgba(59,130,246,0.15); }
+        .tab-btn { transition: all 0.15s; }
+        .tab-btn.active { background-color: #1e3a8a; color: white; }
+        #chart-modal { transition: opacity 0.2s; }
+        #modal-sheet { transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans p-4 pb-12">
     <div class="max-w-md mx-auto">
@@ -20,19 +30,32 @@
             <p id="date-display" class="text-xs font-semibold text-slate-400 mt-1">正在载入最新收盘数据...</p>
         </div>
 
-        <!-- 1. 大盘核心指数 -->
+        <!-- 1. 大盘核心指数（可点击） -->
         <div class="mb-5">
             <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
+            <p class="text-[11px] text-slate-400 mb-2">💡 点击卡片查看走势图</p>
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
-                    <div class="text-xs font-bold text-slate-400">标普500</div>
-                    <div class="text-[11px] text-slate-300 font-medium">S&P 500</div>
+                <div class="chart-card bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
+                     onclick="openChart('SP500')">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-xs font-bold text-slate-400">标普500</div>
+                            <div class="text-[11px] text-slate-300 font-medium">S&P 500</div>
+                        </div>
+                        <span class="text-slate-300 text-sm mt-0.5">📈</span>
+                    </div>
                     <div class="text-xl font-black text-slate-800 mt-1" id="sp500-price">--</div>
                     <div class="text-xs font-bold mt-1" id="sp500-change">--</div>
                 </div>
-                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
-                    <div class="text-xs font-bold text-slate-400">纳斯达克综合</div>
-                    <div class="text-[11px] text-slate-300 font-medium">NASDAQ</div>
+                <div class="chart-card bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm"
+                     onclick="openChart('NASDAQ')">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-xs font-bold text-slate-400">纳斯达克综合</div>
+                            <div class="text-[11px] text-slate-300 font-medium">NASDAQ</div>
+                        </div>
+                        <span class="text-slate-300 text-sm mt-0.5">📈</span>
+                    </div>
                     <div class="text-xl font-black text-slate-800 mt-1" id="nasdaq-price">--</div>
                     <div class="text-xs font-bold mt-1" id="nasdaq-change">--</div>
                 </div>
@@ -136,7 +159,67 @@
         </a>
     </div>
 
+    <!-- ═══════════════ 走势图弹窗 ═══════════════ -->
+    <div id="chart-modal"
+         class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none"
+         style="background: rgba(0,0,0,0.4);"
+         onclick="handleModalBackdrop(event)">
+
+        <div id="modal-sheet"
+             class="w-full max-w-md bg-white rounded-t-3xl shadow-2xl pb-8"
+             style="transform: translateY(100%); max-height: 85vh; overflow-y: auto;">
+
+            <!-- 拖动条 -->
+            <div class="flex justify-center pt-3 pb-1">
+                <div class="w-10 h-1 bg-slate-200 rounded-full"></div>
+            </div>
+
+            <!-- 标题栏 -->
+            <div class="flex items-center justify-between px-5 pt-2 pb-3">
+                <div>
+                    <h2 class="text-base font-black text-slate-800" id="modal-title">走势图</h2>
+                    <p class="text-xs text-slate-400" id="modal-subtitle">收盘数据</p>
+                </div>
+                <button onclick="closeChart()"
+                        class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-sm font-bold">
+                    ✕
+                </button>
+            </div>
+
+            <!-- 当前价格 + 涨跌 -->
+            <div class="px-5 mb-4">
+                <span class="text-2xl font-black text-slate-800" id="modal-price">--</span>
+                <span class="text-sm font-bold ml-2" id="modal-change">--</span>
+            </div>
+
+            <!-- Tab 按钮 -->
+            <div class="flex gap-2 px-5 mb-4">
+                <button class="tab-btn active flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
+                        onclick="switchTab('intraday', this)">当日走势</button>
+                <button class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
+                        onclick="switchTab('5d', this)">近五日</button>
+                <button class="tab-btn flex-1 text-xs font-bold py-2 rounded-xl border border-slate-200 text-slate-600"
+                        onclick="switchTab('1mo', this)">近一个月</button>
+            </div>
+
+            <!-- 图表区域 -->
+            <div class="px-5">
+                <div style="position: relative; height: 220px;">
+                    <canvas id="price-chart"></canvas>
+                </div>
+                <p class="text-[10px] text-slate-300 text-center mt-2">数据来源：Yahoo Finance · 收盘后快照</p>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // ── 全局状态 ─────────────────────────────────────────────
+        let appData    = null;
+        let priceChart = null;
+        let activeKey  = null;
+        let activeTab  = 'intraday';
+
+        // ── 渲染涨跌幅 ──────────────────────────────────────────
         function renderTrend(val, changeId) {
             const num = parseFloat(val);
             const el  = document.getElementById(changeId);
@@ -152,9 +235,11 @@
             }
         }
 
+        // ── 加载主数据 ───────────────────────────────────────────
         fetch('public/data.json?t=' + Date.now())
             .then(res => res.json())
             .then(data => {
+                appData = data;
                 document.getElementById('date-display').innerText = "📅 " + data.date + " 收盘数据";
 
                 document.getElementById('sp500-price').innerText  = data.SP500_price;
@@ -202,6 +287,136 @@
             .catch(() => {
                 document.getElementById('date-display').innerText = "数据载入失败，请检查 Actions 是否正常运行。";
             });
+
+        // ── 打开图表弹窗 ─────────────────────────────────────────
+        function openChart(key) {
+            if (!appData || !appData.charts || !appData.charts[key]) return;
+            activeKey = key;
+            activeTab = 'intraday';
+
+            // 填写标题和价格
+            const names  = { SP500: '标普500 (S&P 500)', NASDAQ: '纳斯达克综合' };
+            const prices = { SP500: appData.SP500_price, NASDAQ: appData.NASDAQ_price };
+            const changes= { SP500: appData.SP500_change, NASDAQ: appData.NASDAQ_change };
+
+            document.getElementById('modal-title').innerText    = names[key];
+            document.getElementById('modal-subtitle').innerText = appData.date + ' 收盘';
+            document.getElementById('modal-price').innerText    = prices[key];
+
+            const chgEl = document.getElementById('modal-change');
+            const chg   = parseFloat(changes[key]);
+            chgEl.innerText  = (chg >= 0 ? '▲ +' : '▼ ') + changes[key] + '%';
+            chgEl.className  = 'text-sm font-bold ' + (chg >= 0 ? 'text-green-600' : 'text-red-600');
+
+            // 重置 tab 状态
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+
+            // 显示弹窗
+            const modal = document.getElementById('chart-modal');
+            const sheet = document.getElementById('modal-sheet');
+            modal.style.opacity        = '1';
+            modal.style.pointerEvents  = 'auto';
+            sheet.style.transform      = 'translateY(0)';
+
+            // 渲染图表
+            renderChart(key, 'intraday');
+        }
+
+        // ── 关闭弹窗 ─────────────────────────────────────────────
+        function closeChart() {
+            const modal = document.getElementById('chart-modal');
+            const sheet = document.getElementById('modal-sheet');
+            modal.style.opacity       = '0';
+            modal.style.pointerEvents = 'none';
+            sheet.style.transform     = 'translateY(100%)';
+            if (priceChart) { priceChart.destroy(); priceChart = null; }
+        }
+
+        function handleModalBackdrop(e) {
+            if (e.target === document.getElementById('chart-modal')) closeChart();
+        }
+
+        // ── 切换 Tab ─────────────────────────────────────────────
+        function switchTab(tab, btn) {
+            activeTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderChart(activeKey, tab);
+        }
+
+        // ── 渲染 Chart.js 折线图 ─────────────────────────────────
+        function renderChart(key, tab) {
+            const points = appData.charts[key][tab] || [];
+            const labels = points.map(p => p.t);
+            const values = points.map(p => p.v);
+
+            // 根据首尾涨跌决定颜色
+            const isUp   = values.length > 1 ? values[values.length - 1] >= values[0] : true;
+            const color  = isUp ? '#16a34a' : '#dc2626';
+            const fillC  = isUp ? 'rgba(22,163,74,0.08)' : 'rgba(220,38,38,0.08)';
+
+            // 每次渲染前销毁旧实例
+            if (priceChart) { priceChart.destroy(); priceChart = null; }
+
+            // 根据数据量决定显示多少个 x 轴标签
+            const maxLabels = 6;
+            const step = Math.ceil(labels.length / maxLabels);
+
+            const ctx = document.getElementById('price-chart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        data:            values,
+                        borderColor:     color,
+                        backgroundColor: fillC,
+                        borderWidth:     2,
+                        pointRadius:     0,
+                        pointHoverRadius:4,
+                        fill:            true,
+                        tension:         0.3,
+                    }]
+                },
+                options: {
+                    responsive:          true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ' ' + ctx.parsed.y.toLocaleString()
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                maxTicksLimit: maxLabels,
+                                maxRotation:   0,
+                                font:          { size: 10 },
+                                color:         '#94a3b8',
+                                callback: function(val, i) {
+                                    return i % step === 0 ? this.getLabelForValue(val) : '';
+                                }
+                            },
+                            grid: { display: false }
+                        },
+                        y: {
+                            position: 'right',
+                            ticks: {
+                                font:  { size: 10 },
+                                color: '#94a3b8',
+                                callback: v => v.toLocaleString()
+                            },
+                            grid: { color: 'rgba(0,0,0,0.04)' }
+                        }
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
