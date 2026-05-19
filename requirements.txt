@@ -1,3 +1,4 @@
 yfinance
 weasyprint
 requests
+cloudscraper
