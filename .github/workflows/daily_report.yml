@@ -2,22 +2,22 @@ name: Generate Daily Market Report
 
 on:
   schedule:
-    # ─── 盘中：每10分钟运行一次 ───────────────────────────────────
-    # 覆盖美东时间 9:20-16:10，兼容夏令时(EDT UTC-4)和冬令时(EST UTC-5)
-    # EDT 开盘 = 13:30 UTC  |  EST 开盘 = 14:30 UTC  →  从 13:20 UTC 开始
-    # EDT 收盘 = 20:00 UTC  |  EST 收盘 = 21:00 UTC  →  到 21:10 UTC 结束
-    - cron: '*/10 13-21 * * 1-5'
+    # ─── 盘中：每5分钟触发（GitHub Actions 最小间隔限制）────────
+    # job 内部会循环跑5次，每次间隔60秒，实际效果 ≈ 每分钟更新
+    - cron: '*/5 13-21 * * 1-5'
 
-    # ─── 收盘快照：盘后补跑一次，确保最终收盘价被记录 ────────────
-    # 21:15 UTC = EDT 17:15 / EST 16:15，保证两个时区都已收盘
+    # ─── 收盘兜底：21:15 UTC 补跑一次确保最终收盘价被记录 ───────
     - cron: '15 21 * * 1-5'
 
-  # 允许手动在 GitHub 页面点击触发（调试用）
   workflow_dispatch:
 
-# 解决 Node.js 20 警告的环境变量配置
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# 防止多个 job 同时运行互相冲突
+concurrency:
+  group: market-update
+  cancel-in-progress: false   # 排队等待，不强制取消
 
 jobs:
   build-and-report:
@@ -44,18 +44,32 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run report script
-        run: python scripts/generate_report.py
-
-      - name: Commit and Push changes
+      - name: Configure git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data.json public/report.pdf || true
-          if ! git diff-index --quiet HEAD; then
-            git commit -m "chore: auto market update $(date -u '+%H:%M UTC') [skip ci]"
-            git pull --rebase origin main
-            git push
-          else
-            echo "No changes to commit"
-          fi
+
+      - name: Run report script (每分钟循环5次)
+        run: |
+          for i in 1 2 3 4 5; do
+            echo "─── 第 $i/5 次运行 $(date -u '+%H:%M:%S UTC') ───"
+            python scripts/generate_report.py
+
+            # 每次运行后立即 commit（不 push，减少网络开销）
+            git add public/data.json public/report.pdf || true
+            if ! git diff-index --quiet HEAD; then
+              git commit -m "chore: auto update $(date -u '+%H:%M UTC') [skip ci]"
+            else
+              echo "No changes this round"
+            fi
+
+            # 最后一次不需要等待
+            if [ $i -lt 5 ]; then
+              sleep 60
+            fi
+          done
+
+      - name: Push all commits at once
+        run: |
+          git pull --rebase origin main
+          git push
