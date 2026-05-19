@@ -137,7 +137,8 @@
             }
         }
 
-        fetch('public/data.json')
+        // 请把原本的 fetch('public/data.json') 替换成下面这行：
+        fetch('public/data.json?t=' + new Date().getTime())
             .then(res => res.json())
             .then(data => {
                 document.getElementById('date-display').innerText = "统计截止时间：" + data.date + " (收盘自动化更新)";
