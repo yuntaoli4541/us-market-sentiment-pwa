@@ -20,41 +20,31 @@ TICKERS = {
     'DXY':    'DX-Y.NYB',
 }
 
-ET = timezone(timedelta(hours=-4))   # 美东夏令时 EDT，全年误差 ≤1小时可接受
+ET = timezone(timedelta(hours=-4))
 
 # ==========================================
 # 2. 获取 yfinance 数据实际时间戳
 # ==========================================
 def get_data_timestamp():
-    """
-    从 yfinance 读取标普500的 regular_market_time，
-    这是数据源最后更新的时间，而非脚本运行时间。
-    """
     try:
         info = yf.Ticker('^GSPC').fast_info
         ts   = getattr(info, 'regular_market_time', None)
         if ts is not None:
-            # regular_market_time 可能是 datetime 或 Unix 时间戳
             if isinstance(ts, (int, float)):
                 dt = datetime.fromtimestamp(float(ts), tz=timezone.utc)
             else:
                 dt = ts if ts.tzinfo else ts.replace(tzinfo=timezone.utc)
             dt_et = dt.astimezone(ET)
-            print(f"Data timestamp from yfinance: {dt_et.strftime('%Y-%m-%d %H:%M ET')}")
+            print(f"Data timestamp: {dt_et.strftime('%Y-%m-%d %H:%M ET')}")
             return dt_et
     except Exception as e:
         print(f"Warning: could not get market time: {e}")
-
-    # 备用：用 yf.download 最后一根 K 线的日期
     try:
-        df    = yf.download('^GSPC', period="5d", interval="1d", progress=False)
-        last  = df.index[-1]
-        # 日线数据没有具体时间，默认用收盘时间 16:00 ET
-        dt    = datetime(last.year, last.month, last.day, 16, 0, 0, tzinfo=ET)
-        print(f"Data timestamp fallback (last bar): {dt.strftime('%Y-%m-%d %H:%M ET')}")
+        df   = yf.download('^GSPC', period="5d", interval="1d", progress=False)
+        last = df.index[-1]
+        dt   = datetime(last.year, last.month, last.day, 16, 0, 0, tzinfo=ET)
         return dt
-    except Exception as e:
-        print(f"Warning: fallback timestamp also failed: {e}")
+    except:
         return datetime.now(ET)
 
 # ==========================================
@@ -68,7 +58,6 @@ def get_market_data():
             info    = t.fast_info
             current = getattr(info, 'last_price', None) or getattr(info, 'regularMarketPrice', None)
             prev    = getattr(info, 'previous_close', None) or getattr(info, 'regularMarketPreviousClose', None)
-
             if current and prev and prev != 0:
                 market_data[name] = {
                     'price':      float(current),
@@ -82,17 +71,14 @@ def get_market_data():
                     market_data[name] = {'price': cur, 'change_pct': ((cur - prv) / prv) * 100}
                 else:
                     market_data[name] = {'price': 0.0, 'change_pct': 0.0}
-
             print(f"{name}: {market_data[name]['price']:.4f} ({market_data[name]['change_pct']:+.2f}%)")
-
         except Exception as e:
             print(f"Warning: Error fetching {name}: {e}")
             market_data[name] = {'price': 0.0, 'change_pct': 0.0}
-
     return market_data
 
 # ==========================================
-# 4. 抓取走势图数据（全部资产）
+# 4. 抓取走势图数据
 # ==========================================
 def fetch_series(sym, period, interval):
     try:
@@ -104,12 +90,10 @@ def fetch_series(sym, period, interval):
         if hasattr(idx, 'tz') and idx.tz is not None:
             idx = idx.tz_convert('America/New_York')
         fmt = ("%H:%M" if period == "1d" else
-               "%m/%d %H:%M" if interval in ('5m', '15m', '30m') else
-               "%m/%d")
+               "%m/%d %H:%M" if interval in ('5m', '15m', '30m') else "%m/%d")
         return [
             {"t": ts.strftime(fmt), "v": round(float(v), 4)}
-            for ts, v in zip(idx, close)
-            if not pd.isna(v)
+            for ts, v in zip(idx, close) if not pd.isna(v)
         ]
     except Exception as e:
         print(f"  Warning: fetch_series {sym} {period}/{interval} failed: {e}")
@@ -131,7 +115,55 @@ def get_chart_data():
     return chart_data
 
 # ==========================================
-# 5. CNN 恐惧与贪婪指数
+# 5. 从走势数据提取趋势指标
+# ==========================================
+def calc_trend(chart_data, key):
+    """
+    返回：
+      5d_chg  : 近五日涨跌幅 (%)
+      1mo_chg : 近一个月涨跌幅 (%)
+      momentum: 近半段 5d 相对前半段的变化（判断动能加速/减速）
+    """
+    result = {'5d_chg': None, '1mo_chg': None, 'momentum': 'flat'}
+
+    try:
+        pts = chart_data.get(key, {}).get('5d', [])
+        if len(pts) >= 4:
+            first, last = pts[0]['v'], pts[-1]['v']
+            if first != 0:
+                result['5d_chg'] = (last - first) / first * 100
+            mid       = len(pts) // 2
+            first_half_chg = (pts[mid]['v'] - pts[0]['v'])   / pts[0]['v']   * 100 if pts[0]['v']   != 0 else 0
+            second_half_chg= (pts[-1]['v']  - pts[mid]['v']) / pts[mid]['v'] * 100 if pts[mid]['v'] != 0 else 0
+            if second_half_chg > first_half_chg + 0.3:
+                result['momentum'] = 'accelerating'
+            elif second_half_chg < first_half_chg - 0.3:
+                result['momentum'] = 'decelerating'
+            else:
+                result['momentum'] = 'stable'
+    except:
+        pass
+
+    try:
+        pts = chart_data.get(key, {}).get('1mo', [])
+        if len(pts) >= 2:
+            first, last = pts[0]['v'], pts[-1]['v']
+            if first != 0:
+                result['1mo_chg'] = (last - first) / first * 100
+    except:
+        pass
+
+    return result
+
+def fmt_trend(chg):
+    """格式化趋势文字"""
+    if chg is None:
+        return "趋势数据不足"
+    sign = "上涨" if chg > 0 else "下跌"
+    return f"近期{sign} {abs(chg):.1f}%"
+
+# ==========================================
+# 6. CNN 恐惧与贪婪指数
 # ==========================================
 def fetch_fear_greed():
     rating_map = {
@@ -160,20 +192,18 @@ def fetch_fear_greed():
         print(f"CNN F&G: {score} ({rating})")
         return {"FG_Score": score, "FG_Status": rating_map.get(rating, rating)}
     except Exception as e:
-        print(f"Warning: CNN F&G failed: {e}, switching to backup...")
+        print(f"Warning: CNN F&G failed: {e}")
     try:
         resp  = requests.get("https://api.alternative.me/fng/?limit=1", timeout=10)
         d     = resp.json()
         score = int(d["data"][0]["value"])
         cls   = d["data"][0]["value_classification"]
-        print(f"alternative.me F&G: {score} ({cls})")
         return {"FG_Score": score, "FG_Status": rating_map.get(cls, cls)}
-    except Exception as e:
-        print(f"Error: F&G backup failed: {e}")
+    except:
         return {"FG_Score": "N/A", "FG_Status": "获取失败"}
 
 # ==========================================
-# 6. VIX 策略映射
+# 7. VIX 策略映射
 # ==========================================
 def get_vix_strategy(vix_val):
     if vix_val < 12:
@@ -188,87 +218,349 @@ def get_vix_strategy(vix_val):
         return {"status": "极度恐慌", "tip": "大胆抄底，重仓入场"}
 
 # ==========================================
-# 7. 综合策略解读
+# 8. 专业交易员视角的综合策略分析
 # ==========================================
-def generate_strategy(data, fg_data, vix_strategy):
-    sp500_chg      = data['SP500']['change_pct']
-    nasdaq_chg     = data['NASDAQ']['change_pct']
-    vix_val        = data['VIX']['price']
-    tnx_val        = data['TNX']['price']
-    gold_chg       = data['GOLD']['change_pct']
-    dxy_chg        = data['DXY']['change_pct']
-    hyg_chg        = data['HYG']['change_pct']
-    jnk_chg        = data['JNK']['change_pct']
-    fg_score       = fg_data['FG_Score']
-    avg_credit_chg = (hyg_chg + jnk_chg) / 2
-    strategies     = []
+def generate_strategy(data, fg_data, vix_strategy, chart_data):
+    """
+    以拥有10年以上金融行业经验的股票交易员视角，
+    结合当日数据、近五日和近一个月走势，逐项分析并给出投资建议。
+    """
+    # 基础数据
+    sp500_px   = data['SP500']['price']
+    sp500_chg  = data['SP500']['change_pct']
+    nasdaq_px  = data['NASDAQ']['price']
+    nasdaq_chg = data['NASDAQ']['change_pct']
+    vix_val    = data['VIX']['price']
+    vix_chg    = data['VIX']['change_pct']
+    tnx_val    = data['TNX']['price']
+    tnx_chg    = data['TNX']['change_pct']
+    gold_px    = data['GOLD']['price']
+    gold_chg   = data['GOLD']['change_pct']
+    dxy_px     = data['DXY']['price']
+    dxy_chg    = data['DXY']['change_pct']
+    hyg_chg    = data['HYG']['change_pct']
+    jnk_chg    = data['JNK']['change_pct']
+    fg_score   = fg_data['FG_Score']
+    fg_status  = fg_data['FG_Status']
 
-    if sp500_chg > 1.5 and nasdaq_chg > 1.5:
-        market_view = f"今日大盘强势上涨，标普500收涨 {sp500_chg:.2f}%，纳指收涨 {nasdaq_chg:.2f}%，市场做多情绪明显占优。"
-    elif sp500_chg > 0 and nasdaq_chg > 0:
-        market_view = f"今日大盘小幅收涨，标普500 {sp500_chg:+.2f}%，纳指 {nasdaq_chg:+.2f}%，整体偏多但动能有限。"
-    elif sp500_chg < -1.5 and nasdaq_chg < -1.5:
-        market_view = f"今日大盘显著下跌，标普500收跌 {abs(sp500_chg):.2f}%，纳指收跌 {abs(nasdaq_chg):.2f}%，市场抛压较重。"
-    else:
-        market_view = f"今日大盘震荡整理，标普500 {sp500_chg:+.2f}%，纳指 {nasdaq_chg:+.2f}%，多空分歧明显。"
-    strategies.append(f"📊 大盘表现：{market_view}")
+    # 走势趋势数据
+    t_sp500  = calc_trend(chart_data, 'SP500')
+    t_nasdaq = calc_trend(chart_data, 'NASDAQ')
+    t_vix    = calc_trend(chart_data, 'VIX')
+    t_tnx    = calc_trend(chart_data, 'TNX')
+    t_gold   = calc_trend(chart_data, 'GOLD')
+    t_dxy    = calc_trend(chart_data, 'DXY')
+    t_hyg    = calc_trend(chart_data, 'HYG')
 
-    if isinstance(fg_score, int):
-        if fg_score >= 75:
-            fg_view = f"恐惧贪婪指数高达 {fg_score}（{fg_data['FG_Status']}），市场过热风险上升，追高需谨慎。"
-        elif fg_score >= 55:
-            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），情绪偏乐观但尚未过热，可维持正常定投节奏。"
-        elif fg_score >= 45:
-            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），市场情绪中性，观望为主，等待方向明确。"
-        elif fg_score >= 25:
-            fg_view = f"恐惧贪婪指数为 {fg_score}（{fg_data['FG_Status']}），市场情绪偏悲观，历史上往往是较好的分批入场时机。"
+    strategies = []
+
+    # ── 1. 大盘走势分析 ──────────────────────────────────────
+    sp_5d  = t_sp500['5d_chg']
+    sp_1mo = t_sp500['1mo_chg']
+    nd_5d  = t_nasdaq['5d_chg']
+    nd_1mo = t_nasdaq['1mo_chg']
+
+    # 判断趋势结构
+    if sp_5d is not None and sp_1mo is not None:
+        if sp500_chg > 0 and sp_5d > 0 and sp_1mo > 0:
+            trend_struct = f"短中长三周期全面偏多——五日涨 {sp_5d:.1f}%，月内涨 {sp_1mo:.1f}%，今日继续收涨 {sp500_chg:.2f}%，多头趋势结构完整。"
+        elif sp500_chg > 0 and sp_5d < 0:
+            trend_struct = f"今日收涨 {sp500_chg:.2f}%，但五日维度仍下跌 {abs(sp_5d):.1f}%，属于下跌趋势中的技术性反弹，需警惕反弹高度有限。"
+        elif sp500_chg < 0 and sp_5d > 0:
+            trend_struct = f"今日回调 {abs(sp500_chg):.2f}%，但五日维度仍上涨 {sp_5d:.1f}%，为强势上涨后的正常回踩，可视为短期布局机会。"
+        elif sp500_chg < 0 and sp_5d < 0 and sp_1mo < 0:
+            trend_struct = f"今日收跌 {abs(sp500_chg):.2f}%，五日跌 {abs(sp_5d):.1f}%，月内跌 {abs(sp_1mo):.1f}%，三周期空头排列，趋势性下行压力较大，应控制仓位。"
         else:
-            fg_view = f"恐惧贪婪指数仅 {fg_score}（{fg_data['FG_Status']}），市场处于极度悲观状态，可考虑逆向布局。"
+            trend_struct = f"今日标普500 {sp500_chg:+.2f}%，五日 {fmt_trend(sp_5d)}，月内 {fmt_trend(sp_1mo)}，多空信号交织，市场处于震荡整理阶段。"
     else:
-        fg_view = f"恐惧贪婪指数获取失败，建议参考 VIX（{vix_val:.1f}）进行情绪判断。"
-    strategies.append(f"😰 情绪分析：{fg_view}")
+        trend_struct = f"今日标普500 {sp500_chg:+.2f}%，纳斯达克 {nasdaq_chg:+.2f}%。"
 
-    if vix_val < 15:
-        vix_view = f"VIX 收于 {vix_val:.2f}，处于历史低位，适合持股，但需警惕黑天鹅风险。"
-    elif vix_val < 20:
-        vix_view = f"VIX 收于 {vix_val:.2f}，处于正常区间，市场风险可控，策略建议：{vix_strategy['tip']}。"
-    elif vix_val < 30:
-        vix_view = f"VIX 升至 {vix_val:.2f}，恐慌情绪升温，策略建议：{vix_strategy['tip']}。"
+    # 纳指与标普的分化
+    divergence = ""
+    if nd_5d is not None and sp_5d is not None:
+        diff = nd_5d - sp_5d
+        if diff > 2:
+            divergence = f"科技/成长股（纳指五日 {nd_5d:+.1f}% vs 标普 {sp_5d:+.1f}%）表现明显强于大盘，市场风险偏好集中于成长赛道。"
+        elif diff < -2:
+            divergence = f"纳指五日 {nd_5d:+.1f}% 弱于标普 {sp_5d:+.1f}%，科技股相对承压，市场资金有向价值/防御板块轮动的迹象。"
+
+    sp_analysis = f"📊 大盘走势：{trend_struct}"
+    if divergence:
+        sp_analysis += f" {divergence}"
+    strategies.append(sp_analysis)
+
+    # ── 2. 情绪面：VIX + F&G 联合分析 ──────────────────────
+    vix_5d  = t_vix['5d_chg']
+    vix_1mo = t_vix['1mo_chg']
+
+    # VIX 水平与方向
+    if vix_val < 13:
+        vix_level = f"VIX 仅 {vix_val:.1f}，处于历史低位区间，市场完全处于自满状态。从逆向角度看，此类低波动往往是大跌前的平静期，需警惕尾部风险。"
+    elif vix_val < 18:
+        vix_level = f"VIX {vix_val:.1f}，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。"
+    elif vix_val < 25:
+        vix_level = f"VIX {vix_val:.1f}，恐慌情绪开始升温，已进入历史均值上方区域，操盘时需适当缩减仓位，增加对冲。"
+    elif vix_val < 35:
+        vix_level = f"VIX {vix_val:.1f}，市场进入高恐慌区间。历史数据显示，VIX 25-35 区间往往对应阶段性底部附近，此时反向布局的胜率显著提升。"
     else:
-        vix_view = f"VIX 飙升至 {vix_val:.2f}，市场高度恐慌，VIX>30 往往预示阶段性底部临近，策略建议：{vix_strategy['tip']}。"
-    strategies.append(f"⚡ VIX 信号：{vix_view}")
+        vix_level = f"VIX 飙升至 {vix_val:.1f}，进入极度恐慌领域（历史上仅在金融危机、疫情冲击等系统性风险事件中出现）。市场短期可能仍有下行，但中期来看往往是绝佳的抄底窗口。"
 
-    rate_view = (f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显。" if tnx_val > 4.5
-                 else f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围。" if tnx_val > 4.0
-                 else f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，有利于成长股估值修复。")
-    dxy_view  = (f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。" if dxy_chg > 0.5
-                 else f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。" if dxy_chg < -0.5
-                 else f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。")
-    strategies.append(f"🏦 利率与美元：{rate_view} {dxy_view}")
+    if vix_chg > 10:
+        vix_direction = f"今日单日跳升 {vix_chg:.1f}%，恐慌情绪急剧放大，短线宜观望，等待情绪释放。"
+    elif vix_chg < -10:
+        vix_direction = f"今日单日大幅回落 {abs(vix_chg):.1f}%，市场压力快速缓解，做多窗口打开。"
+    elif vix_5d is not None:
+        if vix_5d > 20:
+            vix_direction = f"五日累计上升 {vix_5d:.1f}%，恐慌情绪持续累积，建议分批而非一次性建仓。"
+        elif vix_5d < -15:
+            vix_direction = f"五日持续回落 {abs(vix_5d):.1f}%，市场情绪明显修复，风险资产配置可以积极一些。"
+        else:
+            vix_direction = f"近五日 VIX 变动 {vix_5d:+.1f}%，情绪整体稳定。"
+    else:
+        vix_direction = ""
 
-    credit_view = (f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日上涨，信用市场流动性健康，风险偏好提升。" if avg_credit_chg > 0.3
-                   else f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日下跌，信用溢价走阔，需警惕流动性收紧风险。" if avg_credit_chg < -0.3
-                   else f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日基本持平，流动性状况稳定。")
-    strategies.append(f"💧 流动性信号：{credit_view}")
+    # F&G 分析
+    if isinstance(fg_score, int):
+        if fg_score >= 80:
+            fg_analysis = f"恐惧贪婪指数高达 {fg_score}（{fg_status}），已进入极度贪婪区域——这是老交易员最警惕的信号之一。当所有人都乐观的时候，市场往往离顶部不远。建议减少追高，主动锁定部分利润。"
+        elif fg_score >= 65:
+            fg_analysis = f"恐惧贪婪指数 {fg_score}（{fg_status}），市场情绪偏乐观但尚未极端。可以继续持有，但新建仓位的性价比已不如情绪低迷时高。"
+        elif fg_score >= 45:
+            fg_analysis = f"恐惧贪婪指数 {fg_score}（{fg_status}），情绪处于中性区间，市场参与者分歧较大，方向选择更多依赖基本面和技术面的共振信号。"
+        elif fg_score >= 25:
+            fg_analysis = f"恐惧贪婪指数 {fg_score}（{fg_status}），市场情绪偏悲观。历史回测显示，在该区间分批建仓标普500指数基金，12个月平均回报率显著优于随机时机。"
+        else:
+            fg_analysis = f"恐惧贪婪指数极低至 {fg_score}（{fg_status}），市场陷入极度恐惧。这种时刻往往让人不敢出手，但恰恰是历史上回报最丰厚的入场时机。华尔街有句老话：'Be greedy when others are fearful.'"
+    else:
+        fg_analysis = "恐惧贪婪指数数据获取失败，暂以 VIX 作为情绪代理指标。"
 
-    gold_view = (f"黄金今日上涨 {gold_chg:.2f}% 而股市下跌，避险资金明显流入黄金，建议适当增加防御性配置。" if gold_chg > 1.0 and sp500_chg < 0
-                 else f"黄金今日上涨 {gold_chg:.2f}%，或反映通胀预期升温，关注 CPI 等经济数据。" if gold_chg > 1.0
-                 else f"黄金今日下跌 {abs(gold_chg):.2f}%，避险需求减弱，市场风险偏好整体较好。" if gold_chg < -1.0
-                 else f"黄金今日变动 {gold_chg:+.2f}%，避险情绪基本平稳。")
-    strategies.append(f"🥇 避险信号：{gold_view}")
+    strategies.append(f"😰 情绪研判（VIX + F&G）：{vix_level} {vix_direction} {fg_analysis}")
 
-    bullish = sum([sp500_chg > 0, nasdaq_chg > 0, vix_val < 20,
-                   isinstance(fg_score, int) and fg_score < 60,
-                   avg_credit_chg > 0, tnx_val < 4.3])
-    action  = ("多项指标偏多，市场整体健康，建议维持正常定投计划，持股待涨，不必追高。" if bullish >= 5
-               else "多空信号混杂，建议保持现有仓位，谨慎追加，密切关注后续数据。" if bullish >= 3
-               else "多项指标偏空，建议降低仓位，保留现金，等待市场企稳后再分批布局。")
-    strategies.append(f"🎯 综合操作建议：{action}")
+    # ── 3. 信用市场：HYG / JNK 流动性信号 ──────────────────
+    avg_credit_chg = (hyg_chg + jnk_chg) / 2
+    hyg_5d = t_hyg['5d_chg']
+    hyg_1mo= t_hyg['1mo_chg']
+
+    if avg_credit_chg > 0.5 and sp500_chg > 0:
+        credit_signal = "强烈偏多"
+        credit_desc   = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）与股市同步上涨，信用利差收窄，机构资金风险偏好显著提升——这是股市上涨质量较高的体现。"
+    elif avg_credit_chg > 0 and sp500_chg < 0:
+        credit_signal = "潜在支撑"
+        credit_desc   = f"高收益债小幅上涨（HYG {hyg_chg:+.2f}%），但股市下跌，信用市场与权益市场出现分化。信用市场通常领先于股市，这一分歧暗示今日股市下跌可能是情绪性而非系统性问题，后市不宜过度悲观。"
+    elif avg_credit_chg < -0.5 and sp500_chg < 0:
+        credit_signal = "风险偏高"
+        credit_desc   = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）与股市同步下跌，信用利差走阔，市场出现系统性去风险迹象，此时应当降低仓位，保留现金应对流动性收紧。"
+    elif avg_credit_chg < -0.3 and sp500_chg > 0:
+        credit_signal = "需警惕"
+        credit_desc   = f"今日股市上涨，但高收益债走弱（HYG {hyg_chg:+.2f}%），信用市场与权益市场出现背离——信用市场通常是更'聪明'的钱，这一背离值得高度警惕，需关注此后数日信用利差的变化。"
+    else:
+        credit_signal = "中性"
+        credit_desc   = f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。"
+
+    if hyg_1mo is not None:
+        credit_trend = f"月内高收益债{('上涨' if hyg_1mo > 0 else '下跌')} {abs(hyg_1mo):.1f}%，{'信用环境整体宽松，有利于风险资产。' if hyg_1mo > 0 else '信用环境持续收紧，需保持谨慎。'}"
+    else:
+        credit_trend = ""
+
+    strategies.append(f"💧 信用市场（{credit_signal}）：{credit_desc} {credit_trend}")
+
+    # ── 4. 利率与美债：TNX 分析 ──────────────────────────────
+    tnx_5d  = t_tnx['5d_chg']
+    tnx_1mo = t_tnx['1mo_chg']
+
+    if tnx_val > 4.7:
+        tnx_level = f"十年期美债收益率高企于 {tnx_val:.3f}%，处于历史相对高位。在此利率水平下，无风险资产的吸引力大幅提升，成长股的折现估值受到明显压制，尤其是高估值科技股承压显著。"
+    elif tnx_val > 4.2:
+        tnx_level = f"十年期美债收益率 {tnx_val:.3f}%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。"
+    elif tnx_val > 3.8:
+        tnx_level = f"十年期美债收益率 {tnx_val:.3f}%，处于相对温和区间，对成长股估值的压制有限，有利于风险资产整体表现。"
+    else:
+        tnx_level = f"十年期美债收益率 {tnx_val:.3f}%，处于历史偏低区间，宽松的利率环境对权益市场估值形成有力支撑，成长股在此环境下通常表现优异。"
+
+    if tnx_chg > 3:
+        tnx_today = f"今日利率单日急升 {tnx_chg:.1f}%，需警惕其对股市估值的即时冲击。"
+    elif tnx_chg < -3:
+        tnx_today = f"今日利率大幅回落 {abs(tnx_chg):.1f}%，利好权益资产尤其是长久期成长股。"
+    else:
+        tnx_today = ""
+
+    if tnx_5d is not None and tnx_1mo is not None:
+        if tnx_5d > 5 and tnx_1mo > 8:
+            tnx_trend = f"五日上升 {tnx_5d:.1f}%、月内上升 {tnx_1mo:.1f}%，利率持续上行趋势明确，对高估值板块构成持续性压力，建议适度降低组合的久期敞口。"
+        elif tnx_5d < -5 and tnx_1mo < -8:
+            tnx_trend = f"五日下降 {abs(tnx_5d):.1f}%、月内下降 {abs(tnx_1mo):.1f}%，利率趋势性回落，有利于成长股重新估值，可以考虑增加科技和成长股配置。"
+        else:
+            tnx_trend = f"五日 {fmt_trend(tnx_5d)}，月内 {fmt_trend(tnx_1mo)}，利率处于区间震荡状态。"
+    else:
+        tnx_trend = ""
+
+    strategies.append(f"🏦 利率环境（TNX {tnx_val:.3f}%）：{tnx_level} {tnx_today} {tnx_trend}")
+
+    # ── 5. 黄金 + 美元：跨资产信号解读 ──────────────────────
+    gold_5d  = t_gold['5d_chg']
+    gold_1mo = t_gold['1mo_chg']
+    dxy_5d   = t_dxy['5d_chg']
+    dxy_1mo  = t_dxy['1mo_chg']
+
+    # 黄金与股市关系
+    if gold_chg > 1.0 and sp500_chg < -0.5:
+        gold_signal = f"今日黄金上涨 {gold_chg:.2f}% 而股市下跌，经典的'避险流入'结构。资金正在离开风险资产寻求安全港，市场对宏观不确定性的担忧在升温。"
+    elif gold_chg > 1.0 and sp500_chg > 1.0:
+        gold_signal = f"黄金（{gold_chg:+.2f}%）与股市同步上涨，更多反映的是通胀预期升温或美元走弱，而非避险驱动。需关注 CPI、PPI 等通胀数据。"
+    elif gold_chg < -1.0:
+        gold_signal = f"黄金下跌 {abs(gold_chg):.2f}%，避险需求减弱，市场风险偏好总体良好，有利于权益资产。"
+    else:
+        gold_signal = f"黄金当日变动平淡（{gold_chg:+.2f}%），避险情绪无明显异动。"
+
+    if gold_1mo is not None:
+        gold_trend_text = f"月内黄金{('涨' if gold_1mo > 0 else '跌')} {abs(gold_1mo):.1f}%，{'持续上涨背后可能反映通胀预期或地缘风险的中期积累。' if gold_1mo > 5 else '整体处于区间整理。' if abs(gold_1mo) < 3 else '持续下跌显示风险偏好的中期修复。'}"
+    else:
+        gold_trend_text = ""
+
+    # 美元与黄金的关系
+    if dxy_chg > 0.5 and gold_chg > 0.5:
+        dxy_gold_note = f"值得注意的是，美元（{dxy_chg:+.2f}%）与黄金同步上涨，这种非常规组合通常出现在避险情绪极度强烈时，需关注是否有重大宏观事件驱动。"
+    elif dxy_chg > 0.5:
+        dxy_gold_note = f"美元走强（DXY {dxy_chg:+.2f}%），美元升值对大宗商品和新兴市场构成压制，同时会压低美国跨国公司的海外盈利。"
+    elif dxy_chg < -0.5:
+        dxy_gold_note = f"美元走弱（DXY {dxy_chg:+.2f}%），有利于大宗商品、黄金以及新兴市场资产，同时利好美国跨国公司的海外收入换算。"
+    else:
+        dxy_gold_note = f"美元基本稳定（DXY {dxy_chg:+.2f}%），对跨资产影响中性。"
+
+    if dxy_1mo is not None:
+        dxy_trend_text = f"月内美元{('走强' if dxy_1mo > 0 else '走弱')} {abs(dxy_1mo):.1f}%，{'持续强势美元将对非美资产和商品形成中期压制。' if dxy_1mo > 3 else '美元中期走弱释放全球流动性，有利于风险资产。' if dxy_1mo < -3 else '美元震荡，跨资产影响有限。'}"
+    else:
+        dxy_trend_text = ""
+
+    strategies.append(f"🥇 跨资产信号（黄金 + 美元）：{gold_signal} {gold_trend_text} {dxy_gold_note} {dxy_trend_text}")
+
+    # ── 6. 综合研判与投资建议 ────────────────────────────────
+    # 构建多空评分体系（0-10分，越高越偏多）
+    score = 5  # 中性基准
+
+    # 大盘趋势
+    if sp500_chg > 1.5: score += 1
+    elif sp500_chg > 0: score += 0.5
+    elif sp500_chg < -1.5: score -= 1
+    elif sp500_chg < 0: score -= 0.5
+
+    if sp_5d is not None:
+        if sp_5d > 3: score += 1
+        elif sp_5d > 0: score += 0.5
+        elif sp_5d < -3: score -= 1
+        elif sp_5d < 0: score -= 0.5
+
+    if sp_1mo is not None:
+        if sp_1mo > 5: score += 1
+        elif sp_1mo > 0: score += 0.5
+        elif sp_1mo < -5: score -= 1
+        elif sp_1mo < 0: score -= 0.5
+
+    # VIX（逆向）
+    if vix_val < 15: score -= 0.5   # 过低，自满风险
+    elif vix_val < 20: score += 0.5
+    elif vix_val > 30: score += 1   # 逆向，底部机会
+    elif vix_val > 25: score += 0.5
+
+    if vix_chg > 15: score -= 1
+    elif vix_chg < -10: score += 1
+
+    # F&G（逆向）
+    if isinstance(fg_score, int):
+        if fg_score < 20: score += 1.5   # 极度恐惧，逆向做多
+        elif fg_score < 35: score += 0.5
+        elif fg_score > 80: score -= 1.5  # 极度贪婪，逆向减仓
+        elif fg_score > 65: score -= 0.5
+
+    # 信用市场
+    if avg_credit_chg > 0.3: score += 0.5
+    elif avg_credit_chg < -0.5: score -= 1
+
+    # 利率
+    if tnx_val < 4.0: score += 0.5
+    elif tnx_val > 4.7: score -= 0.5
+    if tnx_chg > 5: score -= 0.5
+    elif tnx_chg < -5: score += 0.5
+
+    # 跨资产：黄金避险信号
+    if gold_chg > 1.5 and sp500_chg < 0: score -= 0.5
+    if dxy_chg > 1.0: score -= 0.5
+    elif dxy_chg < -1.0: score += 0.3
+
+    score = max(0, min(10, score))
+
+    # 生成总结
+    if score >= 8:
+        bias      = "强烈偏多"
+        bias_icon = "🟢"
+        summary   = (
+            f"综合评分 {score:.1f}/10，市场处于强多头格局。当前大盘趋势、情绪面、信用市场、利率环境多维度共振向上，"
+            f"属于值得主动参与的上涨行情。"
+        )
+        action = (
+            f"操作建议：可将仓位提升至七至八成，优先配置动能强劲的板块。"
+            f"标普500若出现 1-2% 的回调，是优质加仓窗口。"
+            f"建议配置结构：60% 标普500指数基金/ETF（SPY/VOO）+ 30% 纳斯达克成长（QQQ）+ 10% 现金待机。"
+            f"止损参考近期支撑位（约为当前价格的 -5%）。"
+        )
+    elif score >= 6.5:
+        bias      = "偏多"
+        bias_icon = "🟡"
+        summary   = (
+            f"综合评分 {score:.1f}/10，市场整体偏多但存在部分矛盾信号，行情持续性有一定不确定性。"
+            f"可以积极持股，但追高需保持克制。"
+        )
+        action = (
+            f"操作建议：维持五至六成仓位，以标普500宽基指数为核心压舱石，避免重仓单一个股。"
+            f"利用短期回调分批加仓，不宜在高点一次性买入。"
+            f"关注信用利差和 VIX 走势，若两者同步恶化需及时减仓。"
+        )
+    elif score >= 4:
+        bias      = "中性震荡"
+        bias_icon = "⚪"
+        summary   = (
+            f"综合评分 {score:.1f}/10，多空信号相互抵消，市场方向不明朗，处于震荡寻方向阶段。"
+            f"贸然追涨追跌均风险较大。"
+        )
+        action = (
+            f"操作建议：维持三至四成防御性仓位，以现金和短债为主。"
+            f"等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；"
+            f"若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。"
+        )
+    elif score >= 2.5:
+        bias      = "偏空"
+        bias_icon = "🟠"
+        summary   = (
+            f"综合评分 {score:.1f}/10，多项指标偏空，市场下行压力较大。"
+            f"短期内需以保护本金为首要任务。"
+        )
+        action = (
+            f"操作建议：将仓位降低至两成以内，持有现金或短期美债等候机会。"
+            f"已持仓的标普500/纳指 ETF 可考虑持有少量看跌期权对冲（如买入 SPY Put）作为保险。"
+            f"切忌逆势抄底，除非 VIX 出现尖峰并快速回落这一历史上的底部信号。"
+        )
+    else:
+        bias      = "强烈偏空"
+        bias_icon = "🔴"
+        summary   = (
+            f"综合评分 {score:.1f}/10，市场处于明显的风险释放阶段，多个预警信号同时亮起。"
+            f"历史上相似的信号组合往往对应较大幅度的下跌过程。"
+        )
+        action = (
+            f"操作建议：清仓或接近清仓，全部转为现金或短期美债。"
+            f"极端恐慌阶段不排除出现情绪性超跌——若 VIX 短期内冲高至 40 以上后快速回落，"
+            f"且信用市场企稳，可以小仓（5-10%）试探性做多，并严格设定止损。"
+            f"保护现有资产比追求潜在收益更重要。"
+        )
+
+    strategies.append(
+        f"{bias_icon} 综合研判（评分 {score:.1f}/10 · {bias}）：{summary} {action}"
+    )
 
     return strategies
 
 # ==========================================
-# 8. 核心执行逻辑
+# 9. 核心执行逻辑
 # ==========================================
 def main():
     print("正在抓取收盘数据...")
@@ -279,14 +571,13 @@ def main():
 
     vix_val      = data['VIX']['price']
     vix_strategy = get_vix_strategy(vix_val)
-    strategies   = generate_strategy(data, fg_data, vix_strategy)
+    # ✅ 传入 chart_data，用于趋势分析
+    strategies   = generate_strategy(data, fg_data, vix_strategy, chart_data)
 
-    # ✅ 使用 yfinance 数据的实际时间戳，而非脚本运行时间
     data_dt     = get_data_timestamp()
     report_date = data_dt.strftime('%Y年%m月%d日 %H:%M ET')
     date_iso    = data_dt.strftime('%Y-%m-%d')
-
-    print(f"Report date (from yfinance): {report_date}")
+    print(f"Report date: {report_date}")
 
     summary_data = {
         "date":          report_date,
@@ -322,7 +613,7 @@ def main():
 
     def get_color(c): return "#16a34a" if c > 0 else "#dc2626"
     def get_arrow(c): return "▲" if c > 0 else "▼"
-    strategy_rows = "".join([f"<li style='margin-bottom:8px;'>{s}</li>" for s in strategies])
+    strategy_rows = "".join([f"<li style='margin-bottom:10px;line-height:1.7;'>{s}</li>" for s in strategies])
 
     html_template = f"""
     <!DOCTYPE html><html><head><meta charset="utf-8">
@@ -338,11 +629,11 @@ def main():
         .data-table td {{ padding: 8px 10px; border-bottom: 1px solid #f1f5f9; font-size: 9pt; }}
         .strategy-box {{ background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; margin-top: 8px; border-radius: 4px; }}
         .strategy-box ul {{ margin: 0; padding: 0 0 0 4px; list-style: none; }}
-        .strategy-box li {{ font-size: 9pt; line-height: 1.7; color: #1e3a8a; }}
+        .strategy-box li {{ font-size: 9pt; line-height: 1.7; color: #1e3a8a; margin-bottom: 8px; }}
     </style></head><body>
     <div class="header">
         <h1>美股情绪观察每日报告</h1>
-        <div style="font-size:10pt;opacity:0.85;">📅 数据时间：{report_date}</div>
+        <div style="font-size:10pt;opacity:0.85;">🕐 数据时间：{report_date}</div>
         <div class="disclaimer">数据来自第三方（Yahoo Finance / CNN），由 AI 辅助生成，仅供参考，不构成任何投资建议</div>
     </div>
     <div class="section-title">1. 大盘核心指数</div>
@@ -385,7 +676,7 @@ def main():
     </body></html>
     """
     HTML(string=html_template).write_pdf(os.path.join(output_dir, 'report.pdf'))
-    print("✅ 完成！data.json 和 report.pdf 已生成。")
+    print("✅ 完成！")
 
 if __name__ == "__main__":
     main()
