@@ -20,8 +20,45 @@ TICKERS = {
     'DXY':    'DX-Y.NYB',
 }
 
+ET = timezone(timedelta(hours=-4))   # 美东夏令时 EDT，全年误差 ≤1小时可接受
+
 # ==========================================
-# 2. 抓取收盘数据
+# 2. 获取 yfinance 数据实际时间戳
+# ==========================================
+def get_data_timestamp():
+    """
+    从 yfinance 读取标普500的 regular_market_time，
+    这是数据源最后更新的时间，而非脚本运行时间。
+    """
+    try:
+        info = yf.Ticker('^GSPC').fast_info
+        ts   = getattr(info, 'regular_market_time', None)
+        if ts is not None:
+            # regular_market_time 可能是 datetime 或 Unix 时间戳
+            if isinstance(ts, (int, float)):
+                dt = datetime.fromtimestamp(float(ts), tz=timezone.utc)
+            else:
+                dt = ts if ts.tzinfo else ts.replace(tzinfo=timezone.utc)
+            dt_et = dt.astimezone(ET)
+            print(f"Data timestamp from yfinance: {dt_et.strftime('%Y-%m-%d %H:%M ET')}")
+            return dt_et
+    except Exception as e:
+        print(f"Warning: could not get market time: {e}")
+
+    # 备用：用 yf.download 最后一根 K 线的日期
+    try:
+        df    = yf.download('^GSPC', period="5d", interval="1d", progress=False)
+        last  = df.index[-1]
+        # 日线数据没有具体时间，默认用收盘时间 16:00 ET
+        dt    = datetime(last.year, last.month, last.day, 16, 0, 0, tzinfo=ET)
+        print(f"Data timestamp fallback (last bar): {dt.strftime('%Y-%m-%d %H:%M ET')}")
+        return dt
+    except Exception as e:
+        print(f"Warning: fallback timestamp also failed: {e}")
+        return datetime.now(ET)
+
+# ==========================================
+# 3. 抓取收盘数据
 # ==========================================
 def get_market_data():
     market_data = {}
@@ -55,7 +92,7 @@ def get_market_data():
     return market_data
 
 # ==========================================
-# 3. 抓取走势图数据（全部资产）
+# 4. 抓取走势图数据（全部资产）
 # ==========================================
 def fetch_series(sym, period, interval):
     try:
@@ -94,7 +131,7 @@ def get_chart_data():
     return chart_data
 
 # ==========================================
-# 4. CNN 恐惧与贪婪指数
+# 5. CNN 恐惧与贪婪指数
 # ==========================================
 def fetch_fear_greed():
     rating_map = {
@@ -136,7 +173,7 @@ def fetch_fear_greed():
         return {"FG_Score": "N/A", "FG_Status": "获取失败"}
 
 # ==========================================
-# 5. VIX 策略映射
+# 6. VIX 策略映射
 # ==========================================
 def get_vix_strategy(vix_val):
     if vix_val < 12:
@@ -151,20 +188,20 @@ def get_vix_strategy(vix_val):
         return {"status": "极度恐慌", "tip": "大胆抄底，重仓入场"}
 
 # ==========================================
-# 6. 综合策略解读
+# 7. 综合策略解读
 # ==========================================
 def generate_strategy(data, fg_data, vix_strategy):
-    sp500_chg  = data['SP500']['change_pct']
-    nasdaq_chg = data['NASDAQ']['change_pct']
-    vix_val    = data['VIX']['price']
-    tnx_val    = data['TNX']['price']
-    gold_chg   = data['GOLD']['change_pct']
-    dxy_chg    = data['DXY']['change_pct']
-    hyg_chg    = data['HYG']['change_pct']
-    jnk_chg    = data['JNK']['change_pct']
-    fg_score   = fg_data['FG_Score']
-
-    strategies = []
+    sp500_chg      = data['SP500']['change_pct']
+    nasdaq_chg     = data['NASDAQ']['change_pct']
+    vix_val        = data['VIX']['price']
+    tnx_val        = data['TNX']['price']
+    gold_chg       = data['GOLD']['change_pct']
+    dxy_chg        = data['DXY']['change_pct']
+    hyg_chg        = data['HYG']['change_pct']
+    jnk_chg        = data['JNK']['change_pct']
+    fg_score       = fg_data['FG_Score']
+    avg_credit_chg = (hyg_chg + jnk_chg) / 2
+    strategies     = []
 
     if sp500_chg > 1.5 and nasdaq_chg > 1.5:
         market_view = f"今日大盘强势上涨，标普500收涨 {sp500_chg:.2f}%，纳指收涨 {nasdaq_chg:.2f}%，市场做多情绪明显占优。"
@@ -204,12 +241,11 @@ def generate_strategy(data, fg_data, vix_strategy):
     rate_view = (f"十年期美债收益率收于 {tnx_val:.3f}%，处于高位，对成长股估值压制明显。" if tnx_val > 4.5
                  else f"十年期美债收益率收于 {tnx_val:.3f}%，利率中高位运行，成长股承压但尚在可接受范围。" if tnx_val > 4.0
                  else f"十年期美债收益率收于 {tnx_val:.3f}%，利率相对温和，有利于成长股估值修复。")
-    dxy_view = (f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。" if dxy_chg > 0.5
-                else f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。" if dxy_chg < -0.5
-                else f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。")
+    dxy_view  = (f"美元指数今日上涨 {dxy_chg:.2f}%，强势美元对新兴市场和大宗商品形成压制。" if dxy_chg > 0.5
+                 else f"美元指数今日下跌 {abs(dxy_chg):.2f}%，美元走弱有利于黄金和新兴市场资产。" if dxy_chg < -0.5
+                 else f"美元指数今日变动 {dxy_chg:+.2f}%，基本稳定。")
     strategies.append(f"🏦 利率与美元：{rate_view} {dxy_view}")
 
-    avg_credit_chg = (hyg_chg + jnk_chg) / 2
     credit_view = (f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日上涨，信用市场流动性健康，风险偏好提升。" if avg_credit_chg > 0.3
                    else f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日下跌，信用溢价走阔，需警惕流动性收紧风险。" if avg_credit_chg < -0.3
                    else f"高收益债 HYG（{hyg_chg:+.2f}%）/ JNK（{jnk_chg:+.2f}%）今日基本持平，流动性状况稳定。")
@@ -224,15 +260,15 @@ def generate_strategy(data, fg_data, vix_strategy):
     bullish = sum([sp500_chg > 0, nasdaq_chg > 0, vix_val < 20,
                    isinstance(fg_score, int) and fg_score < 60,
                    avg_credit_chg > 0, tnx_val < 4.3])
-    action = ("多项指标偏多，市场整体健康，建议维持正常定投计划，持股待涨，不必追高。" if bullish >= 5
-              else "多空信号混杂，建议保持现有仓位，谨慎追加，密切关注后续数据。" if bullish >= 3
-              else "多项指标偏空，建议降低仓位，保留现金，等待市场企稳后再分批布局。")
+    action  = ("多项指标偏多，市场整体健康，建议维持正常定投计划，持股待涨，不必追高。" if bullish >= 5
+               else "多空信号混杂，建议保持现有仓位，谨慎追加，密切关注后续数据。" if bullish >= 3
+               else "多项指标偏空，建议降低仓位，保留现金，等待市场企稳后再分批布局。")
     strategies.append(f"🎯 综合操作建议：{action}")
 
     return strategies
 
 # ==========================================
-# 7. 核心执行逻辑
+# 8. 核心执行逻辑
 # ==========================================
 def main():
     print("正在抓取收盘数据...")
@@ -245,14 +281,16 @@ def main():
     vix_strategy = get_vix_strategy(vix_val)
     strategies   = generate_strategy(data, fg_data, vix_strategy)
 
-    now_et      = datetime.now(timezone(timedelta(hours=-4)))
-    report_date = now_et.strftime('%Y年%m月%d日')
-    # ✅ 新增 date_iso：前端用于判断是否为当天数据
-    date_iso    = now_et.strftime('%Y-%m-%d')
+    # ✅ 使用 yfinance 数据的实际时间戳，而非脚本运行时间
+    data_dt     = get_data_timestamp()
+    report_date = data_dt.strftime('%Y年%m月%d日 %H:%M ET')
+    date_iso    = data_dt.strftime('%Y-%m-%d')
+
+    print(f"Report date (from yfinance): {report_date}")
 
     summary_data = {
         "date":          report_date,
-        "date_iso":      date_iso,        # ← 新增
+        "date_iso":      date_iso,
         "SP500_price":   f"{data['SP500']['price']:.2f}",
         "SP500_change":  f"{data['SP500']['change_pct']:.2f}",
         "NASDAQ_price":  f"{data['NASDAQ']['price']:.2f}",
@@ -304,8 +342,8 @@ def main():
     </style></head><body>
     <div class="header">
         <h1>美股情绪观察每日报告</h1>
-        <div style="font-size:10pt;opacity:0.85;">📅 {report_date} 收盘数据</div>
-        <div class="disclaimer">数据来自第三方，由 AI 辅助生成，仅供参考，不构成任何投资建议</div>
+        <div style="font-size:10pt;opacity:0.85;">📅 数据时间：{report_date}</div>
+        <div class="disclaimer">数据来自第三方（Yahoo Finance / CNN），由 AI 辅助生成，仅供参考，不构成任何投资建议</div>
     </div>
     <div class="section-title">1. 大盘核心指数</div>
     <table class="data-table">
