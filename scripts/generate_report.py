@@ -37,47 +37,43 @@ def get_market_data():
             market_data[name] = {'price': 0.0, 'change_pct': 0.0}
     return market_data
 
-def get_fear_and_greed():
-    """使用 cloudscraper 访问 graphdata 接口获取最新恐惧贪婪指数"""
+def fetch_fear_greed():
     url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
     
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                      "AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": "https://edition.cnn.com/markets/fear-and-greed",
+        "Origin": "https://edition.cnn.com",
+    }
+    
     try:
-        # 使用 cloudscraper 绕过防火墙拦截
-        scraper = cloudscraper.create_scraper(
-            browser={
-                'browser': 'chrome',
-                'platform': 'windows',
-                'desktop': True
-            }
-        )
+        resp = requests.get(url, headers=headers, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
         
-        # 抓取数据
-        res = scraper.get(url, timeout=15)
-        res.raise_for_status()
-        j_data = res.json()
+        score = round(data["fear_and_greed"]["score"])
+        rating = data["fear_and_greed"]["rating"]  # e.g. "Fear", "Extreme Fear", "Greed"
         
-        # CNN 的 graphdata 接口返回的是一个字典，包含历史数据列表
-        # 最新的一条数据在列表的最后一行 ([-1])
-        latest_data = j_data['fear_and_greed_historical']['data'][-1]
-        
-        # 提取分数并四舍五入
-        score = int(round(latest_data['score']))
-        rating = latest_data['rating']
-        
-        # 将英文评级翻译成中文
+        # 把英文状态转为中文
         rating_map = {
-            'extreme fear': '极度恐惧', 
-            'fear': '恐惧',
-            'neutral': '中立', 
-            'greed': '贪婪', 
-            'extreme greed': '极度贪婪'
+            "Extreme Fear": "极度恐惧",
+            "Fear": "恐惧",
+            "Neutral": "中性",
+            "Greed": "贪婪",
+            "Extreme Greed": "极度贪婪",
         }
         
-        return {"score": score, "status": rating_map.get(rating.lower(), rating)}
-        
+        return {
+            "FG_Score": score,
+            "FG_Status": rating_map.get(rating, rating)
+        }
     except Exception as e:
-        print(f"Error fetching Fear & Greed from graphdata: {e}")
-        return {"score": "--", "status": "获取失败 (WAF拦截或接口变动)"}
+        print(f"CNN F&G 获取失败: {e}")
+        return {"FG_Score": "N/A", "FG_Status": "获取失败"}
 
 def get_vix_strategy(vix_val):
     if vix_val < 12:
