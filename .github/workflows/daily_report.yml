@@ -2,7 +2,17 @@ name: Generate Daily Market Report
 
 on:
   schedule:
-    - cron: '5 20 * * 1-5'
+    # ─── 盘中：每10分钟运行一次 ───────────────────────────────────
+    # 覆盖美东时间 9:20-16:10，兼容夏令时(EDT UTC-4)和冬令时(EST UTC-5)
+    # EDT 开盘 = 13:30 UTC  |  EST 开盘 = 14:30 UTC  →  从 13:20 UTC 开始
+    # EDT 收盘 = 20:00 UTC  |  EST 收盘 = 21:00 UTC  →  到 21:10 UTC 结束
+    - cron: '*/10 13-21 * * 1-5'
+
+    # ─── 收盘快照：盘后补跑一次，确保最终收盘价被记录 ────────────
+    # 21:15 UTC = EDT 17:15 / EST 16:15，保证两个时区都已收盘
+    - cron: '15 21 * * 1-5'
+
+  # 允许手动在 GitHub 页面点击触发（调试用）
   workflow_dispatch:
 
 # 解决 Node.js 20 警告的环境变量配置
@@ -12,43 +22,40 @@ env:
 jobs:
   build-and-report:
     runs-on: ubuntu-latest
-    # 显式声明需要的内容写入权限
     permissions:
       contents: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: Install System Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0 fonts-noto-cjk
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0 fonts-noto-cjk
 
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run report script
-      run: python scripts/generate_report.py
+      - name: Run report script
+        run: python scripts/generate_report.py
 
-    - name: Commit and Push changes
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add public/data.json public/report.pdf || true
-        # 检查是否有文件变动
-        if ! git diff-index --quiet HEAD; then
-          git commit -m "chore: automated daily report update [skip ci]"
-          # 关键：先拉取远程最新代码，防止冲突
-          git pull --rebase origin main
-          git push
-        else
-          echo "No changes to commit"
-        fi
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data.json public/report.pdf || true
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "chore: auto market update $(date -u '+%H:%M UTC') [skip ci]"
+            git pull --rebase origin main
+            git push
+          else
+            echo "No changes to commit"
+          fi
