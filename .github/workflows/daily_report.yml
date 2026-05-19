@@ -5,7 +5,7 @@ on:
   schedule:
     # 每个交易日收盘后运行：21:15 UTC = 美东 17:15
     # 兼容夏令时(EDT UTC-4)和冬令时(EST UTC-5)，两个时区都已收盘
-    - cron: '15 21 * * 1-5'
+    - cron: '0 21 * * 1-5'
 
   # 允许手动触发（调试用）
   workflow_dispatch:
