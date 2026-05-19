@@ -15,8 +15,8 @@ from alpaca.data.timeframe import TimeFrame
 # ==========================================
 # Alpaca 实时（无延迟）：美股 ETF
 ALPACA_SYMBOLS = {
-    'SP500':  'SPY',   # 标普500 ETF 代理，价格约为指数的1/10
-    'NASDAQ': 'QQQ',   # 纳斯达克100 ETF 代理
+    'SP500':  'SPY',
+    'NASDAQ': 'QQQ',
     'HYG':    'HYG',
     'JNK':    'JNK',
 }
@@ -49,12 +49,12 @@ def get_alpaca_data():
     client     = StockHistoricalDataClient(api_key, api_secret)
     symbols    = list(ALPACA_SYMBOLS.values())
 
-    # 最新 bar（实时当前价）
+    # ✅ 免费账户必须指定 feed='iex'，否则默认 SIP 会返回 403
     latest_bars = client.get_stock_latest_bar(
-        StockLatestBarRequest(symbol_or_symbols=symbols)
+        StockLatestBarRequest(symbol_or_symbols=symbols, feed='iex')
     )
 
-    # 近5天日线（取前一日收盘价做涨跌幅基准）
+    # 近7天日线，取前一日收盘价做涨跌幅基准
     end   = datetime.now(timezone.utc)
     start = end - timedelta(days=7)
     bars  = client.get_stock_bars(
@@ -63,6 +63,7 @@ def get_alpaca_data():
             timeframe=TimeFrame.Day,
             start=start,
             end=end,
+            feed='iex',      # ✅ 同样需要指定 iex
         )
     ).df
 
@@ -71,7 +72,6 @@ def get_alpaca_data():
         try:
             current = float(latest_bars[sym].close)
 
-            # 取日线数据里倒数第二根（昨日收盘）作为基准
             sym_bars = bars.xs(sym, level='symbol') if 'symbol' in bars.index.names else bars.loc[sym]
             prev     = float(sym_bars['close'].iloc[-2]) if len(sym_bars) >= 2 else current
 
@@ -179,7 +179,6 @@ def main():
     status_label = "盘中实时" if market_open else "收盘数据"
     print(f"Market: {'OPEN' if market_open else 'CLOSED'}")
 
-    # 合并两个数据源
     alpaca_data   = get_alpaca_data()
     yfinance_data = get_yfinance_data()
     data          = {**alpaca_data, **yfinance_data}
@@ -198,7 +197,6 @@ def main():
     summary_data = {
         "date":          report_date,
         "market_status": status_label,
-        # SPY/QQQ 价格（ETF 代理，非指数点位）
         "SP500_price":   f"{data['SP500']['price']:.2f}",
         "SP500_change":  f"{data['SP500']['change_pct']:.2f}",
         "NASDAQ_price":  f"{data['NASDAQ']['price']:.2f}",
@@ -237,7 +235,7 @@ def main():
         body {{ font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e293b; line-height: 1.5; }}
         .header {{ background-color: #1e3a8a; color: white; padding: 20px; margin: -15mm -12mm 20px -12mm; }}
         .badge {{ display: inline-block; background: {'#dcfce7' if market_open else '#f1f5f9'}; color: {'#15803d' if market_open else '#64748b'}; padding: 2px 10px; border-radius: 99px; font-size: 11pt; margin-top: 6px; }}
-        .note {{ font-size: 9pt; color: #94a3b8; margin-top: 4px; }}
+        .note {{ font-size: 9pt; color: #cbd5e1; margin-top: 4px; }}
         .section-title {{ font-size: 13pt; color: #1e3a8a; border-left: 4px solid #3b82f6; padding-left: 8px; margin: 20px 0 10px 0; font-weight: bold; }}
         .data-table {{ width: 100%; border-collapse: collapse; background-color: white; border: 1px solid #e2e8f0; }}
         .data-table th {{ background-color: #f1f5f9; padding: 10px; text-align: left; }}
@@ -249,7 +247,7 @@ def main():
         <h1>美股情绪观察每日报告</h1>
         <div>日期：{report_date}</div>
         <div class="badge">{'🟢 盘中实时' if market_open else '⚫ 收盘快照'}</div>
-        <div class="note">SPY/QQQ/HYG/JNK 实时 · VIX/TNX/黄金/DXY 延迟15分钟</div>
+        <div class="note">SPY/QQQ/HYG/JNK 实时（IEX）· VIX/TNX/黄金/DXY 延迟15分钟</div>
     </div>
     <div class="section-title">1. 大盘与情绪指标</div>
     <table class="data-table">
