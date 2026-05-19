@@ -38,11 +38,11 @@ def get_market_data():
     return market_data
 
 def get_fear_and_greed():
-    """使用 cloudscraper 突破 CNN 的企业级防火墙"""
-    url = "https://production.dataviz.cnn.io/index/fearandgreed/graph/current"
+    """使用 cloudscraper 访问 graphdata 接口获取最新恐惧贪婪指数"""
+    url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
     
     try:
-        # 创建一个专门绕过防火墙的 scraper 实例
+        # 使用 cloudscraper 绕过防火墙拦截
         scraper = cloudscraper.create_scraper(
             browser={
                 'browser': 'chrome',
@@ -51,22 +51,33 @@ def get_fear_and_greed():
             }
         )
         
-        # 使用 scraper 替代原先的 requests
+        # 抓取数据
         res = scraper.get(url, timeout=15)
         res.raise_for_status()
         j_data = res.json()
         
-        score = int(round(j_data['fear_and_greed']['score']))
-        rating = j_data['fear_and_greed']['rating']
+        # CNN 的 graphdata 接口返回的是一个字典，包含历史数据列表
+        # 最新的一条数据在列表的最后一行 ([-1])
+        latest_data = j_data['fear_and_greed_historical']['data'][-1]
         
+        # 提取分数并四舍五入
+        score = int(round(latest_data['score']))
+        rating = latest_data['rating']
+        
+        # 将英文评级翻译成中文
         rating_map = {
-            'extreme fear': '极度恐惧', 'fear': '恐惧',
-            'neutral': '中立', 'greed': '贪婪', 'extreme greed': '极度贪婪'
+            'extreme fear': '极度恐惧', 
+            'fear': '恐惧',
+            'neutral': '中立', 
+            'greed': '贪婪', 
+            'extreme greed': '极度贪婪'
         }
+        
         return {"score": score, "status": rating_map.get(rating.lower(), rating)}
+        
     except Exception as e:
-        print(f"Error fetching Fear & Greed: {e}")
-        return {"score": "--", "status": "防御拦截 (需手动确认)"}
+        print(f"Error fetching Fear & Greed from graphdata: {e}")
+        return {"score": "--", "status": "获取失败 (WAF拦截或接口变动)"}
 
 def get_vix_strategy(vix_val):
     if vix_val < 12:
