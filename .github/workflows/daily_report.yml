@@ -2,9 +2,7 @@ name: Generate Daily Market Report
 
 on:
   schedule:
-    # 每5分钟触发，job 内部每分钟循环5次，实际效果 ≈ 每分钟更新
     - cron: '*/5 13-21 * * 1-5'
-    # 收盘兜底
     - cron: '15 21 * * 1-5'
 
   workflow_dispatch:
@@ -12,7 +10,6 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-# 保证同一时间只有一个 job 在跑，循环内 push 不会冲突
 concurrency:
   group: market-update
   cancel-in-progress: false
@@ -47,7 +44,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Run report script (每分钟循环5次，每次立即推送)
+      - name: Run report script (每分钟循环5次)
+        # ✅ 从 GitHub Secrets 注入 Alpaca 凭证，脚本通过 os.environ 读取
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_API_SECRET: ${{ secrets.ALPACA_API_SECRET }}
         run: |
           for i in 1 2 3 4 5; do
             echo "─── 第 $i/5 次运行 $(date -u '+%H:%M:%S UTC') ───"
@@ -56,7 +57,6 @@ jobs:
             git add public/data.json public/report.pdf || true
             if ! git diff-index --quiet HEAD; then
               git commit -m "chore: auto update $(date -u '+%H:%M UTC') [skip ci]"
-              # ✅ 每次都立即推送，网页端马上能看到最新数据
               git pull --rebase origin main
               git push
               echo "✅ 推送成功"
