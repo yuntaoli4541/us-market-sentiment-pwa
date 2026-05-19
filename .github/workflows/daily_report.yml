@@ -3,7 +3,7 @@ name: Generate Daily Market Report
 
 on:
   schedule:
-    - cron: '10 22 * * 1-5'
+    - cron: '*/10 * * * 1-5'
   workflow_dispatch:
 
 env:
