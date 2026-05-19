@@ -3,7 +3,8 @@ name: Generate Daily Market Report
 
 on:
   schedule:
-    - cron: '59 21 * * 1-5'
+    - cron: '30 20 * * 1-5'
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
