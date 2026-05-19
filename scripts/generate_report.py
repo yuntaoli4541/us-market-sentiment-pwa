@@ -37,13 +37,21 @@ def get_market_data():
     return market_data
 
 def get_fear_and_greed():
-    """通过 CNN 官方公开 JSON 接口获取稳定数据"""
+    """通过加强版的 Headers 绕过 CNN 反爬机制获取数据"""
     url = "https://production.dataviz.cnn.io/index/fearandgreed/graph/current"
+    
+    # 增加更逼真的浏览器伪装头
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Origin": "https://www.cnn.com",
+        "Referer": "https://www.cnn.com/"
     }
+    
     try:
         res = requests.get(url, headers=headers, timeout=10)
+        res.raise_for_status() # 如果遇到 403 或 404 会直接跳转到 except
         j_data = res.json()
         score = int(round(j_data['fear_and_greed']['score']))
         rating = j_data['fear_and_greed']['rating']
