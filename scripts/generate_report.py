@@ -753,14 +753,30 @@ def _sector_tone(change_pct):
     return "strong_down"
 
 
+def _heatmap_color(change_pct, max_abs):
+    if max_abs <= 0 or abs(change_pct) < 1e-9:
+        return {"color": "#f1f5f9", "text_color": "#334155", "intensity": 0.0}
+    intensity = min(1.0, abs(change_pct) / max_abs)
+    # 让轻微变化也能看见颜色，但仍保持同组内强弱差异。
+    alpha = 0.18 + intensity * 0.72
+    if change_pct > 0:
+        color = f"rgba(22, 163, 74, {alpha:.2f})"
+        text_color = "#ffffff" if intensity >= 0.55 else "#166534"
+    else:
+        color = f"rgba(220, 38, 38, {alpha:.2f})"
+        text_color = "#ffffff" if intensity >= 0.55 else "#991b1b"
+    return {"color": color, "text_color": text_color, "intensity": round(intensity, 3)}
+
+
 def build_sector_heatmap(sector_data):
-    """Build sorted major-sector heatmap data from sector ETF quotes."""
+    """Build sorted heatmap data; color is normalized separately for sectors and industries."""
     heatmap = []
     for symbol, values in sector_data.items():
         meta = SECTOR_ETFS.get(symbol, {'name': symbol, 'full_name': symbol, 'category': '行业'})
         change = float(values.get('change_pct', 0) or 0)
         price = float(values.get('price', 0) or 0)
         category = meta.get('category', '板块')
+        group = "industry" if category == "行业" else "sector"
         holdings = [
             {"symbol": ticker, "name": company}
             for ticker, company in ETF_HOLDINGS.get(symbol, [])
@@ -770,7 +786,7 @@ def build_sector_heatmap(sector_data):
             "name": meta['name'],
             "full_name": meta['full_name'],
             "category": category,
-            "group": "industry" if category == "行业" else "sector",
+            "group": group,
             "holdings": holdings,
             "holding_scope": "top10_yfinance" if holdings else "none",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。" if holdings else "",
@@ -779,6 +795,19 @@ def build_sector_heatmap(sector_data):
             "change_pct": round(change, 2),
             "tone": _sector_tone(change),
         })
+
+    max_abs_by_group = {}
+    for group in {item['group'] for item in heatmap}:
+        max_abs_by_group[group] = max((abs(item['change_pct']) for item in heatmap if item['group'] == group), default=0)
+
+    for item in heatmap:
+        scale = item['group']
+        color = _heatmap_color(item['change_pct'], max_abs_by_group.get(scale, 0))
+        item['heatmap_scale'] = scale
+        item['heatmap_color'] = color['color']
+        item['heatmap_text_color'] = color['text_color']
+        item['heatmap_intensity'] = color['intensity']
+
     return sorted(heatmap, key=lambda item: item['change_pct'], reverse=True)
 
 # ==========================================

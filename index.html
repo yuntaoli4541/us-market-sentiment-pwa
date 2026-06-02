@@ -279,14 +279,14 @@
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-3">
             <div class="flex items-center justify-between mb-3">
                 <div class="text-xs font-black text-slate-600">主要板块热力图</div>
-                <div class="text-[10px] text-slate-400">GICS 11 大板块 ETF</div>
+                <div class="text-[10px] text-slate-400">GICS 11 大板块 ETF · 板块内独立色阶</div>
             </div>
             <div id="sector-heatmap" class="grid grid-cols-2 gap-2"></div>
         </div>
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-3">
             <div class="flex items-center justify-between mb-3">
                 <div class="text-xs font-black text-slate-600">细分行业/主题热力图</div>
-                <div class="text-[10px] text-slate-400">点击卡片看前十大持仓</div>
+                <div class="text-[10px] text-slate-400">行业内独立色阶 · 点击看前十大持仓</div>
             </div>
             <div id="industry-heatmap" class="grid grid-cols-2 gap-2"></div>
         </div>
@@ -725,7 +725,11 @@ function renderSectorHeatmap(containerId, items, clickable) {
     };
     box.innerHTML = items.map((item, idx) => {
         const hasHoldings = clickable && item.holdings && item.holdings.length;
-        return `<button type="button" class="text-left rounded-2xl border p-3 ${toneClass[item.tone] || toneClass.flat} ${hasHoldings ? 'active:scale-[0.98] transition' : ''}"
+        const bg = item.heatmap_color || null;
+        const fg = item.heatmap_text_color || null;
+        const inlineStyle = bg ? `style="background:${bg};color:${fg || '#0f172a'};"` : '';
+        return `<button type="button" class="text-left rounded-2xl border p-3 ${bg ? 'border-white/40' : (toneClass[item.tone] || toneClass.flat)} ${hasHoldings ? 'active:scale-[0.98] transition' : ''}"
+                ${inlineStyle}
                 onclick="openHoldingsModal('${item.symbol}')">
         <div class="flex items-start justify-between gap-2">
             <div>

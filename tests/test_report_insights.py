@@ -196,6 +196,24 @@ def test_index_separates_sector_and_industry_heatmaps():
     assert "前十大持仓" in html
 
 
+def test_heatmap_colors_are_normalized_independently_by_group():
+    raw = {
+        "XLK": {"price": 100.0, "change_pct": 0.5},
+        "XLE": {"price": 100.0, "change_pct": -0.5},
+        "IGV": {"price": 100.0, "change_pct": 0.5},
+        "SMH": {"price": 100.0, "change_pct": 2.0},
+    }
+
+    heatmap = build_sector_heatmap(raw)
+    by_symbol = {item["symbol"]: item for item in heatmap}
+
+    assert by_symbol["XLK"]["heatmap_scale"] == "sector"
+    assert by_symbol["IGV"]["heatmap_scale"] == "industry"
+    assert by_symbol["XLK"]["heatmap_color"] != by_symbol["IGV"]["heatmap_color"]
+    assert by_symbol["XLK"]["heatmap_intensity"] > by_symbol["IGV"]["heatmap_intensity"]
+    assert all("heatmap_color" in item and "heatmap_intensity" in item for item in heatmap)
+
+
 def test_watchlist_summary_explains_all_observed_indicator_groups():
     data = {
         "VIX": {"price": 21},
@@ -390,3 +408,11 @@ def test_heatmap_cards_show_separate_trend_strength_label():
 
     assert "趋势强弱" in html
     assert "heatmapTrendLabel" in html
+
+
+def test_index_uses_group_normalized_heatmap_colors():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    assert "heatmap_color" in html
+    assert "heatmap_text_color" in html
+    assert "独立色阶" in html
