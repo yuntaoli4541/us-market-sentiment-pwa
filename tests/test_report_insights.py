@@ -304,12 +304,18 @@ def test_decision_summary_contains_enhanced_sections():
         assert key in summary
 
 
-def test_index_renders_enhanced_summary_sections():
+def test_top_decision_summary_stays_compact_and_non_redundant():
     html = (ROOT / "index.html").read_text(encoding="utf-8")
+    top_block = html.split('<!-- 1. 大盘核心指数 -->')[0]
 
+    assert "今日核心结论" in top_block
     for text in ["今日逻辑拆解", "风险总评", "明日观察重点", "轮动解读"]:
-        assert text in html
-    assert "renderEnhancedSummary" in html
+        assert text not in top_block
+    for element_id in ["logic-breakdown", "risk-level", "rotation-interpretation", "tomorrow-watchlist"]:
+        assert element_id not in top_block
+    assert "decision-headline" in top_block
+    assert "decision-score" in top_block
+    assert "decision-allocation" in top_block
 
 
 def test_build_market_breadth_uses_equal_weight_and_small_cap_proxies():
