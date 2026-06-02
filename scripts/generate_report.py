@@ -698,6 +698,76 @@ def _score_component(name, raw, max_points, detail):
     return {"name": name, "score": round(value, 1), "max": max_points, "detail": detail}
 
 
+def _format_leaders(leaders):
+    parts = []
+    for item in leaders or []:
+        symbol = item.get('symbol', '')
+        name = item.get('name', '')
+        change = item.get('change', '')
+        parts.append(f"{name}({symbol}) {change}" if symbol else f"{name} {change}")
+    return "、".join(parts) if parts else "暂无明确领涨方向"
+
+
+def build_comprehensive_strategy_guide(
+    score,
+    bias,
+    action_plan,
+    market_breadth,
+    style_factors,
+    trend_state,
+    risk_score_breakdown,
+    decision_summary,
+    watchlist_triggers,
+):
+    """Build a structured strategy guide that integrates every monitored signal group."""
+    score_f = float(score)
+    allocation = decision_summary.get('allocation') or allocation_for_score(score_f)
+    rotation = decision_summary.get('rotation_summary', {})
+    risk = decision_summary.get('risk_summary', {})
+    active_triggers = [item for item in (watchlist_triggers or []) if item.get('active')]
+    sector_text = _format_leaders(rotation.get('sector_leaders'))
+    industry_text = _format_leaders(rotation.get('industry_leaders'))
+    factor_text = _format_leaders((style_factors or {}).get('leaders'))
+
+    evidence = [
+        {"group": "大盘趋势", "stance": (trend_state or {}).get('overall', '未知'), "detail": (trend_state or {}).get('summary', '趋势数据不足。')},
+        {"group": "市场宽度", "stance": (market_breadth or {}).get('overall', '未知'), "detail": (market_breadth or {}).get('summary', '宽度数据不足。')},
+        {"group": "风格因子", "stance": (style_factors or {}).get('leadership', '未知'), "detail": f"领涨风格：{factor_text}。{(style_factors or {}).get('interpretation', '')}".strip()},
+        {"group": "板块/行业轮动", "stance": "轮动观察", "detail": f"板块：{sector_text}；行业：{industry_text}。{rotation.get('interpretation', '')}".strip()},
+        {"group": "风险触发", "stance": risk.get('level', '未知'), "detail": risk.get('summary', '暂无风险总评。')},
+        {"group": "评分拆解", "stance": f"{(risk_score_breakdown or {}).get('total', score_f)}/10", "detail": (risk_score_breakdown or {}).get('summary', '评分拆解不足。')},
+    ]
+
+    allocation_plan = [
+        {"title": "核心配置", "detail": f"按 {allocation} 执行，以 SPY/VOO 这类标普500宽基作为压舱石，避免单一个股过度集中。"},
+        {"title": "进攻配置", "detail": f"若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：{sector_text}；细分行业重点观察 {industry_text}；风格上参考 {factor_text}。"},
+        {"title": "防御配置", "detail": "保留现金/短债机动仓；若市场宽度继续窄、利率美元压制增强，降低高估值和高波动敞口。"},
+    ]
+    if (market_breadth or {}).get('overall') == "窄幅上涨":
+        allocation_plan.append({"title": "追高限制", "detail": "市场宽度偏窄时，不把少数权重股上涨误判为全面牛市；新增仓位采用回调分批。"})
+
+    risk_controls = [
+        {"title": "加仓条件", "detail": "VIX 维持 20 以下、HYG/JNK 不同步走弱、RSP/QQQE 相对 SPY/QQQ 改善，且强势行业从少数主题扩散。"},
+        {"title": "减仓条件", "detail": risk.get('action') or "若 VIX 上破 20 且信用债同步走弱，先降低追高和高杠杆。"},
+        {"title": "风险升级", "detail": "若 VIX 上破 30、TNX 高于 4.7% 且美元快速走强，同时标普/纳指同步走弱，优先保护本金。"},
+    ]
+    if active_triggers:
+        risk_controls.insert(0, {"title": "已触发风险", "detail": "；".join(f"{x.get('label')}：{x.get('detail')}" for x in active_triggers)})
+
+    return {
+        "verdict": {
+            "bias": bias,
+            "score": f"{score_f:.1f}",
+            "allocation": allocation,
+            "summary": (action_plan or '').replace('操作建议：', '') or decision_summary.get('headline', ''),
+        },
+        "evidence": evidence,
+        "allocation_plan": allocation_plan,
+        "risk_controls": risk_controls,
+        "tomorrow_watchlist": decision_summary.get('tomorrow_watchlist', []),
+    }
+
+
 def build_risk_score_breakdown(data, fg_score, breadth=None, trend_state=None):
     breadth = breadth or {"overall": "宽度中性"}
     trend_state = trend_state or {"overall": "震荡"}
@@ -1202,6 +1272,11 @@ def main():
     trend_state = build_trend_state(chart_data, data)
     risk_score_breakdown = build_risk_score_breakdown(data, fg_data['FG_Score'], market_breadth, trend_state)
 
+    decision_summary = build_decision_summary(
+        strategy_pack["score"], strategy_pack["bias"], data, fg_data['FG_Score'],
+        sector_heatmap=sector_heatmap, triggers=watchlist_triggers
+    )
+
     summary_data = {
         "date":          report_date,
         "date_iso":      date_iso,
@@ -1225,10 +1300,7 @@ def main():
         "GOLD_change":   f"{data['GOLD']['change_pct']:.2f}",
         "DXY_price":     f"{data['DXY']['price']:.2f}",
         "DXY_change":    f"{data['DXY']['change_pct']:.2f}",
-        "decision_summary": build_decision_summary(
-            strategy_pack["score"], strategy_pack["bias"], data, fg_data['FG_Score'],
-            sector_heatmap=sector_heatmap, triggers=watchlist_triggers
-        ),
+        "decision_summary": decision_summary,
         "score":         f"{strategy_pack['score']:.1f}",
         "bias":          strategy_pack["bias"],
         "bias_icon":     strategy_pack["bias_icon"],
@@ -1241,6 +1313,17 @@ def main():
         "style_factors": style_factors,
         "trend_state": trend_state,
         "risk_score_breakdown": risk_score_breakdown,
+        "strategy_guide": build_comprehensive_strategy_guide(
+            score=strategy_pack["score"],
+            bias=strategy_pack["bias"],
+            action_plan=strategy_pack["action"],
+            market_breadth=market_breadth,
+            style_factors=style_factors,
+            trend_state=trend_state,
+            risk_score_breakdown=risk_score_breakdown,
+            decision_summary=decision_summary,
+            watchlist_triggers=watchlist_triggers,
+        ),
         "score_history": [],
         "strategies":    strategies,
         "charts":        chart_data,

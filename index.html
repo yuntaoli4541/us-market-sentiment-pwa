@@ -302,11 +302,45 @@
     <!-- 5. 综合投资策略指引 -->
     <div class="mb-6">
         <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">7. 综合投资策略指引</h3>
-        <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950">
+        <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950" id="strategy-guide">
             <h4 class="font-black mb-3 text-sm tracking-wide text-blue-300">🎯 盘后多维动态研判</h4>
-            <ul class="text-xs space-y-3 leading-relaxed font-medium" id="strategy-list">
-                <li class="opacity-60">数据解析中...</li>
-            </ul>
+            <div class="grid grid-cols-3 gap-2 mb-4">
+                <div class="bg-white/10 rounded-2xl p-3">
+                    <div class="text-[10px] text-blue-200 font-bold">总判断</div>
+                    <div class="text-base font-black" id="strategy-verdict-bias">--</div>
+                </div>
+                <div class="bg-white/10 rounded-2xl p-3">
+                    <div class="text-[10px] text-blue-200 font-bold">评分</div>
+                    <div class="text-base font-black" id="strategy-verdict-score">--</div>
+                </div>
+                <div class="bg-white/10 rounded-2xl p-3">
+                    <div class="text-[10px] text-blue-200 font-bold">仓位</div>
+                    <div class="text-base font-black" id="strategy-verdict-allocation">--</div>
+                </div>
+            </div>
+            <div class="text-xs leading-relaxed text-blue-50 bg-white/10 rounded-2xl p-3 mb-4" id="strategy-verdict-summary">数据解析中...</div>
+
+            <div class="mb-4">
+                <div class="text-[11px] font-black text-blue-200 mb-2">综合依据</div>
+                <div class="space-y-2" id="strategy-evidence"></div>
+            </div>
+
+            <div class="mb-4">
+                <div class="text-[11px] font-black text-blue-200 mb-2">核心配置</div>
+                <div class="space-y-2" id="strategy-allocation-plan"></div>
+            </div>
+
+            <div class="mb-4">
+                <div class="text-[11px] font-black text-blue-200 mb-2">加仓条件 / 减仓条件</div>
+                <div class="space-y-2" id="strategy-risk-controls"></div>
+            </div>
+
+            <div>
+                <div class="text-[11px] font-black text-blue-200 mb-2">明日观察</div>
+                <ul class="text-xs space-y-2 leading-relaxed list-disc pl-4" id="strategy-tomorrow-watchlist">
+                    <li class="opacity-60">数据解析中...</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -702,6 +736,40 @@ function renderRiskScoreBreakdown(breakdown) {
     }).join('');
 }
 
+function renderStrategyCards(id, items, mode='title') {
+    const box = document.getElementById(id);
+    if (!box) return;
+    const list = items || [];
+    if (!list.length) {
+        box.innerHTML = '<div class="text-xs text-blue-100/70 bg-white/10 rounded-xl p-3">暂无数据</div>';
+        return;
+    }
+    box.innerHTML = list.map(item => {
+        const title = mode === 'evidence' ? item.group : item.title;
+        const badge = mode === 'evidence' ? item.stance : '';
+        return `<div class="bg-white/10 rounded-xl p-3 border border-white/10">
+            <div class="flex items-center justify-between gap-2 mb-1">
+                <div class="text-xs font-black text-white">${title || '--'}</div>
+                ${badge ? `<div class="text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-300/20 text-blue-100">${badge}</div>` : ''}
+            </div>
+            <div class="text-[11px] leading-relaxed text-blue-50/90">${item.detail || '--'}</div>
+        </div>`;
+    }).join('');
+}
+
+function renderComprehensiveStrategyGuide(data) {
+    const guide = data.strategy_guide || {};
+    const verdict = guide.verdict || {};
+    setText('strategy-verdict-bias', verdict.bias || data.bias || '--');
+    setText('strategy-verdict-score', verdict.score ? `${verdict.score}/10` : data.score ? `${data.score}/10` : '--');
+    setText('strategy-verdict-allocation', verdict.allocation || (data.decision_summary || {}).allocation || '--');
+    setText('strategy-verdict-summary', verdict.summary || data.action_plan || '--');
+    renderStrategyCards('strategy-evidence', guide.evidence, 'evidence');
+    renderStrategyCards('strategy-allocation-plan', guide.allocation_plan, 'title');
+    renderStrategyCards('strategy-risk-controls', guide.risk_controls, 'title');
+    renderList('strategy-tomorrow-watchlist', guide.tomorrow_watchlist || (data.decision_summary || {}).tomorrow_watchlist, true);
+}
+
 function renderGroupedHeatmaps(items) {
     const sectors = (items || []).filter(item => item.group === 'sector');
     const industries = (items || []).filter(item => item.group === 'industry');
@@ -830,6 +898,7 @@ fetch('public/data.json?t=' + Date.now())
         renderStyleFactors(data.style_factors);
         renderTrendState(data.trend_state);
         renderRiskScoreBreakdown(data.risk_score_breakdown);
+        renderComprehensiveStrategyGuide(data);
         renderGroupedHeatmaps(data.sector_heatmap);
         renderWatchlistTriggers(data.watchlist_triggers);
         renderScoreHistory(data.score_history);
@@ -867,11 +936,6 @@ fetch('public/data.json?t=' + Date.now())
         renderTrend(data.GOLD_change, 'gold-change');
         document.getElementById('dxy-price').innerText  = data.DXY_price;
         renderTrend(data.DXY_change, 'dxy-change');
-
-        if (data.strategies && data.strategies.length > 0) {
-            document.getElementById('strategy-list').innerHTML =
-                data.strategies.map(s => `<li class="opacity-90">${s}</li>`).join('');
-        }
 
         // ✅ 渲染 VIX 和 F&G 参考区间图
         renderGauge('vix-gauge', data.VIX_price, VIX_ZONES, VIX_MAX, data.VIX_price);

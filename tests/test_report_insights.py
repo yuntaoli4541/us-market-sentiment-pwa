@@ -14,6 +14,7 @@ from generate_report import (  # noqa: E402
     build_style_factors,
     build_trend_state,
     build_risk_score_breakdown,
+    build_comprehensive_strategy_guide,
 )
 
 
@@ -416,3 +417,62 @@ def test_index_uses_group_normalized_heatmap_colors():
     assert "heatmap_color" in html
     assert "heatmap_text_color" in html
     assert "独立色阶" in html
+
+
+def test_comprehensive_strategy_guide_integrates_all_indicator_groups():
+    guide = build_comprehensive_strategy_guide(
+        score=7.5,
+        bias="偏多",
+        action_plan="操作建议：维持五至六成仓位，以标普500宽基指数为核心压舱石，避免重仓单一个股。利用短期回调分批加仓。",
+        market_breadth={
+            "overall": "窄幅上涨",
+            "summary": "等权指数弱于市值加权，需警惕少数大盘股拉动。",
+            "items": [{"label": "等权标普 vs 标普", "spread": "-0.60%", "tone": "negative"}],
+        },
+        style_factors={
+            "leadership": "成长/动量占优",
+            "leaders": [
+                {"symbol": "IWF", "name": "成长", "change": "+1.00%"},
+                {"symbol": "MTUM", "name": "动量", "change": "+0.90%"},
+            ],
+        },
+        trend_state={"overall": "多头趋势", "summary": "标普和纳指维持震荡偏多到多头趋势。"},
+        risk_score_breakdown={
+            "total": 7.2,
+            "components": [
+                {"name": "大盘趋势", "score": 2.0, "max": 2, "detail": "多头趋势"},
+                {"name": "市场宽度", "score": 0.8, "max": 2, "detail": "窄幅上涨"},
+                {"name": "利率美元", "score": 1.0, "max": 2, "detail": "利率中高位"},
+            ],
+        },
+        decision_summary={
+            "allocation": "5-6成",
+            "rotation_summary": {
+                "sector_leaders": [{"symbol": "XLK", "name": "科技", "change": "+0.80%"}],
+                "industry_leaders": [{"symbol": "IGV", "name": "软件", "change": "+1.30%"}],
+                "interpretation": "成长主题占优。",
+            },
+            "risk_summary": {"level": "低到中等", "action": "若 VIX 上破 20 且信用债走弱，降低追高。"},
+            "tomorrow_watchlist": ["VIX 是否低于 20", "HYG/JNK 是否稳定"],
+        },
+        watchlist_triggers=[
+            {"label": "VIX 上破 20", "active": False, "detail": "观察波动风险"},
+            {"label": "信用债同步走弱", "active": False, "detail": "观察信用环境"},
+        ],
+    )
+
+    assert guide["verdict"]["bias"] == "偏多"
+    assert guide["verdict"]["allocation"] == "5-6成"
+    assert {item["group"] for item in guide["evidence"]}.issuperset({"大盘趋势", "市场宽度", "风格因子", "板块/行业轮动", "评分拆解"})
+    assert any("IWF" in item["detail"] or "成长" in item["detail"] for item in guide["allocation_plan"])
+    assert guide["risk_controls"]
+    assert guide["tomorrow_watchlist"]
+
+
+def test_index_renders_structured_comprehensive_strategy_guide():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    for text in ["总判断", "核心配置", "加仓条件", "减仓条件", "综合依据"]:
+        assert text in html
+    assert "renderComprehensiveStrategyGuide" in html
+    assert "strategy-guide" in html
