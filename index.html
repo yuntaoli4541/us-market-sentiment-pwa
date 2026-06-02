@@ -151,9 +151,6 @@
                 <div id="fg-gauge" class="mt-2"></div>
             </div>
         </div>
-        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-blue-900 font-medium">
-            💡 情绪操作导向：<span class="font-bold text-blue-700 underline" id="vix-tip">--</span>
-        </div>
     </div>
 
     <!-- 今日变化 & 历史评分 -->
@@ -628,6 +625,17 @@ function toneBadgeClass(tone) {
     return 'text-slate-600 bg-slate-50 border-slate-100';
 }
 
+function heatmapTrendLabel(tone) {
+    const labels = {
+        strong_up: '强势升温',
+        up: '温和走强',
+        flat: '横盘中性',
+        down: '温和走弱',
+        strong_down: '明显降温',
+    };
+    return labels[tone] || '趋势不明';
+}
+
 function renderMarketBreadth(breadth) {
     if (!breadth) return;
     setText('breadth-overall', breadth.overall || '--');
@@ -728,6 +736,10 @@ function renderSectorHeatmap(containerId, items, clickable) {
                 <div class="text-base font-black">${item.change}</div>
                 <div class="text-[10px] opacity-75">$${item.price}</div>
             </div>
+        </div>
+        <div class="mt-2 rounded-xl bg-white/25 px-2 py-1">
+            <div class="text-[9px] opacity-70 font-black">趋势强弱</div>
+            <div class="text-[11px] font-black">${heatmapTrendLabel(item.tone)}</div>
         </div>
         ${hasHoldings ? '<div class="text-[10px] mt-2 opacity-80">点开看前十大持仓</div>' : ''}
     </button>`;
@@ -830,7 +842,6 @@ fetch('public/data.json?t=' + Date.now())
         vxB.className = (data.VIX_Status.includes('正常') || data.VIX_Status.includes('乐观'))
             ? "text-xs font-bold px-2 py-0.5 rounded bg-green-100 text-green-700"
             : "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-700";
-        document.getElementById('vix-tip').innerText = data.VIX_Tip;
 
         document.getElementById('fg-score').innerText = data.FG_Score;
         const fgB = document.getElementById('fg-status');

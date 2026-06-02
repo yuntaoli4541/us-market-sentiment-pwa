@@ -376,3 +376,17 @@ def test_index_renders_decision_dashboard_expansion_sections():
         assert text in html
     for fn in ["renderMarketBreadth", "renderStyleFactors", "renderTrendState", "renderRiskScoreBreakdown"]:
         assert fn in html
+
+
+def test_index_removes_redundant_emotion_action_guidance():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    assert "情绪操作导向" not in html
+    assert "vix-tip" not in html
+
+
+def test_heatmap_cards_show_separate_trend_strength_label():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    assert "趋势强弱" in html
+    assert "heatmapTrendLabel" in html
