@@ -250,6 +250,34 @@
     </p>
 </div>
 
+<!-- ETF 代表持仓弹窗 -->
+<div id="holdings-modal"
+     class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none"
+     style="background:rgba(0,0,0,0.45);"
+     onclick="handleHoldingsBackdrop(event)">
+    <div id="holdings-sheet"
+         class="w-full max-w-md bg-white rounded-t-3xl shadow-2xl pb-8"
+         style="transform:translateY(100%); max-height:78vh; overflow-y:auto;">
+        <div class="flex justify-center pt-3 pb-1">
+            <div class="w-10 h-1 bg-slate-200 rounded-full"></div>
+        </div>
+        <div class="flex items-start justify-between px-5 pt-2 pb-3">
+            <div>
+                <h2 class="text-base font-black text-slate-800" id="holdings-title">代表持仓</h2>
+                <p class="text-[11px] text-slate-400" id="holdings-subtitle">点击行业 ETF 查看代表性股票</p>
+            </div>
+            <button onclick="closeHoldingsModal()"
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-sm font-bold">✕</button>
+        </div>
+        <div class="px-5">
+            <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-100 rounded-xl p-3 mb-3">
+                代表持仓用于快速理解这个行业 ETF 主要暴露方向，实际持仓权重会随基金调仓变化。
+            </div>
+            <div id="holdings-list" class="space-y-2"></div>
+        </div>
+    </div>
+</div>
+
 <!-- 走势图弹窗 -->
 <div id="chart-modal"
      class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none"
@@ -505,7 +533,10 @@ function renderSectorHeatmap(items) {
         down: 'bg-red-100 text-red-800 border-red-200',
         strong_down: 'bg-red-600 text-white border-red-700',
     };
-    box.innerHTML = items.map(item => `<div class="rounded-2xl border p-3 ${toneClass[item.tone] || toneClass.flat}">
+    box.innerHTML = items.map((item, idx) => {
+        const hasHoldings = item.category === '行业' && item.holdings && item.holdings.length;
+        return `<button type="button" class="text-left rounded-2xl border p-3 ${toneClass[item.tone] || toneClass.flat} ${hasHoldings ? 'active:scale-[0.98] transition' : ''}"
+                onclick="openHoldingsModal(${idx})">
         <div class="flex items-start justify-between gap-2">
             <div>
                 <div class="text-sm font-black">${item.name}</div>
@@ -516,7 +547,48 @@ function renderSectorHeatmap(items) {
                 <div class="text-[10px] opacity-75">$${item.price}</div>
             </div>
         </div>
-    </div>`).join('');
+        ${hasHoldings ? '<div class="text-[10px] mt-2 opacity-80">点开看代表持仓</div>' : ''}
+    </button>`;
+    }).join('');
+}
+
+function openHoldingsModal(index) {
+    if (!appData || !appData.sector_heatmap) return;
+    const item = appData.sector_heatmap[index];
+    if (!item || !item.holdings || item.holdings.length === 0) return;
+
+    setText('holdings-title', `${item.name} ${item.symbol} 代表持仓`);
+    setText('holdings-subtitle', `${item.full_name || item.name} · ${item.category || '行业'} ETF`);
+    const list = document.getElementById('holdings-list');
+    if (list) {
+        list.innerHTML = item.holdings.map((h, i) => `
+            <div class="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                <div class="flex items-center gap-2 min-w-0">
+                    <div class="w-6 h-6 rounded-lg bg-slate-900 text-white text-[10px] font-black flex items-center justify-center">${i + 1}</div>
+                    <div class="min-w-0">
+                        <div class="text-sm font-black text-slate-800">${h.symbol}</div>
+                        <div class="text-[11px] text-slate-500 truncate">${h.name}</div>
+                    </div>
+                </div>
+            </div>`).join('');
+    }
+
+    const modal = document.getElementById('holdings-modal');
+    const sheet = document.getElementById('holdings-sheet');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    setTimeout(() => { sheet.style.transform = 'translateY(0)'; }, 10);
+}
+
+function closeHoldingsModal() {
+    const modal = document.getElementById('holdings-modal');
+    const sheet = document.getElementById('holdings-sheet');
+    if (!modal || !sheet) return;
+    sheet.style.transform = 'translateY(100%)';
+    setTimeout(() => modal.classList.add('opacity-0', 'pointer-events-none'), 220);
+}
+
+function handleHoldingsBackdrop(event) {
+    if (event.target && event.target.id === 'holdings-modal') closeHoldingsModal();
 }
 
 function renderScoreHistory(history) {

@@ -20,8 +20,8 @@ TICKERS = {
 }
 
 SECTOR_ETFS = {
+    # GICS 主要板块 ETF
     'XLK': {'name': '科技', 'full_name': 'Technology', 'category': '板块'},
-    'IGV': {'name': '软件', 'full_name': 'Software', 'category': '行业'},
     'XLY': {'name': '可选消费', 'full_name': 'Consumer Discretionary', 'category': '板块'},
     'XLC': {'name': '通信服务', 'full_name': 'Communication Services', 'category': '板块'},
     'XLF': {'name': '金融', 'full_name': 'Financials', 'category': '板块'},
@@ -32,6 +32,32 @@ SECTOR_ETFS = {
     'XLU': {'name': '公用事业', 'full_name': 'Utilities', 'category': '板块'},
     'XLRE': {'name': '房地产', 'full_name': 'Real Estate', 'category': '板块'},
     'XLB': {'name': '材料', 'full_name': 'Materials', 'category': '板块'},
+    # 细分行业/主题 ETF：与 IGV 同级，用于观察更细的轮动
+    'IGV': {'name': '软件', 'full_name': 'Software', 'category': '行业'},
+    'SMH': {'name': '半导体', 'full_name': 'Semiconductors', 'category': '行业'},
+    'HACK': {'name': '网络安全', 'full_name': 'Cybersecurity', 'category': '行业'},
+    'SKYY': {'name': '云计算', 'full_name': 'Cloud Computing', 'category': '行业'},
+    'XBI': {'name': '生物科技', 'full_name': 'Biotech', 'category': '行业'},
+    'KRE': {'name': '区域银行', 'full_name': 'Regional Banks', 'category': '行业'},
+    'XRT': {'name': '零售', 'full_name': 'Retail', 'category': '行业'},
+    'ITA': {'name': '航空航天防务', 'full_name': 'Aerospace & Defense', 'category': '行业'},
+    'IYT': {'name': '运输', 'full_name': 'Transportation', 'category': '行业'},
+    'XHB': {'name': '住宅建筑', 'full_name': 'Homebuilders', 'category': '行业'},
+    'TAN': {'name': '太阳能', 'full_name': 'Solar', 'category': '行业'},
+}
+
+ETF_HOLDINGS = {
+    'IGV': [('MSFT', 'Microsoft'), ('CRM', 'Salesforce'), ('ORCL', 'Oracle'), ('ADBE', 'Adobe'), ('NOW', 'ServiceNow'), ('INTU', 'Intuit'), ('PANW', 'Palo Alto Networks'), ('CRWD', 'CrowdStrike')],
+    'SMH': [('NVDA', 'NVIDIA'), ('TSM', 'Taiwan Semiconductor'), ('AVGO', 'Broadcom'), ('ASML', 'ASML'), ('AMD', 'AMD'), ('QCOM', 'Qualcomm'), ('TXN', 'Texas Instruments'), ('MU', 'Micron')],
+    'HACK': [('PANW', 'Palo Alto Networks'), ('CRWD', 'CrowdStrike'), ('FTNT', 'Fortinet'), ('ZS', 'Zscaler'), ('OKTA', 'Okta'), ('GEN', 'Gen Digital'), ('CHKP', 'Check Point'), ('CYBR', 'CyberArk')],
+    'SKYY': [('MSFT', 'Microsoft'), ('ORCL', 'Oracle'), ('AMZN', 'Amazon'), ('GOOGL', 'Alphabet'), ('IBM', 'IBM'), ('SNOW', 'Snowflake'), ('NET', 'Cloudflare'), ('DDOG', 'Datadog')],
+    'XBI': [('VRTX', 'Vertex'), ('REGN', 'Regeneron'), ('MRNA', 'Moderna'), ('BIIB', 'Biogen'), ('GILD', 'Gilead'), ('ALNY', 'Alnylam'), ('INCY', 'Incyte'), ('EXEL', 'Exelixis')],
+    'KRE': [('HBAN', 'Huntington Bancshares'), ('RF', 'Regions Financial'), ('CFG', 'Citizens Financial'), ('KEY', 'KeyCorp'), ('FITB', 'Fifth Third Bancorp'), ('MTB', 'M&T Bank'), ('ZION', 'Zions Bancorp'), ('WAL', 'Western Alliance')],
+    'XRT': [('ANF', 'Abercrombie & Fitch'), ('GPS', 'Gap'), ('COST', 'Costco'), ('WMT', 'Walmart'), ('TGT', 'Target'), ('TJX', 'TJX'), ('HD', 'Home Depot'), ('LOW', 'Lowe’s')],
+    'ITA': [('GE', 'GE Aerospace'), ('RTX', 'RTX'), ('LMT', 'Lockheed Martin'), ('NOC', 'Northrop Grumman'), ('GD', 'General Dynamics'), ('BA', 'Boeing'), ('TDG', 'TransDigm'), ('HWM', 'Howmet Aerospace')],
+    'IYT': [('UBER', 'Uber'), ('UNP', 'Union Pacific'), ('UPS', 'UPS'), ('FDX', 'FedEx'), ('CSX', 'CSX'), ('NSC', 'Norfolk Southern'), ('DAL', 'Delta Air Lines'), ('LUV', 'Southwest Airlines')],
+    'XHB': [('DHI', 'D.R. Horton'), ('LEN', 'Lennar'), ('PHM', 'PulteGroup'), ('NVR', 'NVR'), ('TOL', 'Toll Brothers'), ('HD', 'Home Depot'), ('LOW', 'Lowe’s'), ('BLD', 'TopBuild')],
+    'TAN': [('FSLR', 'First Solar'), ('ENPH', 'Enphase Energy'), ('SEDG', 'SolarEdge'), ('RUN', 'Sunrun'), ('NXT', 'Nextracker'), ('ARRY', 'Array Technologies'), ('CSIQ', 'Canadian Solar'), ('JKS', 'JinkoSolar')],
 }
 
 ET = timezone(timedelta(hours=-4))
@@ -448,6 +474,10 @@ def build_sector_heatmap(sector_data):
             "name": meta['name'],
             "full_name": meta['full_name'],
             "category": meta.get('category', '板块'),
+            "holdings": [
+                {"symbol": ticker, "name": company}
+                for ticker, company in ETF_HOLDINGS.get(symbol, [])
+            ],
             "price": f"{price:.2f}",
             "change": f"{change:+.2f}%",
             "change_pct": round(change, 2),

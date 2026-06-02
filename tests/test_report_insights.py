@@ -134,3 +134,34 @@ def test_index_no_longer_links_to_pdf_report():
 
     assert "下载完整 PDF 报告" not in html
     assert "public/report.pdf" not in html
+
+
+
+def test_industry_heatmap_includes_peer_etfs_and_holdings():
+    raw = {
+        "IGV": {"price": 101.0, "change_pct": 1.2},
+        "SMH": {"price": 220.0, "change_pct": 2.4},
+        "HACK": {"price": 70.0, "change_pct": -0.2},
+        "SKYY": {"price": 90.0, "change_pct": 0.4},
+        "XBI": {"price": 88.0, "change_pct": -1.1},
+        "KRE": {"price": 55.0, "change_pct": 0.8},
+    }
+
+    heatmap = build_sector_heatmap(raw)
+    by_symbol = {item["symbol"]: item for item in heatmap}
+
+    for symbol in ["IGV", "SMH", "HACK", "SKYY", "XBI", "KRE"]:
+        assert by_symbol[symbol]["category"] == "行业"
+        assert by_symbol[symbol]["holdings"]
+        assert {"symbol", "name"}.issubset(by_symbol[symbol]["holdings"][0])
+
+    assert by_symbol["SMH"]["name"] == "半导体"
+    assert by_symbol["HACK"]["name"] == "网络安全"
+
+
+def test_index_has_clickable_holdings_modal_for_industry_cards():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    assert "holdings-modal" in html
+    assert "openHoldingsModal" in html
+    assert "代表持仓" in html
