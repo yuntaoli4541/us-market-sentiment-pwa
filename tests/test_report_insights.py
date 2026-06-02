@@ -211,3 +211,79 @@ def test_watchlist_summary_explains_all_observed_indicator_groups():
     assert "黄金避险走强" in labels
     assert "VIX 上破 20" in labels
     assert "TNX 上破 4.7%" in labels
+
+
+
+def test_build_enhanced_summary_sections_returns_decision_memo():
+    from generate_report import build_enhanced_summary_sections
+
+    data = {
+        "SP500": {"change_pct": 0.4},
+        "NASDAQ": {"change_pct": 0.8},
+        "VIX": {"price": 16.0, "change_pct": -1.0},
+        "TNX": {"price": 4.55},
+        "HYG": {"change_pct": 0.05},
+        "JNK": {"change_pct": 0.02},
+        "DXY": {"change_pct": -0.1},
+        "GOLD": {"change_pct": 0.2},
+    }
+    sector_heatmap = [
+        {"symbol": "XLK", "name": "科技", "group": "sector", "change_pct": 1.1, "tone": "strong_up"},
+        {"symbol": "XLP", "name": "必需消费", "group": "sector", "change_pct": -0.2, "tone": "flat"},
+        {"symbol": "IGV", "name": "软件", "group": "industry", "change_pct": 1.8, "tone": "strong_up"},
+        {"symbol": "SMH", "name": "半导体", "group": "industry", "change_pct": 1.2, "tone": "strong_up"},
+    ]
+    triggers = build_watchlist_triggers(data)
+
+    sections = build_enhanced_summary_sections(
+        data=data,
+        score=7.5,
+        bias="偏多",
+        allocation="5-6成",
+        sector_heatmap=sector_heatmap,
+        triggers=triggers,
+    )
+
+    assert sections["logic_breakdown"]
+    assert len(sections["logic_breakdown"]) >= 4
+    assert sections["risk_summary"]["level"] in {"低", "低到中等", "中等", "偏高", "高"}
+    assert sections["risk_summary"]["summary"]
+    assert sections["tomorrow_watchlist"]
+    assert len(sections["tomorrow_watchlist"]) >= 4
+    assert sections["rotation_summary"]["sector_leaders"]
+    assert sections["rotation_summary"]["industry_leaders"]
+    assert sections["rotation_summary"]["interpretation"]
+
+
+def test_decision_summary_contains_enhanced_sections():
+    summary = build_decision_summary(
+        score=7.5,
+        bias="偏多",
+        data={
+            "SP500": {"change_pct": 0.22},
+            "NASDAQ": {"change_pct": 0.5},
+            "VIX": {"price": 15.3, "change_pct": -2.8},
+            "TNX": {"price": 4.45, "change_pct": -0.04},
+            "HYG": {"change_pct": 0.14},
+            "JNK": {"change_pct": 0.05},
+            "DXY": {"change_pct": -0.1},
+            "GOLD": {"change_pct": 0.2},
+        },
+        fg_score=60,
+        sector_heatmap=[
+            {"symbol": "XLK", "name": "科技", "group": "sector", "change_pct": 0.8, "tone": "up"},
+            {"symbol": "IGV", "name": "软件", "group": "industry", "change_pct": 1.3, "tone": "strong_up"},
+        ],
+        triggers=[],
+    )
+
+    for key in ["logic_breakdown", "risk_summary", "tomorrow_watchlist", "rotation_summary"]:
+        assert key in summary
+
+
+def test_index_renders_enhanced_summary_sections():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    for text in ["今日逻辑拆解", "风险总评", "明日观察重点", "轮动解读"]:
+        assert text in html
+    assert "renderEnhancedSummary" in html

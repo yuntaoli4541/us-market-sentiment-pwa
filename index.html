@@ -61,6 +61,36 @@
             <div><span class="text-green-300 font-black">主要驱动：</span><span id="primary-driver">--</span></div>
             <div><span class="text-amber-300 font-black">主要风险：</span><span id="primary-risk">--</span></div>
         </div>
+        <div class="mt-4 grid gap-3 text-xs leading-relaxed">
+            <div class="bg-white/10 rounded-2xl p-3">
+                <div class="text-[11px] font-black text-blue-200 mb-2">今日逻辑拆解</div>
+                <ul id="logic-breakdown" class="space-y-1.5 list-disc list-inside text-blue-50/95">
+                    <li>等待数据载入...</li>
+                </ul>
+            </div>
+            <div class="bg-white/10 rounded-2xl p-3">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="text-[11px] font-black text-blue-200">风险总评</div>
+                    <div id="risk-level" class="text-[10px] font-black px-2 py-1 rounded-full bg-white/15 text-white">--</div>
+                </div>
+                <div id="risk-summary" class="text-blue-50/95">--</div>
+                <div id="risk-action" class="text-[11px] text-blue-100/80 mt-1">--</div>
+            </div>
+            <div class="bg-white/10 rounded-2xl p-3">
+                <div class="text-[11px] font-black text-blue-200 mb-2">轮动解读</div>
+                <div id="rotation-interpretation" class="text-blue-50/95 mb-2">--</div>
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div><div class="font-black text-blue-200">板块领先</div><div id="sector-leaders-summary" class="text-blue-50/90">--</div></div>
+                    <div><div class="font-black text-blue-200">行业领先</div><div id="industry-leaders-summary" class="text-blue-50/90">--</div></div>
+                </div>
+            </div>
+            <div class="bg-white/10 rounded-2xl p-3">
+                <div class="text-[11px] font-black text-blue-200 mb-2">明日观察重点</div>
+                <ol id="tomorrow-watchlist" class="space-y-1.5 list-decimal list-inside text-blue-50/95">
+                    <li>等待数据载入...</li>
+                </ol>
+            </div>
+        </div>
     </div>
 
     <!-- 1. 大盘核心指数 -->
@@ -474,6 +504,37 @@ function setText(id, value) {
     if (el) el.innerText = value ?? '--';
 }
 
+function renderList(id, items, ordered=false) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const list = items || [];
+    if (!list.length) {
+        el.innerHTML = ordered ? '<li>暂无观察项</li>' : '<li>暂无拆解</li>';
+        return;
+    }
+    el.innerHTML = list.map(item => `<li>${item}</li>`).join('');
+}
+
+function renderLeaderList(id, items) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const list = items || [];
+    el.innerHTML = list.length ? list.map(x => `${x.name} ${x.change}`).join('<br>') : '--';
+}
+
+function renderEnhancedSummary(d) {
+    renderList('logic-breakdown', d.logic_breakdown);
+    const risk = d.risk_summary || {};
+    setText('risk-level', risk.level || '--');
+    setText('risk-summary', risk.summary || '--');
+    setText('risk-action', risk.action || '--');
+    const rotation = d.rotation_summary || {};
+    setText('rotation-interpretation', rotation.interpretation || '--');
+    renderLeaderList('sector-leaders-summary', rotation.sector_leaders);
+    renderLeaderList('industry-leaders-summary', rotation.industry_leaders);
+    renderList('tomorrow-watchlist', d.tomorrow_watchlist, true);
+}
+
 function renderDecisionSummary(data) {
     const d = data.decision_summary || {};
     setText('decision-headline', d.headline || '今日结论生成中');
@@ -483,6 +544,7 @@ function renderDecisionSummary(data) {
     setText('primary-driver', d.primary_driver || '--');
     setText('primary-risk', d.primary_risk || '--');
     setText('decision-action-short', data.action_plan ? data.action_plan.replace('操作建议：', '').slice(0, 34) + '…' : '回调分批，不追高');
+    renderEnhancedSummary(d);
 }
 
 function renderDailyChanges(changes) {

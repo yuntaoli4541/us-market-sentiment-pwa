@@ -308,7 +308,80 @@ def allocation_for_score(score):
     return "现金为主"
 
 
-def build_decision_summary(score, bias, data, fg_score):
+def _fmt_pct(value):
+    return f"{float(value):+.2f}%"
+
+
+def build_enhanced_summary_sections(data, score, bias, allocation, sector_heatmap=None, triggers=None):
+    """Build structured decision memo sections for the top summary card."""
+    sector_heatmap = sector_heatmap or []
+    triggers = triggers or build_watchlist_triggers(data)
+    sp = data.get('SP500', {}).get('change_pct', 0)
+    nd = data.get('NASDAQ', {}).get('change_pct', 0)
+    vix = data.get('VIX', {}).get('price', 0)
+    tnx = data.get('TNX', {}).get('price', 0)
+    hyg = data.get('HYG', {}).get('change_pct', 0)
+    jnk = data.get('JNK', {}).get('change_pct', 0)
+    dxy = data.get('DXY', {}).get('change_pct', 0)
+    gold = data.get('GOLD', {}).get('change_pct', 0)
+    credit_avg = (hyg + jnk) / 2
+    growth_gap = nd - sp
+
+    logic = [
+        f"指数：标普 {_fmt_pct(sp)}、纳指 {_fmt_pct(nd)}，{'成长相对占优' if growth_gap > 0.3 else '宽基与成长接近' if abs(growth_gap) <= 0.3 else '宽基强于成长'}。",
+        f"波动率：VIX {vix:.1f}，{'低于 20，短线恐慌未升温' if vix < 20 else '高于 20，波动风险需要提高警惕'}。",
+        f"信用：HYG/JNK 平均 {_fmt_pct(credit_avg)}，{'信用环境暂未恶化' if credit_avg >= -0.2 else '信用债转弱，风险资产质量下降'}。",
+        f"利率：十年期美债 {tnx:.2f}%，{'仍在中高位，对成长估值有压制' if tnx >= 4.2 else '利率压力相对温和'}。",
+        f"美元/黄金：美元 {_fmt_pct(dxy)}、黄金 {_fmt_pct(gold)}，用于观察避险与宏观压力是否升温。",
+    ]
+
+    active = [t for t in triggers if t.get('active')]
+    if len(active) >= 4 or vix >= 30:
+        risk_level = "高"
+    elif len(active) >= 3 or vix >= 25:
+        risk_level = "偏高"
+    elif len(active) >= 2 or vix >= 20 or tnx >= 4.7:
+        risk_level = "中等"
+    elif len(active) == 1 or tnx >= 4.2:
+        risk_level = "低到中等"
+    else:
+        risk_level = "低"
+    risk_summary = {
+        "level": risk_level,
+        "summary": (f"当前触发 {len(active)} 项观察阈值；" + ("主要关注 " + "、".join(t['label'] for t in active[:3]) if active else "暂无重大风险阈值触发")) + "。",
+        "action": "若 VIX 上破 20 且信用债同步走弱，优先降低追高和高杠杆；若风险未扩散，可保持分批执行。",
+    }
+
+    sectors = [x for x in sector_heatmap if x.get('group') == 'sector']
+    industries = [x for x in sector_heatmap if x.get('group') == 'industry']
+    sector_leaders = sectors[:3]
+    industry_leaders = industries[:3]
+    defensive_names = {"必需消费", "公用事业", "医疗保健"}
+    top_sector_names = [x.get('name') for x in sector_leaders]
+    defensive_led = any(name in defensive_names for name in top_sector_names[:2])
+    rotation_summary = {
+        "sector_leaders": [{"symbol": x.get('symbol'), "name": x.get('name'), "change": x.get('change', _fmt_pct(x.get('change_pct', 0)))} for x in sector_leaders],
+        "industry_leaders": [{"symbol": x.get('symbol'), "name": x.get('name'), "change": x.get('change', _fmt_pct(x.get('change_pct', 0)))} for x in industry_leaders],
+        "interpretation": "防御板块靠前，说明资金更偏谨慎。" if defensive_led else "强势主要来自成长/周期/主题方向，风险偏好仍有延续基础。",
+    }
+
+    tomorrow = [
+        "VIX 是否继续低于 20，确认波动风险没有扩散。",
+        "HYG/JNK 是否维持稳定，确认信用环境没有恶化。",
+        "强势行业是否从少数主题扩散到更多板块。",
+        "十年期美债是否继续上行，避免成长股估值再受压。",
+        "美元和黄金是否同步走强，若同步走强需警惕避险升温。",
+    ]
+
+    return {
+        "logic_breakdown": logic,
+        "risk_summary": risk_summary,
+        "rotation_summary": rotation_summary,
+        "tomorrow_watchlist": tomorrow,
+    }
+
+
+def build_decision_summary(score, bias, data, fg_score, sector_heatmap=None, triggers=None):
     """Build the top-of-page one-glance decision card."""
     score_f = float(score)
     vix = data.get('VIX', {}).get('price', 0)
@@ -350,14 +423,17 @@ def build_decision_summary(score, bias, data, fg_score):
     if isinstance(fg_score, int) and fg_score >= 75:
         risks.append(f"恐惧贪婪 {fg_score} 接近过热")
 
-    return {
+    allocation = allocation_for_score(score_f)
+    summary = {
         "headline": headline,
         "score": f"{score_f:.1f}",
         "bias": bias,
-        "allocation": allocation_for_score(score_f),
+        "allocation": allocation,
         "primary_driver": "；".join(drivers[:2]) if drivers else "暂无明显单一驱动，等待更多确认",
         "primary_risk": "；".join(risks[:2]) if risks else "主要风险暂未显著暴露，但仍需避免追高",
     }
+    summary.update(build_enhanced_summary_sections(data, score_f, bias, allocation, sector_heatmap, triggers))
+    return summary
 
 
 def build_watchlist_triggers(data):
@@ -879,6 +955,9 @@ def main():
         except Exception as e:
             print(f"Warning: could not load previous summary: {e}")
 
+    watchlist_triggers = build_watchlist_triggers(data)
+    sector_heatmap = build_sector_heatmap(sector_data)
+
     summary_data = {
         "date":          report_date,
         "date_iso":      date_iso,
@@ -903,16 +982,17 @@ def main():
         "DXY_price":     f"{data['DXY']['price']:.2f}",
         "DXY_change":    f"{data['DXY']['change_pct']:.2f}",
         "decision_summary": build_decision_summary(
-            strategy_pack["score"], strategy_pack["bias"], data, fg_data['FG_Score']
+            strategy_pack["score"], strategy_pack["bias"], data, fg_data['FG_Score'],
+            sector_heatmap=sector_heatmap, triggers=watchlist_triggers
         ),
         "score":         f"{strategy_pack['score']:.1f}",
         "bias":          strategy_pack["bias"],
         "bias_icon":     strategy_pack["bias_icon"],
         "action_plan":   strategy_pack["action"],
         "daily_changes": [],
-        "watchlist_triggers": build_watchlist_triggers(data),
+        "watchlist_triggers": watchlist_triggers,
         "sector_rotation": build_sector_rotation(data),
-        "sector_heatmap": build_sector_heatmap(sector_data),
+        "sector_heatmap": sector_heatmap,
         "score_history": [],
         "strategies":    strategies,
         "charts":        chart_data,
