@@ -19,6 +19,20 @@ TICKERS = {
     'DXY':    'DX-Y.NYB',
 }
 
+MARKET_STRUCTURE_ETFS = {
+    'SPY': {'name': '标普市值加权', 'category': 'breadth'},
+    'RSP': {'name': '标普等权', 'category': 'breadth'},
+    'QQQ': {'name': '纳指100市值加权', 'category': 'breadth'},
+    'QQQE': {'name': '纳指100等权', 'category': 'breadth'},
+    'IWM': {'name': '罗素2000小盘', 'category': 'breadth'},
+    'IWF': {'name': '成长', 'category': 'factor'},
+    'IWD': {'name': '价值', 'category': 'factor'},
+    'MTUM': {'name': '动量', 'category': 'factor'},
+    'QUAL': {'name': '质量', 'category': 'factor'},
+    'USMV': {'name': '低波动', 'category': 'factor'},
+    'VYM': {'name': '高股息', 'category': 'factor'},
+}
+
 SECTOR_ETFS = {
     # GICS 主要板块 ETF
     'XLK': {'name': '科技', 'full_name': 'Technology', 'category': '板块'},
@@ -145,9 +159,34 @@ def get_sector_data():
             sector_data[symbol] = {'price': 0.0, 'change_pct': 0.0}
     return sector_data
 
-# ==========================================
-# 4. 抓取走势图数据
-# ==========================================
+def get_etf_data(etfs):
+    etf_data = {}
+    for symbol in etfs:
+        try:
+            t       = yf.Ticker(symbol)
+            info    = t.fast_info
+            current = getattr(info, 'last_price', None) or getattr(info, 'regularMarketPrice', None)
+            prev    = getattr(info, 'previous_close', None) or getattr(info, 'regularMarketPreviousClose', None)
+            if current and prev and prev != 0:
+                etf_data[symbol] = {
+                    'price':      float(current),
+                    'change_pct': ((float(current) - float(prev)) / float(prev)) * 100,
+                }
+            else:
+                df = yf.download(symbol, period="5d", progress=False)['Close']
+                if len(df) >= 2:
+                    cur = float(df.iloc[-1].iloc[0])
+                    prv = float(df.iloc[-2].iloc[0])
+                    etf_data[symbol] = {'price': cur, 'change_pct': ((cur - prv) / prv) * 100}
+                else:
+                    etf_data[symbol] = {'price': 0.0, 'change_pct': 0.0}
+            print(f"{symbol}: {etf_data[symbol]['price']:.4f} ({etf_data[symbol]['change_pct']:+.2f}%)")
+        except Exception as e:
+            print(f"Warning: Error fetching {symbol}: {e}")
+            etf_data[symbol] = {'price': 0.0, 'change_pct': 0.0}
+    return etf_data
+
+
 def fetch_series(sym, period, interval):
     try:
         df    = yf.download(sym, period=period, interval=interval, progress=False)
@@ -529,6 +568,176 @@ def build_sector_rotation(data):
             f"纳指相对标普：{growth_gap:+.2f}%",
             f"高收益债平均表现：{credit:+.2f}%",
         ]
+    }
+
+
+def _spread_item(label, lhs_symbol, rhs_symbol, data, positive_text, negative_text):
+    lhs = float(data.get(lhs_symbol, {}).get('change_pct', 0) or 0)
+    rhs = float(data.get(rhs_symbol, {}).get('change_pct', 0) or 0)
+    spread = lhs - rhs
+    if spread >= 0.3:
+        tone = "positive"
+        note = positive_text
+    elif spread <= -0.3:
+        tone = "negative"
+        note = negative_text
+    else:
+        tone = "neutral"
+        note = "差异不大，市场内部扩散程度中性。"
+    return {
+        "label": label,
+        "symbols": f"{lhs_symbol}/{rhs_symbol}",
+        "left_change": f"{lhs:+.2f}%",
+        "right_change": f"{rhs:+.2f}%",
+        "spread": f"{spread:+.2f}%",
+        "tone": tone,
+        "note": note,
+    }
+
+
+def build_market_breadth(etf_data):
+    """Use ETF proxies to judge whether gains are broad or concentrated."""
+    items = [
+        _spread_item("等权标普 vs 标普", "RSP", "SPY", etf_data, "等权标普跑赢，说明上涨扩散到更多成分股。", "市值加权跑赢，说明行情更集中在大市值权重。"),
+        _spread_item("等权纳指 vs 纳指", "QQQE", "QQQ", etf_data, "纳指内部扩散较好，不只靠少数巨头。", "纳指上涨集中在少数大权重科技股。"),
+        _spread_item("小盘股 vs 标普", "IWM", "SPY", etf_data, "小盘跑赢，风险偏好向更广市场扩散。", "小盘落后，资金仍偏向大盘核心资产。"),
+    ]
+    negatives = sum(1 for item in items if item['tone'] == 'negative')
+    positives = sum(1 for item in items if item['tone'] == 'positive')
+    if positives >= 2:
+        overall = "广泛上涨"
+    elif negatives >= 2:
+        overall = "窄幅上涨"
+    else:
+        overall = "宽度中性"
+    return {
+        "overall": overall,
+        "items": items,
+        "summary": "市场上涨有较好扩散，胜率更健康。" if overall == "广泛上涨" else "上涨主要集中在大权重或少数主题，追高要更克制。" if overall == "窄幅上涨" else "内部宽度信号混合，暂不能确认全面扩散。",
+    }
+
+
+def build_style_factors(etf_data):
+    factor_meta = {
+        "IWF": "成长", "IWD": "价值", "IWM": "小盘", "MTUM": "动量",
+        "QUAL": "质量", "USMV": "低波动", "VYM": "高股息",
+    }
+    items = []
+    for symbol, name in factor_meta.items():
+        change = float(etf_data.get(symbol, {}).get('change_pct', 0) or 0)
+        items.append({
+            "symbol": symbol,
+            "name": name,
+            "change": f"{change:+.2f}%",
+            "change_pct": round(change, 2),
+            "tone": _sector_tone(change),
+        })
+    items.sort(key=lambda item: item['change_pct'], reverse=True)
+    leaders = items[:3]
+    leader_names = {item['name'] for item in leaders[:2]}
+    if leader_names & {"成长", "动量"}:
+        leadership = "成长/动量占优"
+        interpretation = "资金偏向进攻型资产，适合重点观察科技、软件、半导体延续性。"
+    elif leader_names & {"价值", "低波动", "高股息"}:
+        leadership = "价值/防御占优"
+        interpretation = "资金更偏防守或估值安全边际，追逐高估值成长需谨慎。"
+    else:
+        leadership = "风格分化不明显"
+        interpretation = "风格信号暂不集中，更多看大盘趋势和市场宽度确认。"
+    return {"items": items, "leaders": leaders, "leadership": leadership, "interpretation": interpretation}
+
+
+def _classify_trend(t5, t1m, today):
+    t5v = t5.get('5d_chg')
+    t1v = t1m if isinstance(t1m, (int, float)) else t5.get('1mo_chg')
+    if t5v is None or t1v is None:
+        return "趋势数据不足"
+    if t5v > 0 and t1v > 0 and today >= 0:
+        return "多头趋势"
+    if (t5v > 0 and t1v > 0) or (today > 0 and t1v > 0):
+        return "震荡偏多"
+    if t5v < 0 and t1v < 0 and today <= 0:
+        return "空头趋势"
+    if (t5v < 0 and t1v < 0) or (today < 0 and t1v < 0):
+        return "震荡偏空"
+    return "震荡"
+
+
+def build_trend_state(chart_data, data):
+    specs = [("SP500", "标普500"), ("NASDAQ", "纳斯达克")]
+    items = []
+    for key, label in specs:
+        trend = calc_trend(chart_data, key)
+        today = float(data.get(key, {}).get('change_pct', 0) or 0)
+        state = _classify_trend(trend, trend.get('1mo_chg'), today)
+        items.append({
+            "key": key,
+            "label": label,
+            "state": state,
+            "today": f"{today:+.2f}%",
+            "five_day": "N/A" if trend.get('5d_chg') is None else f"{trend['5d_chg']:+.2f}%",
+            "one_month": "N/A" if trend.get('1mo_chg') is None else f"{trend['1mo_chg']:+.2f}%",
+            "momentum": trend.get('momentum', 'flat'),
+        })
+    states = [item['state'] for item in items]
+    if all(state in {"多头趋势", "震荡偏多"} for state in states):
+        overall = "多头趋势" if all(state == "多头趋势" for state in states) else "震荡偏多"
+    elif all(state in {"空头趋势", "震荡偏空"} for state in states):
+        overall = "空头趋势" if all(state == "空头趋势" for state in states) else "震荡偏空"
+    else:
+        overall = "震荡"
+    return {
+        "overall": overall,
+        "items": items,
+        "summary": "指数短中期趋势共振向上，适合顺势但不追高。" if overall == "多头趋势" else "指数趋势偏弱，优先控制回撤。" if overall in {"空头趋势", "震荡偏空"} else "趋势信号分化，等待方向确认。",
+    }
+
+
+def _score_component(name, raw, max_points, detail):
+    value = max(0, min(max_points, raw))
+    return {"name": name, "score": round(value, 1), "max": max_points, "detail": detail}
+
+
+def build_risk_score_breakdown(data, fg_score, breadth=None, trend_state=None):
+    breadth = breadth or {"overall": "宽度中性"}
+    trend_state = trend_state or {"overall": "震荡"}
+    sp = data.get('SP500', {}).get('change_pct', 0)
+    nd = data.get('NASDAQ', {}).get('change_pct', 0)
+    vix = data.get('VIX', {}).get('price', 0)
+    vix_chg = data.get('VIX', {}).get('change_pct', 0)
+    credit = (data.get('HYG', {}).get('change_pct', 0) + data.get('JNK', {}).get('change_pct', 0)) / 2
+    tnx = data.get('TNX', {}).get('price', 0)
+    dxy = data.get('DXY', {}).get('change_pct', 0)
+    trend = trend_state.get('overall', '震荡')
+
+    trend_points = 2.0 if trend == "多头趋势" else 1.5 if trend == "震荡偏多" else 1.0 if trend == "震荡" else 0.5 if trend == "震荡偏空" else 0.0
+    if sp > 0 and nd > 0:
+        trend_points += 0.5
+    sentiment_points = 1.5 if 15 <= vix < 20 and vix_chg <= 5 else 1.0 if vix < 25 else 0.5 if vix < 30 else 0.0
+    if isinstance(fg_score, int) and 40 <= fg_score <= 70:
+        sentiment_points += 0.5
+    credit_points = 2.0 if credit > 0.2 else 1.5 if credit >= -0.2 else 0.7 if credit >= -0.5 else 0.0
+    macro_points = 1.5
+    if tnx >= 4.7:
+        macro_points -= 0.7
+    elif tnx >= 4.2:
+        macro_points -= 0.3
+    if dxy >= 0.7:
+        macro_points -= 0.5
+    breadth_points = 1.5 if breadth.get('overall') == "广泛上涨" else 0.8 if breadth.get('overall') == "宽度中性" else 0.3
+
+    components = [
+        _score_component("大盘趋势", trend_points, 2.5, f"趋势状态：{trend}；标普 {sp:+.2f}%、纳指 {nd:+.2f}%。"),
+        _score_component("情绪/VIX", sentiment_points, 2.0, f"VIX {vix:.1f}，恐惧贪婪 {fg_score}。"),
+        _score_component("信用环境", credit_points, 2.0, f"HYG/JNK 平均 {credit:+.2f}%。"),
+        _score_component("利率美元", macro_points, 1.5, f"TNX {tnx:.2f}%，DXY {dxy:+.2f}%。"),
+        _score_component("市场宽度", breadth_points, 1.5, f"宽度判断：{breadth.get('overall')}。"),
+    ]
+    total = round(sum(item['score'] for item in components), 1)
+    return {
+        "total": total,
+        "components": components,
+        "summary": f"评分由趋势、情绪、信用、宏观阻力和市场宽度拆解而来；当前为 {total:.1f}/10。",
     }
 
 
@@ -929,6 +1138,8 @@ def main():
     data       = get_market_data()
     print("正在抓取板块 ETF 数据...")
     sector_data = get_sector_data()
+    print("正在抓取市场宽度/风格 ETF 数据...")
+    structure_data = get_etf_data(MARKET_STRUCTURE_ETFS)
     fg_data    = fetch_fear_greed()
     print("正在抓取走势图数据...")
     chart_data = get_chart_data()
@@ -957,6 +1168,10 @@ def main():
 
     watchlist_triggers = build_watchlist_triggers(data)
     sector_heatmap = build_sector_heatmap(sector_data)
+    market_breadth = build_market_breadth(structure_data)
+    style_factors = build_style_factors(structure_data)
+    trend_state = build_trend_state(chart_data, data)
+    risk_score_breakdown = build_risk_score_breakdown(data, fg_data['FG_Score'], market_breadth, trend_state)
 
     summary_data = {
         "date":          report_date,
@@ -993,6 +1208,10 @@ def main():
         "watchlist_triggers": watchlist_triggers,
         "sector_rotation": build_sector_rotation(data),
         "sector_heatmap": sector_heatmap,
+        "market_breadth": market_breadth,
+        "style_factors": style_factors,
+        "trend_state": trend_state,
+        "risk_score_breakdown": risk_score_breakdown,
         "score_history": [],
         "strategies":    strategies,
         "charts":        chart_data,

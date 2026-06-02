@@ -10,6 +10,10 @@ from generate_report import (  # noqa: E402
     compare_metric_snapshots,
     build_score_history,
     build_sector_heatmap,
+    build_market_breadth,
+    build_style_factors,
+    build_trend_state,
+    build_risk_score_breakdown,
 )
 
 
@@ -287,3 +291,88 @@ def test_index_renders_enhanced_summary_sections():
     for text in ["今日逻辑拆解", "风险总评", "明日观察重点", "轮动解读"]:
         assert text in html
     assert "renderEnhancedSummary" in html
+
+
+def test_build_market_breadth_uses_equal_weight_and_small_cap_proxies():
+    breadth = build_market_breadth({
+        "SPY": {"change_pct": 0.8},
+        "RSP": {"change_pct": 0.2},
+        "QQQ": {"change_pct": 1.0},
+        "QQQE": {"change_pct": 0.1},
+        "IWM": {"change_pct": -0.4},
+    })
+
+    assert breadth["overall"] == "窄幅上涨"
+    labels = {item["label"] for item in breadth["items"]}
+    assert {"等权标普 vs 标普", "等权纳指 vs 纳指", "小盘股 vs 标普"}.issubset(labels)
+    assert breadth["items"][0]["spread"].endswith("%")
+    assert breadth["summary"]
+
+
+def test_build_style_factors_sorts_factor_etfs_and_interprets_leadership():
+    factors = build_style_factors({
+        "SPY": {"change_pct": 0.3},
+        "IWF": {"change_pct": 1.0},
+        "IWD": {"change_pct": -0.1},
+        "IWM": {"change_pct": 0.5},
+        "MTUM": {"change_pct": 0.9},
+        "QUAL": {"change_pct": 0.4},
+        "USMV": {"change_pct": -0.2},
+        "VYM": {"change_pct": 0.1},
+    })
+
+    assert factors["leaders"][0]["symbol"] == "IWF"
+    assert factors["leadership"] in {"成长/动量占优", "价值/防御占优", "风格分化不明显"}
+    assert all({"symbol", "name", "change", "tone"}.issubset(item) for item in factors["items"])
+
+
+def test_build_trend_state_classifies_index_trend_from_chart_data():
+    chart_data = {
+        "SP500": {
+            "5d": [{"v": 100}, {"v": 101}, {"v": 103}, {"v": 104}],
+            "1mo": [{"v": 95}, {"v": 98}, {"v": 104}],
+        },
+        "NASDAQ": {
+            "5d": [{"v": 100}, {"v": 99}, {"v": 101}, {"v": 103}],
+            "1mo": [{"v": 96}, {"v": 100}, {"v": 103}],
+        },
+    }
+
+    trend = build_trend_state(chart_data, {"SP500": {"change_pct": 0.5}, "NASDAQ": {"change_pct": 0.8}})
+
+    assert trend["overall"] == "多头趋势"
+    assert trend["items"][0]["label"] == "标普500"
+    assert trend["items"][0]["state"] in {"多头趋势", "震荡偏多", "震荡", "震荡偏空", "空头趋势"}
+    assert trend["summary"]
+
+
+def test_build_risk_score_breakdown_explains_score_components():
+    breakdown = build_risk_score_breakdown(
+        data={
+            "SP500": {"change_pct": 0.6},
+            "NASDAQ": {"change_pct": 1.0},
+            "VIX": {"price": 18, "change_pct": -2.0},
+            "HYG": {"change_pct": 0.1},
+            "JNK": {"change_pct": 0.1},
+            "TNX": {"price": 4.3, "change_pct": 0.1},
+            "DXY": {"change_pct": -0.2},
+            "GOLD": {"change_pct": 0.1},
+        },
+        fg_score=58,
+        breadth={"overall": "窄幅上涨"},
+        trend_state={"overall": "多头趋势"},
+    )
+
+    names = {item["name"] for item in breakdown["components"]}
+    assert {"大盘趋势", "情绪/VIX", "信用环境", "利率美元", "市场宽度"}.issubset(names)
+    assert 0 <= breakdown["total"] <= 10
+    assert breakdown["summary"]
+
+
+def test_index_renders_decision_dashboard_expansion_sections():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    for text in ["市场宽度", "风格因子", "趋势状态", "评分拆解"]:
+        assert text in html
+    for fn in ["renderMarketBreadth", "renderStyleFactors", "renderTrendState", "renderRiskScoreBreakdown"]:
+        assert fn in html

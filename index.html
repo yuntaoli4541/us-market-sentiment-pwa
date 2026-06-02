@@ -245,6 +245,40 @@
             <div id="sector-leadership" class="text-sm font-black text-slate-800">--</div>
             <div id="sector-notes" class="text-xs text-slate-500 mt-2 space-y-1"></div>
         </div>
+        <div class="grid grid-cols-1 gap-3 mb-3">
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="text-xs font-black text-slate-600">市场宽度</div>
+                    <div id="breadth-overall" class="text-[10px] font-black px-2 py-1 rounded-full bg-slate-100 text-slate-600">--</div>
+                </div>
+                <div id="breadth-summary" class="text-xs text-slate-500 leading-relaxed mb-2">--</div>
+                <div id="market-breadth" class="space-y-2"></div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="text-xs font-black text-slate-600">风格因子</div>
+                    <div id="factor-leadership" class="text-[10px] font-black px-2 py-1 rounded-full bg-blue-50 text-blue-700">--</div>
+                </div>
+                <div id="factor-interpretation" class="text-xs text-slate-500 leading-relaxed mb-2">--</div>
+                <div id="style-factors" class="grid grid-cols-2 gap-2"></div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="text-xs font-black text-slate-600">趋势状态</div>
+                    <div id="trend-overall" class="text-[10px] font-black px-2 py-1 rounded-full bg-slate-100 text-slate-600">--</div>
+                </div>
+                <div id="trend-summary" class="text-xs text-slate-500 leading-relaxed mb-2">--</div>
+                <div id="trend-state" class="space-y-2"></div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <div class="text-xs font-black text-slate-600">评分拆解</div>
+                    <div id="risk-score-total" class="text-[10px] font-black px-2 py-1 rounded-full bg-blue-50 text-blue-700">--</div>
+                </div>
+                <div id="risk-score-summary" class="text-xs text-slate-500 leading-relaxed mb-2">--</div>
+                <div id="risk-score-breakdown" class="space-y-2"></div>
+            </div>
+        </div>
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-3">
             <div class="flex items-center justify-between mb-3">
                 <div class="text-xs font-black text-slate-600">主要板块热力图</div>
@@ -588,6 +622,78 @@ function renderSectorRotation(sector) {
     }
 }
 
+function toneBadgeClass(tone) {
+    if (tone === 'positive' || tone === 'strong_up' || tone === 'up') return 'text-green-700 bg-green-50 border-green-100';
+    if (tone === 'negative' || tone === 'strong_down' || tone === 'down') return 'text-red-700 bg-red-50 border-red-100';
+    return 'text-slate-600 bg-slate-50 border-slate-100';
+}
+
+function renderMarketBreadth(breadth) {
+    if (!breadth) return;
+    setText('breadth-overall', breadth.overall || '--');
+    setText('breadth-summary', breadth.summary || '--');
+    const box = document.getElementById('market-breadth');
+    if (!box) return;
+    box.innerHTML = (breadth.items || []).map(item => `
+        <div class="rounded-xl border ${toneBadgeClass(item.tone)} px-3 py-2">
+            <div class="flex items-center justify-between gap-2">
+                <div class="text-xs font-black">${item.label}</div>
+                <div class="text-xs font-black">${item.spread}</div>
+            </div>
+            <div class="text-[10px] opacity-75 mt-1">${item.symbols} · ${item.note}</div>
+        </div>`).join('');
+}
+
+function renderStyleFactors(factors) {
+    if (!factors) return;
+    setText('factor-leadership', factors.leadership || '--');
+    setText('factor-interpretation', factors.interpretation || '--');
+    const box = document.getElementById('style-factors');
+    if (!box) return;
+    box.innerHTML = (factors.items || []).map(item => `
+        <div class="rounded-xl border ${toneBadgeClass(item.tone)} px-3 py-2">
+            <div class="flex items-center justify-between gap-2">
+                <div><div class="text-xs font-black">${item.name}</div><div class="text-[10px] opacity-70">${item.symbol}</div></div>
+                <div class="text-xs font-black">${item.change}</div>
+            </div>
+        </div>`).join('');
+}
+
+function renderTrendState(trend) {
+    if (!trend) return;
+    setText('trend-overall', trend.overall || '--');
+    setText('trend-summary', trend.summary || '--');
+    const box = document.getElementById('trend-state');
+    if (!box) return;
+    box.innerHTML = (trend.items || []).map(item => `
+        <div class="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+            <div class="flex items-center justify-between gap-2">
+                <div class="text-xs font-black text-slate-700">${item.label}</div>
+                <div class="text-[10px] font-black px-2 py-0.5 rounded-full bg-white text-slate-600">${item.state}</div>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-1">今日 ${item.today} · 5日 ${item.five_day} · 1月 ${item.one_month}</div>
+        </div>`).join('');
+}
+
+function renderRiskScoreBreakdown(breakdown) {
+    if (!breakdown) return;
+    setText('risk-score-total', `${breakdown.total ?? '--'}/10`);
+    setText('risk-score-summary', breakdown.summary || '--');
+    const box = document.getElementById('risk-score-breakdown');
+    if (!box) return;
+    box.innerHTML = (breakdown.components || []).map(item => {
+        const pct = Math.max(0, Math.min(100, (item.score / item.max) * 100));
+        return `<div>
+            <div class="flex items-center justify-between text-[11px] mb-1">
+                <div class="font-black text-slate-700">${item.name}</div>
+                <div class="font-black text-slate-500">${item.score}/${item.max}</div>
+            </div>
+            <div class="h-2 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-blue-600" style="width:${pct}%"></div></div>
+            <div class="text-[10px] text-slate-400 mt-1 leading-relaxed">${item.detail}</div>
+        </div>`;
+    }).join('');
+}
+
 function renderGroupedHeatmaps(items) {
     const sectors = (items || []).filter(item => item.group === 'sector');
     const industries = (items || []).filter(item => item.group === 'industry');
@@ -704,6 +810,10 @@ fetch('public/data.json?t=' + Date.now())
         renderDecisionSummary(data);
         renderDailyChanges(data.daily_changes);
         renderSectorRotation(data.sector_rotation);
+        renderMarketBreadth(data.market_breadth);
+        renderStyleFactors(data.style_factors);
+        renderTrendState(data.trend_state);
+        renderRiskScoreBreakdown(data.risk_score_breakdown);
         renderGroupedHeatmaps(data.sector_heatmap);
         renderWatchlistTriggers(data.watchlist_triggers);
         renderScoreHistory(data.score_history);
