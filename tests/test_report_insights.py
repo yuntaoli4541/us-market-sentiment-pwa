@@ -9,6 +9,7 @@ from generate_report import (  # noqa: E402
     build_watchlist_triggers,
     compare_metric_snapshots,
     build_score_history,
+    build_sector_heatmap,
 )
 
 
@@ -94,3 +95,21 @@ def test_build_score_history_appends_today_and_keeps_recent_points():
         {"date": "2026-06-01", "score": 7.0, "bias": "偏多"},
         {"date": "2026-06-02", "score": 7.5, "bias": "偏多"},
     ]
+
+
+def test_build_sector_heatmap_sorts_and_classifies_major_sectors():
+    raw = {
+        "XLK": {"price": 250.12, "change_pct": 1.45},
+        "XLE": {"price": 92.50, "change_pct": -1.25},
+        "XLV": {"price": 148.33, "change_pct": 0.05},
+        "XLF": {"price": 52.10, "change_pct": 0.72},
+    }
+
+    heatmap = build_sector_heatmap(raw)
+
+    assert [item["symbol"] for item in heatmap[:2]] == ["XLK", "XLF"]
+    assert heatmap[0]["name"] == "科技"
+    assert heatmap[0]["tone"] == "strong_up"
+    assert heatmap[-1]["symbol"] == "XLE"
+    assert heatmap[-1]["tone"] == "strong_down"
+    assert all("change" in item and item["change"].endswith("%") for item in heatmap)

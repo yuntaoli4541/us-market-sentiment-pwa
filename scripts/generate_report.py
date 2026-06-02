@@ -20,6 +20,20 @@ TICKERS = {
     'DXY':    'DX-Y.NYB',
 }
 
+SECTOR_ETFS = {
+    'XLK': {'name': '科技', 'full_name': 'Technology'},
+    'XLY': {'name': '可选消费', 'full_name': 'Consumer Discretionary'},
+    'XLC': {'name': '通信服务', 'full_name': 'Communication Services'},
+    'XLF': {'name': '金融', 'full_name': 'Financials'},
+    'XLI': {'name': '工业', 'full_name': 'Industrials'},
+    'XLE': {'name': '能源', 'full_name': 'Energy'},
+    'XLV': {'name': '医疗保健', 'full_name': 'Health Care'},
+    'XLP': {'name': '必需消费', 'full_name': 'Consumer Staples'},
+    'XLU': {'name': '公用事业', 'full_name': 'Utilities'},
+    'XLRE': {'name': '房地产', 'full_name': 'Real Estate'},
+    'XLB': {'name': '材料', 'full_name': 'Materials'},
+}
+
 ET = timezone(timedelta(hours=-4))
 
 # ==========================================
@@ -76,6 +90,34 @@ def get_market_data():
             print(f"Warning: Error fetching {name}: {e}")
             market_data[name] = {'price': 0.0, 'change_pct': 0.0}
     return market_data
+
+
+def get_sector_data():
+    sector_data = {}
+    for symbol in SECTOR_ETFS:
+        try:
+            t       = yf.Ticker(symbol)
+            info    = t.fast_info
+            current = getattr(info, 'last_price', None) or getattr(info, 'regularMarketPrice', None)
+            prev    = getattr(info, 'previous_close', None) or getattr(info, 'regularMarketPreviousClose', None)
+            if current and prev and prev != 0:
+                sector_data[symbol] = {
+                    'price':      float(current),
+                    'change_pct': ((float(current) - float(prev)) / float(prev)) * 100,
+                }
+            else:
+                df = yf.download(symbol, period="5d", progress=False)['Close']
+                if len(df) >= 2:
+                    cur = float(df.iloc[-1].iloc[0])
+                    prv = float(df.iloc[-2].iloc[0])
+                    sector_data[symbol] = {'price': cur, 'change_pct': ((cur - prv) / prv) * 100}
+                else:
+                    sector_data[symbol] = {'price': 0.0, 'change_pct': 0.0}
+            print(f"{symbol}: {sector_data[symbol]['price']:.4f} ({sector_data[symbol]['change_pct']:+.2f}%)")
+        except Exception as e:
+            print(f"Warning: Error fetching {symbol}: {e}")
+            sector_data[symbol] = {'price': 0.0, 'change_pct': 0.0}
+    return sector_data
 
 # ==========================================
 # 4. 抓取走势图数据
@@ -380,6 +422,37 @@ def build_sector_rotation(data):
             f"高收益债平均表现：{credit:+.2f}%",
         ]
     }
+
+
+def _sector_tone(change_pct):
+    if change_pct >= 1.0:
+        return "strong_up"
+    if change_pct >= 0.25:
+        return "up"
+    if change_pct > -0.25:
+        return "flat"
+    if change_pct > -1.0:
+        return "down"
+    return "strong_down"
+
+
+def build_sector_heatmap(sector_data):
+    """Build sorted major-sector heatmap data from sector ETF quotes."""
+    heatmap = []
+    for symbol, values in sector_data.items():
+        meta = SECTOR_ETFS.get(symbol, {'name': symbol, 'full_name': symbol})
+        change = float(values.get('change_pct', 0) or 0)
+        price = float(values.get('price', 0) or 0)
+        heatmap.append({
+            "symbol": symbol,
+            "name": meta['name'],
+            "full_name": meta['full_name'],
+            "price": f"{price:.2f}",
+            "change": f"{change:+.2f}%",
+            "change_pct": round(change, 2),
+            "tone": _sector_tone(change),
+        })
+    return sorted(heatmap, key=lambda item: item['change_pct'], reverse=True)
 
 # ==========================================
 # 9. 专业交易员视角的综合策略分析
@@ -736,6 +809,8 @@ def generate_strategy(data, fg_data, vix_strategy, chart_data):
 def main():
     print("正在抓取收盘数据...")
     data       = get_market_data()
+    print("正在抓取板块 ETF 数据...")
+    sector_data = get_sector_data()
     fg_data    = fetch_fear_greed()
     print("正在抓取走势图数据...")
     chart_data = get_chart_data()
@@ -795,6 +870,7 @@ def main():
         "daily_changes": [],
         "watchlist_triggers": build_watchlist_triggers(data),
         "sector_rotation": build_sector_rotation(data),
+        "sector_heatmap": build_sector_heatmap(sector_data),
         "score_history": [],
         "strategies":    strategies,
         "charts":        chart_data,
@@ -819,6 +895,10 @@ def main():
         f"<li><strong>{'⚠️' if t['active'] else '✓'} {t['label']}：</strong>{t['detail']}</li>"
         for t in summary_data.get('watchlist_triggers', [])
     ])
+    heatmap_rows = "".join([
+        f"<tr><td>{s['name']} ({s['symbol']})</td><td>${s['price']}</td><td>{s['change']}</td></tr>"
+        for s in summary_data.get('sector_heatmap', [])
+    ]) or "<tr><td colspan='3'>暂无板块数据</td></tr>"
 
     html_template = f"""
     <!DOCTYPE html><html><head><meta charset="utf-8">
@@ -891,9 +971,14 @@ def main():
         <tr><th>指标</th><th>昨日</th><th>今日</th><th>变化</th></tr>
         {change_rows}
     </table>
-    <div class="section-title">6. 风险触发器</div>
+    <div class="section-title">6. 板块轮动热力图</div>
+    <table class="data-table">
+        <tr><th>板块</th><th>ETF 价格</th><th>当日涨跌</th></tr>
+        {heatmap_rows}
+    </table>
+    <div class="section-title">7. 风险触发器</div>
     <div class="strategy-box"><ul>{trigger_rows}</ul></div>
-    <div class="section-title">7. 综合投资策略指引</div>
+    <div class="section-title">8. 综合投资策略指引</div>
     <div class="strategy-box"><ul>{strategy_rows}</ul></div>
     </body></html>
     """
