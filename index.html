@@ -34,6 +34,35 @@
         <p class="text-[11px] text-slate-300 mt-1">💡 点击任意数据卡片可查看走势图</p>
     </div>
 
+    <!-- 顶部决策摘要 -->
+    <div class="mb-5 bg-gradient-to-br from-blue-950 to-slate-900 rounded-3xl p-5 text-white shadow-lg border border-blue-900">
+        <div class="flex items-start justify-between gap-3">
+            <div>
+                <div class="text-[11px] font-bold text-blue-200 tracking-wider uppercase">今日一句话结论</div>
+                <div id="decision-headline" class="text-lg font-black leading-snug mt-1">正在生成结论...</div>
+            </div>
+            <div class="text-right shrink-0">
+                <div class="text-[10px] text-blue-200 font-bold">评分</div>
+                <div class="text-3xl font-black" id="decision-score">--</div>
+                <div class="text-[10px] text-blue-200" id="decision-bias">--</div>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+            <div class="bg-white/10 rounded-2xl p-3">
+                <div class="text-[10px] text-blue-200 font-bold">建议仓位</div>
+                <div class="text-xl font-black" id="decision-allocation">--</div>
+            </div>
+            <div class="bg-white/10 rounded-2xl p-3">
+                <div class="text-[10px] text-blue-200 font-bold">核心动作</div>
+                <div class="text-xs font-bold leading-snug" id="decision-action-short">回调分批，不追高</div>
+            </div>
+        </div>
+        <div class="mt-4 space-y-2 text-xs leading-relaxed">
+            <div><span class="text-green-300 font-black">主要驱动：</span><span id="primary-driver">--</span></div>
+            <div><span class="text-amber-300 font-black">主要风险：</span><span id="primary-risk">--</span></div>
+        </div>
+    </div>
+
     <!-- 1. 大盘核心指数 -->
     <div class="mb-5">
         <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">1. 大盘核心指数</h3>
@@ -97,9 +126,24 @@
         </div>
     </div>
 
+    <!-- 今日变化 & 历史评分 -->
+    <div class="mb-5">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 昨日 vs 今日</h3>
+        <div id="daily-changes" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
+            <div class="p-3 text-xs text-slate-400">暂无昨日数据，下一次生成后会自动对比。</div>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mt-3">
+            <div class="flex items-center justify-between mb-2">
+                <div class="text-xs font-black text-slate-600">过去 30 日情绪评分</div>
+                <div class="text-[10px] text-slate-400">越高越偏多</div>
+            </div>
+            <div style="position:relative;height:120px;"><canvas id="score-chart"></canvas></div>
+        </div>
+    </div>
+
     <!-- 3. 高收益信用债 -->
     <div class="mb-5">
-        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">3. 高收益信用债 (流动性)</h3>
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 高收益信用债 (流动性)</h3>
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
             <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('HYG')">
                 <div class="flex items-center gap-1.5">
@@ -128,7 +172,7 @@
 
     <!-- 4. 跨资产联动 -->
     <div class="mb-5">
-        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">4. 跨资产联动 (宏观阻力)</h3>
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">5. 跨资产联动 (宏观阻力)</h3>
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
             <div class="tappable p-3.5 flex justify-between items-center" onclick="openChart('TNX')">
                 <div class="flex items-center gap-1.5">
@@ -163,9 +207,22 @@
         </div>
     </div>
 
+    <!-- 市场结构与风险触发器 -->
+    <div class="mb-5">
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">6. 市场结构 & 风险触发器</h3>
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-3">
+            <div class="text-xs font-black text-slate-600 mb-2">板块/风格轮动</div>
+            <div id="sector-leadership" class="text-sm font-black text-slate-800">--</div>
+            <div id="sector-notes" class="text-xs text-slate-500 mt-2 space-y-1"></div>
+        </div>
+        <div id="watchlist-triggers" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm divide-y divide-slate-100 overflow-hidden">
+            <div class="p-3 text-xs text-slate-400">风险规则载入中...</div>
+        </div>
+    </div>
+
     <!-- 5. 综合投资策略指引 -->
     <div class="mb-6">
-        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">5. 综合投资策略指引</h3>
+        <h3 class="text-xs font-bold text-slate-400 mb-2 tracking-wider uppercase">7. 综合投资策略指引</h3>
         <div class="bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-blue-950">
             <h4 class="font-black mb-3 text-sm tracking-wide text-blue-300">🎯 盘后多维动态研判</h4>
             <ul class="text-xs space-y-3 leading-relaxed font-medium" id="strategy-list">
@@ -337,6 +394,7 @@ function renderGauge(containerId, value, zones, maxVal, labelOverride = null) {
 // ═══════════════════════════════════════════════════
 let appData    = null;
 let priceChart = null;
+let scoreChart = null;
 let activeKey  = null;
 let activeTab  = 'intraday';
 
@@ -368,11 +426,102 @@ function renderTrend(val, changeId) {
     }
 }
 
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.innerText = value ?? '--';
+}
+
+function renderDecisionSummary(data) {
+    const d = data.decision_summary || {};
+    setText('decision-headline', d.headline || '今日结论生成中');
+    setText('decision-score', d.score ? `${d.score}/10` : '--');
+    setText('decision-bias', d.bias || data.bias || '--');
+    setText('decision-allocation', d.allocation || '--');
+    setText('primary-driver', d.primary_driver || '--');
+    setText('primary-risk', d.primary_risk || '--');
+    setText('decision-action-short', data.action_plan ? data.action_plan.replace('操作建议：', '').slice(0, 34) + '…' : '回调分批，不追高');
+}
+
+function renderDailyChanges(changes) {
+    const box = document.getElementById('daily-changes');
+    if (!box) return;
+    if (!changes || changes.length === 0) {
+        box.innerHTML = '<div class="p-3 text-xs text-slate-400">暂无昨日数据，下一次生成后会自动对比。</div>';
+        return;
+    }
+    box.innerHTML = changes.map(item => {
+        const toneClass = item.tone === 'positive' ? 'text-green-600 bg-green-50' : item.tone === 'negative' ? 'text-red-600 bg-red-50' : 'text-slate-500 bg-slate-50';
+        const arrow = item.direction === 'up' ? '↗' : item.direction === 'down' ? '↘' : '→';
+        return `<div class="p-3 flex items-center justify-between gap-2">
+            <div><div class="text-xs font-black text-slate-700">${item.label}</div><div class="text-[10px] text-slate-400">${item.previous} → ${item.current}</div></div>
+            <div class="text-xs font-black px-2 py-1 rounded-lg ${toneClass}">${arrow} ${item.delta}</div>
+        </div>`;
+    }).join('');
+}
+
+function renderWatchlistTriggers(triggers) {
+    const box = document.getElementById('watchlist-triggers');
+    if (!box) return;
+    box.innerHTML = (triggers || []).map(item => {
+        const cls = item.active ? 'bg-red-50 text-red-700 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-100';
+        const icon = item.active ? '⚠️' : '✓';
+        return `<div class="p-3 flex gap-2 items-start">
+            <div class="text-sm">${icon}</div>
+            <div><div class="text-xs font-black ${item.active ? 'text-red-700' : 'text-slate-700'}">${item.label}</div><div class="text-[11px] leading-relaxed ${item.active ? 'text-red-500' : 'text-slate-400'}">${item.detail}</div></div>
+        </div>`;
+    }).join('');
+}
+
+function renderSectorRotation(sector) {
+    if (!sector) return;
+    setText('sector-leadership', sector.leadership || '--');
+    const notes = document.getElementById('sector-notes');
+    if (notes) {
+        notes.innerHTML = [sector.credit_tone, ...(sector.notes || [])]
+            .filter(Boolean)
+            .map(n => `<div>• ${n}</div>`).join('');
+    }
+}
+
+function renderScoreHistory(history) {
+    const canvas = document.getElementById('score-chart');
+    if (!canvas || !history || history.length === 0 || typeof Chart === 'undefined') return;
+    if (scoreChart) scoreChart.destroy();
+    scoreChart = new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: history.map(p => p.date.slice(5)),
+            datasets: [{
+                data: history.map(p => p.score),
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37,99,235,0.12)',
+                fill: true,
+                tension: 0.35,
+                pointRadius: history.length > 1 ? 2 : 4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 9 } }, grid: { color: '#f1f5f9' } },
+                x: { ticks: { font: { size: 9 }, maxTicksLimit: 5 }, grid: { display: false } }
+            }
+        }
+    });
+}
+
 fetch('public/data.json?t=' + Date.now())
     .then(r => r.json())
     .then(data => {
         appData = data;
         document.getElementById('date-display').innerText = "🕐 数据时间：" + data.date;
+        renderDecisionSummary(data);
+        renderDailyChanges(data.daily_changes);
+        renderSectorRotation(data.sector_rotation);
+        renderWatchlistTriggers(data.watchlist_triggers);
+        renderScoreHistory(data.score_history);
 
         document.getElementById('sp500-price').innerText  = data.SP500_price;
         renderTrend(data.SP500_change, 'sp500-change');

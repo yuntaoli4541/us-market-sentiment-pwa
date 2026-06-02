@@ -218,7 +218,171 @@ def get_vix_strategy(vix_val):
         return {"status": "极度恐慌", "tip": "大胆抄底，重仓入场"}
 
 # ==========================================
-# 8. 专业交易员视角的综合策略分析
+# 8. 每日复盘结构化洞察
+# ==========================================
+def _num(value):
+    """Parse numbers from strings such as '4.20%' or '1,234.5'."""
+    try:
+        return float(str(value).replace('%', '').replace(',', '').strip())
+    except Exception:
+        return None
+
+
+def allocation_for_score(score):
+    if score >= 8:
+        return "7-8成"
+    if score >= 6.5:
+        return "5-6成"
+    if score >= 4:
+        return "3-4成"
+    if score >= 2.5:
+        return "2成以内"
+    return "现金为主"
+
+
+def build_decision_summary(score, bias, data, fg_score):
+    """Build the top-of-page one-glance decision card."""
+    score_f = float(score)
+    vix = data.get('VIX', {}).get('price', 0)
+    vix_chg = data.get('VIX', {}).get('change_pct', 0)
+    sp_chg = data.get('SP500', {}).get('change_pct', 0)
+    tnx = data.get('TNX', {}).get('price', 0)
+    hyg_chg = data.get('HYG', {}).get('change_pct', 0)
+    jnk_chg = data.get('JNK', {}).get('change_pct', 0)
+
+    if score_f >= 8:
+        headline = "强势偏多，适合主动参与，但仍需分批执行"
+    elif score_f >= 6.5:
+        headline = "偏多但不宜追高，回调分批加仓更合适"
+    elif score_f >= 4:
+        headline = "震荡观察，等待趋势和信用信号共振"
+    elif score_f >= 2.5:
+        headline = "偏空防守，优先控制回撤和流动性风险"
+    else:
+        headline = "风险释放中，现金和防守优先"
+
+    drivers = []
+    risks = []
+    if sp_chg > 0:
+        drivers.append(f"标普当日收涨 {sp_chg:+.2f}%")
+    else:
+        risks.append(f"标普当日回落 {sp_chg:+.2f}%")
+    if vix < 20 and vix_chg <= 0:
+        drivers.append(f"VIX {vix:.1f} 且回落，波动压力温和")
+    elif vix >= 20:
+        risks.append(f"VIX {vix:.1f} 上破 20，恐慌升温")
+    if (hyg_chg + jnk_chg) / 2 > 0:
+        drivers.append("高收益债同步企稳，信用环境尚可")
+    else:
+        risks.append("高收益债偏弱，需观察信用风险")
+    if tnx > 4.7:
+        risks.append(f"十年期美债 {tnx:.2f}% 高于 4.7%，估值压力较大")
+    elif tnx > 4.2:
+        risks.append(f"十年期美债 {tnx:.2f}% 仍在中高位")
+    if isinstance(fg_score, int) and fg_score >= 75:
+        risks.append(f"恐惧贪婪 {fg_score} 接近过热")
+
+    return {
+        "headline": headline,
+        "score": f"{score_f:.1f}",
+        "bias": bias,
+        "allocation": allocation_for_score(score_f),
+        "primary_driver": "；".join(drivers[:2]) if drivers else "暂无明显单一驱动，等待更多确认",
+        "primary_risk": "；".join(risks[:2]) if risks else "主要风险暂未显著暴露，但仍需避免追高",
+    }
+
+
+def build_watchlist_triggers(data):
+    """Rules to watch after today's report."""
+    vix = data.get('VIX', {}).get('price', 0)
+    tnx = data.get('TNX', {}).get('price', 0)
+    hyg = data.get('HYG', {}).get('change_pct', 0)
+    jnk = data.get('JNK', {}).get('change_pct', 0)
+    dxy = data.get('DXY', {}).get('change_pct', 0)
+    credit_weak = hyg < -0.2 and jnk < -0.2
+    return [
+        {"label": "VIX 上破 20", "active": vix >= 20, "detail": "短线波动和避险需求升温，追高需暂停。"},
+        {"label": "VIX 上破 30", "active": vix >= 30, "detail": "进入明显恐慌区，可转为分批逆向观察。"},
+        {"label": "TNX 上破 4.7%", "active": tnx >= 4.7, "detail": "利率对成长股估值形成更强压制。"},
+        {"label": "HYG/JNK 同步走弱", "active": credit_weak, "detail": "信用市场若连续走弱，权益风险质量下降。"},
+        {"label": "美元单日快速走强", "active": dxy >= 0.7, "detail": "强美元可能压制商品、新兴市场和跨国公司盈利预期。"},
+    ]
+
+
+def compare_metric_snapshots(current, previous):
+    if not previous:
+        return []
+    specs = [
+        ("SP500_price", "标普500", "指数点位", "higher_good"),
+        ("NASDAQ_price", "纳斯达克", "指数点位", "higher_good"),
+        ("VIX_price", "VIX", "恐慌指数", "lower_good"),
+        ("FG_Score", "恐惧贪婪", "情绪分数", "neutral_middle"),
+        ("TNX_price", "十年期美债", "收益率", "lower_good"),
+    ]
+    changes = []
+    for key, label, unit, mode in specs:
+        cur = _num(current.get(key))
+        prev = _num(previous.get(key))
+        if cur is None or prev is None:
+            continue
+        delta = cur - prev
+        if abs(delta) < 1e-9:
+            direction = "flat"
+        else:
+            direction = "up" if delta > 0 else "down"
+        if mode == "higher_good":
+            tone = "positive" if delta > 0 else "negative" if delta < 0 else "neutral"
+        elif mode == "lower_good":
+            tone = "positive" if delta < 0 else "negative" if delta > 0 else "neutral"
+        else:
+            tone = "positive" if 45 <= cur <= 70 else "negative" if cur >= 80 or cur <= 25 else "neutral"
+        changes.append({
+            "key": key,
+            "label": label,
+            "unit": unit,
+            "previous": f"{prev:.2f}",
+            "current": f"{cur:.2f}",
+            "delta": f"{delta:+.2f}",
+            "direction": direction,
+            "tone": tone,
+        })
+    return changes
+
+
+def build_score_history(date_iso, score, previous, bias, limit=30):
+    history = []
+    if previous:
+        for item in previous.get('score_history', []):
+            if item.get('date') != date_iso:
+                history.append(item)
+    history.append({"date": date_iso, "score": round(float(score), 1), "bias": bias})
+    return history[-limit:]
+
+
+def build_sector_rotation(data):
+    """Lightweight relative-performance view using available index proxies."""
+    sp = data.get('SP500', {}).get('change_pct', 0)
+    nd = data.get('NASDAQ', {}).get('change_pct', 0)
+    credit = (data.get('HYG', {}).get('change_pct', 0) + data.get('JNK', {}).get('change_pct', 0)) / 2
+    growth_gap = nd - sp
+    if growth_gap > 0.4:
+        leadership = "成长/科技相对占优"
+    elif growth_gap < -0.4:
+        leadership = "大盘宽基强于科技成长"
+    else:
+        leadership = "科技与大盘表现接近"
+    return {
+        "leadership": leadership,
+        "growth_gap": f"{growth_gap:+.2f}%",
+        "credit_tone": "信用环境支撑风险资产" if credit > 0 else "信用环境偏谨慎",
+        "notes": [
+            f"纳指相对标普：{growth_gap:+.2f}%",
+            f"高收益债平均表现：{credit:+.2f}%",
+        ]
+    }
+
+# ==========================================
+# 9. 专业交易员视角的综合策略分析
 # ==========================================
 def generate_strategy(data, fg_data, vix_strategy, chart_data):
     """
@@ -557,7 +721,14 @@ def generate_strategy(data, fg_data, vix_strategy, chart_data):
         f"{bias_icon} 综合研判（评分 {score:.1f}/10 · {bias}）：{summary} {action}"
     )
 
-    return strategies
+    return {
+        "strategies": strategies,
+        "score": score,
+        "bias": bias,
+        "bias_icon": bias_icon,
+        "summary": summary,
+        "action": action,
+    }
 
 # ==========================================
 # 9. 核心执行逻辑
@@ -572,12 +743,24 @@ def main():
     vix_val      = data['VIX']['price']
     vix_strategy = get_vix_strategy(vix_val)
     # ✅ 传入 chart_data，用于趋势分析
-    strategies   = generate_strategy(data, fg_data, vix_strategy, chart_data)
+    strategy_pack = generate_strategy(data, fg_data, vix_strategy, chart_data)
+    strategies    = strategy_pack["strategies"]
 
     data_dt     = get_data_timestamp()
     report_date = data_dt.strftime('%Y年%m月%d日 %H:%M ET')
     date_iso    = data_dt.strftime('%Y-%m-%d')
     print(f"Report date: {report_date}")
+
+    output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public')
+    os.makedirs(output_dir, exist_ok=True)
+    previous_summary = None
+    previous_path = os.path.join(output_dir, 'data.json')
+    if os.path.exists(previous_path):
+        try:
+            with open(previous_path, 'r', encoding='utf-8') as f:
+                previous_summary = json.load(f)
+        except Exception as e:
+            print(f"Warning: could not load previous summary: {e}")
 
     summary_data = {
         "date":          report_date,
@@ -602,18 +785,40 @@ def main():
         "GOLD_change":   f"{data['GOLD']['change_pct']:.2f}",
         "DXY_price":     f"{data['DXY']['price']:.2f}",
         "DXY_change":    f"{data['DXY']['change_pct']:.2f}",
+        "decision_summary": build_decision_summary(
+            strategy_pack["score"], strategy_pack["bias"], data, fg_data['FG_Score']
+        ),
+        "score":         f"{strategy_pack['score']:.1f}",
+        "bias":          strategy_pack["bias"],
+        "bias_icon":     strategy_pack["bias_icon"],
+        "action_plan":   strategy_pack["action"],
+        "daily_changes": [],
+        "watchlist_triggers": build_watchlist_triggers(data),
+        "sector_rotation": build_sector_rotation(data),
+        "score_history": [],
         "strategies":    strategies,
         "charts":        chart_data,
     }
+    summary_data["daily_changes"] = compare_metric_snapshots(summary_data, previous_summary)
+    summary_data["score_history"] = build_score_history(
+        date_iso, strategy_pack["score"], previous_summary, strategy_pack["bias"]
+    )
 
-    output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'public')
-    os.makedirs(output_dir, exist_ok=True)
     with open(os.path.join(output_dir, 'data.json'), 'w', encoding='utf-8') as f:
         json.dump(summary_data, f, ensure_ascii=False, indent=4)
 
     def get_color(c): return "#16a34a" if c > 0 else "#dc2626"
     def get_arrow(c): return "▲" if c > 0 else "▼"
     strategy_rows = "".join([f"<li style='margin-bottom:10px;line-height:1.7;'>{s}</li>" for s in strategies])
+    decision = summary_data['decision_summary']
+    change_rows = "".join([
+        f"<tr><td>{c['label']}</td><td>{c['previous']}</td><td>{c['current']}</td><td>{c['delta']}</td></tr>"
+        for c in summary_data.get('daily_changes', [])
+    ]) or "<tr><td colspan='4'>暂无昨日数据</td></tr>"
+    trigger_rows = "".join([
+        f"<li><strong>{'⚠️' if t['active'] else '✓'} {t['label']}：</strong>{t['detail']}</li>"
+        for t in summary_data.get('watchlist_triggers', [])
+    ])
 
     html_template = f"""
     <!DOCTYPE html><html><head><meta charset="utf-8">
@@ -635,6 +840,16 @@ def main():
         <h1>美股情绪观察每日报告</h1>
         <div style="font-size:10pt;opacity:0.85;">🕐 数据时间：{report_date}</div>
         <div class="disclaimer">数据来自第三方（Yahoo Finance / CNN），由 AI 辅助生成，仅供参考，不构成任何投资建议</div>
+    </div>
+    <div class="section-title">0. 今日一句话结论</div>
+    <div class="strategy-box">
+        <div style="font-size:14pt;font-weight:bold;color:#1e3a8a;margin-bottom:8px;">{decision['headline']}</div>
+        <table class="data-table">
+            <tr><th>综合评分</th><th>市场偏向</th><th>建议仓位</th></tr>
+            <tr><td>{decision['score']}/10</td><td>{decision['bias']}</td><td>{decision['allocation']}</td></tr>
+        </table>
+        <p style="font-size:9pt;margin:10px 0 4px 0;"><strong>主要驱动：</strong>{decision['primary_driver']}</p>
+        <p style="font-size:9pt;margin:4px 0 0 0;"><strong>主要风险：</strong>{decision['primary_risk']}</p>
     </div>
     <div class="section-title">1. 大盘核心指数</div>
     <table class="data-table">
@@ -671,7 +886,14 @@ def main():
         <tr><td>美元指数 (DXY)</td><td>{summary_data['DXY_price']}</td>
             <td style="color:{get_color(data['DXY']['change_pct'])};">{get_arrow(data['DXY']['change_pct'])} {summary_data['DXY_change']}%</td></tr>
     </table>
-    <div class="section-title">5. 综合投资策略指引</div>
+    <div class="section-title">5. 昨日 vs 今日</div>
+    <table class="data-table">
+        <tr><th>指标</th><th>昨日</th><th>今日</th><th>变化</th></tr>
+        {change_rows}
+    </table>
+    <div class="section-title">6. 风险触发器</div>
+    <div class="strategy-box"><ul>{trigger_rows}</ul></div>
+    <div class="section-title">7. 综合投资策略指引</div>
     <div class="strategy-box"><ul>{strategy_rows}</ul></div>
     </body></html>
     """
