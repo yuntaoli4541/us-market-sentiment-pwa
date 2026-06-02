@@ -164,4 +164,50 @@ def test_index_has_clickable_holdings_modal_for_industry_cards():
 
     assert "holdings-modal" in html
     assert "openHoldingsModal" in html
-    assert "代表持仓" in html
+    assert "前十大持仓" in html
+
+
+
+def test_sector_heatmap_marks_group_and_holding_scope():
+    raw = {
+        "XLK": {"price": 100.0, "change_pct": 0.3},
+        "IGV": {"price": 101.0, "change_pct": 1.2},
+    }
+
+    heatmap = build_sector_heatmap(raw)
+    by_symbol = {item["symbol"]: item for item in heatmap}
+
+    assert by_symbol["XLK"]["group"] == "sector"
+    assert by_symbol["IGV"]["group"] == "industry"
+    assert by_symbol["IGV"]["holding_scope"] == "top10_yfinance"
+    assert by_symbol["IGV"]["holding_note"]
+
+
+def test_index_separates_sector_and_industry_heatmaps():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    assert "sector-heatmap" in html
+    assert "industry-heatmap" in html
+    assert "renderGroupedHeatmaps" in html
+    assert "前十大持仓" in html
+
+
+def test_watchlist_summary_explains_all_observed_indicator_groups():
+    data = {
+        "VIX": {"price": 21},
+        "TNX": {"price": 4.8},
+        "HYG": {"change_pct": -0.4},
+        "JNK": {"change_pct": -0.3},
+        "DXY": {"change_pct": 0.8},
+        "GOLD": {"change_pct": 1.2},
+        "SP500": {"change_pct": -0.5},
+        "NASDAQ": {"change_pct": -0.8},
+    }
+
+    triggers = build_watchlist_triggers(data)
+    labels = {item["label"] for item in triggers}
+
+    assert "大盘指数同步走弱" in labels
+    assert "黄金避险走强" in labels
+    assert "VIX 上破 20" in labels
+    assert "TNX 上破 4.7%" in labels

@@ -217,10 +217,17 @@
         </div>
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-3">
             <div class="flex items-center justify-between mb-3">
-                <div class="text-xs font-black text-slate-600">主要板块/行业热力图</div>
-                <div class="text-[10px] text-slate-400">含软件 IGV，按当日涨跌幅排序</div>
+                <div class="text-xs font-black text-slate-600">主要板块热力图</div>
+                <div class="text-[10px] text-slate-400">GICS 11 大板块 ETF</div>
             </div>
             <div id="sector-heatmap" class="grid grid-cols-2 gap-2"></div>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4 mb-3">
+            <div class="flex items-center justify-between mb-3">
+                <div class="text-xs font-black text-slate-600">细分行业/主题热力图</div>
+                <div class="text-[10px] text-slate-400">点击卡片看前十大持仓</div>
+            </div>
+            <div id="industry-heatmap" class="grid grid-cols-2 gap-2"></div>
         </div>
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-3 mb-2">
             <div class="text-xs font-black text-slate-600">风险触发器说明</div>
@@ -250,7 +257,7 @@
     </p>
 </div>
 
-<!-- ETF 代表持仓弹窗 -->
+<!-- ETF 前十大持仓弹窗 -->
 <div id="holdings-modal"
      class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none"
      style="background:rgba(0,0,0,0.45);"
@@ -263,7 +270,7 @@
         </div>
         <div class="flex items-start justify-between px-5 pt-2 pb-3">
             <div>
-                <h2 class="text-base font-black text-slate-800" id="holdings-title">代表持仓</h2>
+                <h2 class="text-base font-black text-slate-800" id="holdings-title">前十大持仓</h2>
                 <p class="text-[11px] text-slate-400" id="holdings-subtitle">点击行业 ETF 查看代表性股票</p>
             </div>
             <button onclick="closeHoldingsModal()"
@@ -271,7 +278,7 @@
         </div>
         <div class="px-5">
             <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-100 rounded-xl p-3 mb-3">
-                代表持仓用于快速理解这个行业 ETF 主要暴露方向，实际持仓权重会随基金调仓变化。
+                前十大持仓用于快速理解这个行业 ETF 主要暴露方向；这是 yfinance 可稳定提供的前十大，不是 ETF 全部持仓。实际持仓权重会随基金调仓变化。
             </div>
             <div id="holdings-list" class="space-y-2"></div>
         </div>
@@ -519,8 +526,15 @@ function renderSectorRotation(sector) {
     }
 }
 
-function renderSectorHeatmap(items) {
-    const box = document.getElementById('sector-heatmap');
+function renderGroupedHeatmaps(items) {
+    const sectors = (items || []).filter(item => item.group === 'sector');
+    const industries = (items || []).filter(item => item.group === 'industry');
+    renderSectorHeatmap('sector-heatmap', sectors, false);
+    renderSectorHeatmap('industry-heatmap', industries, true);
+}
+
+function renderSectorHeatmap(containerId, items, clickable) {
+    const box = document.getElementById(containerId);
     if (!box) return;
     if (!items || items.length === 0) {
         box.innerHTML = '<div class="col-span-2 text-xs text-slate-400">暂无板块数据</div>';
@@ -534,9 +548,9 @@ function renderSectorHeatmap(items) {
         strong_down: 'bg-red-600 text-white border-red-700',
     };
     box.innerHTML = items.map((item, idx) => {
-        const hasHoldings = item.category === '行业' && item.holdings && item.holdings.length;
+        const hasHoldings = clickable && item.holdings && item.holdings.length;
         return `<button type="button" class="text-left rounded-2xl border p-3 ${toneClass[item.tone] || toneClass.flat} ${hasHoldings ? 'active:scale-[0.98] transition' : ''}"
-                onclick="openHoldingsModal(${idx})">
+                onclick="openHoldingsModal('${item.symbol}')">
         <div class="flex items-start justify-between gap-2">
             <div>
                 <div class="text-sm font-black">${item.name}</div>
@@ -547,17 +561,17 @@ function renderSectorHeatmap(items) {
                 <div class="text-[10px] opacity-75">$${item.price}</div>
             </div>
         </div>
-        ${hasHoldings ? '<div class="text-[10px] mt-2 opacity-80">点开看代表持仓</div>' : ''}
+        ${hasHoldings ? '<div class="text-[10px] mt-2 opacity-80">点开看前十大持仓</div>' : ''}
     </button>`;
     }).join('');
 }
 
-function openHoldingsModal(index) {
+function openHoldingsModal(symbol) {
     if (!appData || !appData.sector_heatmap) return;
-    const item = appData.sector_heatmap[index];
+    const item = appData.sector_heatmap.find(x => x.symbol === symbol);
     if (!item || !item.holdings || item.holdings.length === 0) return;
 
-    setText('holdings-title', `${item.name} ${item.symbol} 代表持仓`);
+    setText('holdings-title', `${item.name} ${item.symbol} 前十大持仓`);
     setText('holdings-subtitle', `${item.full_name || item.name} · ${item.category || '行业'} ETF`);
     const list = document.getElementById('holdings-list');
     if (list) {
@@ -628,7 +642,7 @@ fetch('public/data.json?t=' + Date.now())
         renderDecisionSummary(data);
         renderDailyChanges(data.daily_changes);
         renderSectorRotation(data.sector_rotation);
-        renderSectorHeatmap(data.sector_heatmap);
+        renderGroupedHeatmaps(data.sector_heatmap);
         renderWatchlistTriggers(data.watchlist_triggers);
         renderScoreHistory(data.score_history);
 

@@ -367,12 +367,18 @@ def build_watchlist_triggers(data):
     hyg = data.get('HYG', {}).get('change_pct', 0)
     jnk = data.get('JNK', {}).get('change_pct', 0)
     dxy = data.get('DXY', {}).get('change_pct', 0)
+    gold = data.get('GOLD', {}).get('change_pct', 0)
+    sp = data.get('SP500', {}).get('change_pct', 0)
+    nd = data.get('NASDAQ', {}).get('change_pct', 0)
     credit_weak = hyg < -0.2 and jnk < -0.2
+    equity_weak = sp < -0.4 and nd < -0.4
     return [
         {"label": "VIX 上破 20", "active": vix >= 20, "detail": "观察用风险阈值：代表市场波动预期升温，不等于必须卖出；若同时信用债转弱，应降低追高和高杠杆。"},
         {"label": "VIX 上破 30", "active": vix >= 30, "detail": "观察用恐慌阈值：代表市场进入明显压力区，优先控制回撤；只有在企稳后才考虑分批逆向机会。"},
         {"label": "TNX 上破 4.7%", "active": tnx >= 4.7, "detail": "利率对成长股估值形成更强压制。"},
         {"label": "HYG/JNK 同步走弱", "active": credit_weak, "detail": "信用市场若连续走弱，权益风险质量下降。"},
+        {"label": "大盘指数同步走弱", "active": equity_weak, "detail": "标普与纳指同时回落，说明风险偏好从局部扩散到大盘层面。"},
+        {"label": "黄金避险走强", "active": gold >= 1.0, "detail": "黄金明显走强通常代表避险或实际利率预期变化，需要和美元、利率一起看。"},
         {"label": "美元单日快速走强", "active": dxy >= 0.7, "detail": "强美元可能压制商品、新兴市场和跨国公司盈利预期。"},
     ]
 
@@ -469,15 +475,20 @@ def build_sector_heatmap(sector_data):
         meta = SECTOR_ETFS.get(symbol, {'name': symbol, 'full_name': symbol, 'category': '行业'})
         change = float(values.get('change_pct', 0) or 0)
         price = float(values.get('price', 0) or 0)
+        category = meta.get('category', '板块')
+        holdings = [
+            {"symbol": ticker, "name": company}
+            for ticker, company in ETF_HOLDINGS.get(symbol, [])
+        ]
         heatmap.append({
             "symbol": symbol,
             "name": meta['name'],
             "full_name": meta['full_name'],
-            "category": meta.get('category', '板块'),
-            "holdings": [
-                {"symbol": ticker, "name": company}
-                for ticker, company in ETF_HOLDINGS.get(symbol, [])
-            ],
+            "category": category,
+            "group": "industry" if category == "行业" else "sector",
+            "holdings": holdings,
+            "holding_scope": "top10_yfinance" if holdings else "none",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。" if holdings else "",
             "price": f"{price:.2f}",
             "change": f"{change:+.2f}%",
             "change_pct": round(change, 2),
