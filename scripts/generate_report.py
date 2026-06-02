@@ -3,7 +3,6 @@ import json
 import requests
 import pandas as pd
 import yfinance as yf
-from weasyprint import HTML
 from datetime import datetime, timezone, timedelta
 
 # ==========================================
@@ -21,17 +20,18 @@ TICKERS = {
 }
 
 SECTOR_ETFS = {
-    'XLK': {'name': '科技', 'full_name': 'Technology'},
-    'XLY': {'name': '可选消费', 'full_name': 'Consumer Discretionary'},
-    'XLC': {'name': '通信服务', 'full_name': 'Communication Services'},
-    'XLF': {'name': '金融', 'full_name': 'Financials'},
-    'XLI': {'name': '工业', 'full_name': 'Industrials'},
-    'XLE': {'name': '能源', 'full_name': 'Energy'},
-    'XLV': {'name': '医疗保健', 'full_name': 'Health Care'},
-    'XLP': {'name': '必需消费', 'full_name': 'Consumer Staples'},
-    'XLU': {'name': '公用事业', 'full_name': 'Utilities'},
-    'XLRE': {'name': '房地产', 'full_name': 'Real Estate'},
-    'XLB': {'name': '材料', 'full_name': 'Materials'},
+    'XLK': {'name': '科技', 'full_name': 'Technology', 'category': '板块'},
+    'IGV': {'name': '软件', 'full_name': 'Software', 'category': '行业'},
+    'XLY': {'name': '可选消费', 'full_name': 'Consumer Discretionary', 'category': '板块'},
+    'XLC': {'name': '通信服务', 'full_name': 'Communication Services', 'category': '板块'},
+    'XLF': {'name': '金融', 'full_name': 'Financials', 'category': '板块'},
+    'XLI': {'name': '工业', 'full_name': 'Industrials', 'category': '板块'},
+    'XLE': {'name': '能源', 'full_name': 'Energy', 'category': '板块'},
+    'XLV': {'name': '医疗保健', 'full_name': 'Health Care', 'category': '板块'},
+    'XLP': {'name': '必需消费', 'full_name': 'Consumer Staples', 'category': '板块'},
+    'XLU': {'name': '公用事业', 'full_name': 'Utilities', 'category': '板块'},
+    'XLRE': {'name': '房地产', 'full_name': 'Real Estate', 'category': '板块'},
+    'XLB': {'name': '材料', 'full_name': 'Materials', 'category': '板块'},
 }
 
 ET = timezone(timedelta(hours=-4))
@@ -343,8 +343,8 @@ def build_watchlist_triggers(data):
     dxy = data.get('DXY', {}).get('change_pct', 0)
     credit_weak = hyg < -0.2 and jnk < -0.2
     return [
-        {"label": "VIX 上破 20", "active": vix >= 20, "detail": "短线波动和避险需求升温，追高需暂停。"},
-        {"label": "VIX 上破 30", "active": vix >= 30, "detail": "进入明显恐慌区，可转为分批逆向观察。"},
+        {"label": "VIX 上破 20", "active": vix >= 20, "detail": "观察用风险阈值：代表市场波动预期升温，不等于必须卖出；若同时信用债转弱，应降低追高和高杠杆。"},
+        {"label": "VIX 上破 30", "active": vix >= 30, "detail": "观察用恐慌阈值：代表市场进入明显压力区，优先控制回撤；只有在企稳后才考虑分批逆向机会。"},
         {"label": "TNX 上破 4.7%", "active": tnx >= 4.7, "detail": "利率对成长股估值形成更强压制。"},
         {"label": "HYG/JNK 同步走弱", "active": credit_weak, "detail": "信用市场若连续走弱，权益风险质量下降。"},
         {"label": "美元单日快速走强", "active": dxy >= 0.7, "detail": "强美元可能压制商品、新兴市场和跨国公司盈利预期。"},
@@ -440,13 +440,14 @@ def build_sector_heatmap(sector_data):
     """Build sorted major-sector heatmap data from sector ETF quotes."""
     heatmap = []
     for symbol, values in sector_data.items():
-        meta = SECTOR_ETFS.get(symbol, {'name': symbol, 'full_name': symbol})
+        meta = SECTOR_ETFS.get(symbol, {'name': symbol, 'full_name': symbol, 'category': '行业'})
         change = float(values.get('change_pct', 0) or 0)
         price = float(values.get('price', 0) or 0)
         heatmap.append({
             "symbol": symbol,
             "name": meta['name'],
             "full_name": meta['full_name'],
+            "category": meta.get('category', '板块'),
             "price": f"{price:.2f}",
             "change": f"{change:+.2f}%",
             "change_pct": round(change, 2),
@@ -883,106 +884,6 @@ def main():
     with open(os.path.join(output_dir, 'data.json'), 'w', encoding='utf-8') as f:
         json.dump(summary_data, f, ensure_ascii=False, indent=4)
 
-    def get_color(c): return "#16a34a" if c > 0 else "#dc2626"
-    def get_arrow(c): return "▲" if c > 0 else "▼"
-    strategy_rows = "".join([f"<li style='margin-bottom:10px;line-height:1.7;'>{s}</li>" for s in strategies])
-    decision = summary_data['decision_summary']
-    change_rows = "".join([
-        f"<tr><td>{c['label']}</td><td>{c['previous']}</td><td>{c['current']}</td><td>{c['delta']}</td></tr>"
-        for c in summary_data.get('daily_changes', [])
-    ]) or "<tr><td colspan='4'>暂无昨日数据</td></tr>"
-    trigger_rows = "".join([
-        f"<li><strong>{'⚠️' if t['active'] else '✓'} {t['label']}：</strong>{t['detail']}</li>"
-        for t in summary_data.get('watchlist_triggers', [])
-    ])
-    heatmap_rows = "".join([
-        f"<tr><td>{s['name']} ({s['symbol']})</td><td>${s['price']}</td><td>{s['change']}</td></tr>"
-        for s in summary_data.get('sector_heatmap', [])
-    ]) or "<tr><td colspan='3'>暂无板块数据</td></tr>"
-
-    html_template = f"""
-    <!DOCTYPE html><html><head><meta charset="utf-8">
-    <style>
-        @page {{ size: A4; margin: 15mm 12mm; }}
-        body {{ font-family: 'Helvetica Neue', Arial, sans-serif; color: #1e293b; line-height: 1.6; font-size: 10pt; }}
-        .header {{ background-color: #1e3a8a; color: white; padding: 20px; margin: -15mm -12mm 20px -12mm; }}
-        .header h1 {{ margin: 0 0 4px 0; font-size: 18pt; }}
-        .disclaimer {{ font-size: 8pt; opacity: 0.6; margin-top: 4px; }}
-        .section-title {{ font-size: 12pt; color: #1e3a8a; border-left: 4px solid #3b82f6; padding-left: 8px; margin: 18px 0 8px 0; font-weight: bold; }}
-        .data-table {{ width: 100%; border-collapse: collapse; background-color: white; border: 1px solid #e2e8f0; }}
-        .data-table th {{ background-color: #f1f5f9; padding: 8px 10px; text-align: left; font-size: 9pt; }}
-        .data-table td {{ padding: 8px 10px; border-bottom: 1px solid #f1f5f9; font-size: 9pt; }}
-        .strategy-box {{ background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; margin-top: 8px; border-radius: 4px; }}
-        .strategy-box ul {{ margin: 0; padding: 0 0 0 4px; list-style: none; }}
-        .strategy-box li {{ font-size: 9pt; line-height: 1.7; color: #1e3a8a; margin-bottom: 8px; }}
-    </style></head><body>
-    <div class="header">
-        <h1>美股情绪观察每日报告</h1>
-        <div style="font-size:10pt;opacity:0.85;">🕐 数据时间：{report_date}</div>
-        <div class="disclaimer">数据来自第三方（Yahoo Finance / CNN），由 AI 辅助生成，仅供参考，不构成任何投资建议</div>
-    </div>
-    <div class="section-title">0. 今日一句话结论</div>
-    <div class="strategy-box">
-        <div style="font-size:14pt;font-weight:bold;color:#1e3a8a;margin-bottom:8px;">{decision['headline']}</div>
-        <table class="data-table">
-            <tr><th>综合评分</th><th>市场偏向</th><th>建议仓位</th></tr>
-            <tr><td>{decision['score']}/10</td><td>{decision['bias']}</td><td>{decision['allocation']}</td></tr>
-        </table>
-        <p style="font-size:9pt;margin:10px 0 4px 0;"><strong>主要驱动：</strong>{decision['primary_driver']}</p>
-        <p style="font-size:9pt;margin:4px 0 0 0;"><strong>主要风险：</strong>{decision['primary_risk']}</p>
-    </div>
-    <div class="section-title">1. 大盘核心指数</div>
-    <table class="data-table">
-        <tr><th>指数</th><th>收盘价</th><th>单日涨跌</th></tr>
-        <tr><td>标普500 (S&P 500)</td><td>{summary_data['SP500_price']}</td>
-            <td style="color:{get_color(data['SP500']['change_pct'])};">{get_arrow(data['SP500']['change_pct'])} {summary_data['SP500_change']}%</td></tr>
-        <tr><td>纳斯达克综合 (NASDAQ)</td><td>{summary_data['NASDAQ_price']}</td>
-            <td style="color:{get_color(data['NASDAQ']['change_pct'])};">{get_arrow(data['NASDAQ']['change_pct'])} {summary_data['NASDAQ_change']}%</td></tr>
-    </table>
-    <div class="section-title">2. 恐慌与情绪指标</div>
-    <table class="data-table">
-        <tr><th>指标</th><th>数值</th><th>涨跌</th><th>解读</th></tr>
-        <tr><td>VIX 恐慌指数</td><td>{summary_data['VIX_price']}</td>
-            <td style="color:{get_color(data['VIX']['change_pct'])};">{get_arrow(data['VIX']['change_pct'])} {summary_data['VIX_change']}%</td>
-            <td>【{vix_strategy['status']}】{vix_strategy['tip']}</td></tr>
-        <tr><td>恐惧与贪婪指数</td><td>{summary_data['FG_Score']}</td><td>—</td>
-            <td>【{summary_data['FG_Status']}】</td></tr>
-    </table>
-    <div class="section-title">3. 高收益信用债（流动性）</div>
-    <table class="data-table">
-        <tr><th>ETF</th><th>收盘价</th><th>单日涨跌</th></tr>
-        <tr><td>HYG</td><td>${summary_data['HYG_price']}</td>
-            <td style="color:{get_color(data['HYG']['change_pct'])};">{get_arrow(data['HYG']['change_pct'])} {summary_data['HYG_change']}%</td></tr>
-        <tr><td>JNK</td><td>${summary_data['JNK_price']}</td>
-            <td style="color:{get_color(data['JNK']['change_pct'])};">{get_arrow(data['JNK']['change_pct'])} {summary_data['JNK_change']}%</td></tr>
-    </table>
-    <div class="section-title">4. 跨资产联动（宏观阻力）</div>
-    <table class="data-table">
-        <tr><th>资产</th><th>收盘价/收益率</th><th>单日涨跌</th></tr>
-        <tr><td>十年期美债收益率</td><td>{summary_data['TNX_price']}</td>
-            <td style="color:{get_color(data['TNX']['change_pct'])};">{get_arrow(data['TNX']['change_pct'])} {summary_data['TNX_change']}%</td></tr>
-        <tr><td>黄金期货 (Gold)</td><td>${summary_data['GOLD_price']}</td>
-            <td style="color:{get_color(data['GOLD']['change_pct'])};">{get_arrow(data['GOLD']['change_pct'])} {summary_data['GOLD_change']}%</td></tr>
-        <tr><td>美元指数 (DXY)</td><td>{summary_data['DXY_price']}</td>
-            <td style="color:{get_color(data['DXY']['change_pct'])};">{get_arrow(data['DXY']['change_pct'])} {summary_data['DXY_change']}%</td></tr>
-    </table>
-    <div class="section-title">5. 昨日 vs 今日</div>
-    <table class="data-table">
-        <tr><th>指标</th><th>昨日</th><th>今日</th><th>变化</th></tr>
-        {change_rows}
-    </table>
-    <div class="section-title">6. 板块轮动热力图</div>
-    <table class="data-table">
-        <tr><th>板块</th><th>ETF 价格</th><th>当日涨跌</th></tr>
-        {heatmap_rows}
-    </table>
-    <div class="section-title">7. 风险触发器</div>
-    <div class="strategy-box"><ul>{trigger_rows}</ul></div>
-    <div class="section-title">8. 综合投资策略指引</div>
-    <div class="strategy-box"><ul>{strategy_rows}</ul></div>
-    </body></html>
-    """
-    HTML(string=html_template).write_pdf(os.path.join(output_dir, 'report.pdf'))
     print("✅ 完成！")
 
 if __name__ == "__main__":

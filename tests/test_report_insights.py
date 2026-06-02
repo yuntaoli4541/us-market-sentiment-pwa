@@ -113,3 +113,24 @@ def test_build_sector_heatmap_sorts_and_classifies_major_sectors():
     assert heatmap[-1]["symbol"] == "XLE"
     assert heatmap[-1]["tone"] == "strong_down"
     assert all("change" in item and item["change"].endswith("%") for item in heatmap)
+
+
+
+def test_sector_heatmap_includes_software_industry_etf():
+    raw = {
+        "IGV": {"price": 101.0, "change_pct": 1.2},
+        "XLK": {"price": 250.0, "change_pct": 0.5},
+    }
+
+    heatmap = build_sector_heatmap(raw)
+    by_symbol = {item["symbol"]: item for item in heatmap}
+
+    assert by_symbol["IGV"]["name"] == "软件"
+    assert by_symbol["IGV"]["category"] == "行业"
+
+
+def test_index_no_longer_links_to_pdf_report():
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+
+    assert "下载完整 PDF 报告" not in html
+    assert "public/report.pdf" not in html
