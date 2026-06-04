@@ -1,81 +1,81 @@
 {
-    "date": "2026年06月03日 16:00 ET",
-    "date_iso": "2026-06-03",
-    "SP500_price": "7553.68",
-    "SP500_change": "-0.74",
-    "NASDAQ_price": "26853.98",
-    "NASDAQ_change": "-0.89",
-    "VIX_price": "16.59",
-    "VIX_change": "3.04",
+    "date": "2026年06月04日 16:00 ET",
+    "date_iso": "2026-06-04",
+    "SP500_price": "7584.31",
+    "SP500_change": "0.41",
+    "NASDAQ_price": "26830.96",
+    "NASDAQ_change": "-0.09",
+    "VIX_price": "15.22",
+    "VIX_change": "-5.47",
     "VIX_Status": "正常区间",
     "VIX_Tip": "常规定投，持股待涨",
-    "FG_Score": "54",
+    "FG_Score": "55",
     "FG_Status": "neutral",
-    "HYG_price": "79.68",
-    "HYG_change": "0.02",
-    "JNK_price": "96.00",
-    "JNK_change": "-0.21",
-    "TNX_price": "4.491%",
-    "TNX_change": "0.81",
-    "GOLD_price": "4498.90",
-    "GOLD_change": "0.18",
-    "DXY_price": "99.29",
-    "DXY_change": "-0.18",
+    "HYG_price": "79.82",
+    "HYG_change": "0.20",
+    "JNK_price": "96.17",
+    "JNK_change": "-0.03",
+    "TNX_price": "4.477%",
+    "TNX_change": "-0.31",
+    "GOLD_price": "4509.00",
+    "GOLD_change": "0.41",
+    "DXY_price": "99.43",
+    "DXY_change": "-0.04",
     "decision_summary": {
         "headline": "震荡观察，等待趋势和信用信号共振",
         "score": "6.0",
         "bias": "中性震荡",
         "allocation": "3-4成",
-        "primary_driver": "暂无明显单一驱动，等待更多确认",
-        "primary_risk": "标普当日回落 -0.74%；高收益债偏弱，需观察信用风险",
+        "primary_driver": "标普当日收涨 +0.41%；VIX 15.2 且回落，波动压力温和",
+        "primary_risk": "十年期美债 4.48% 仍在中高位",
         "logic_breakdown": [
-            "指数：标普 -0.74%、纳指 -0.89%，宽基与成长接近。",
-            "波动率：VIX 16.6，低于 20，短线恐慌未升温。",
-            "信用：HYG/JNK 平均 -0.09%，信用环境暂未恶化。",
-            "利率：十年期美债 4.49%，仍在中高位，对成长估值有压制。",
-            "美元/黄金：美元 -0.18%、黄金 +0.18%，用于观察避险与宏观压力是否升温。"
+            "指数：标普 +0.41%、纳指 -0.09%，宽基强于成长。",
+            "波动率：VIX 15.2，低于 20，短线恐慌未升温。",
+            "信用：HYG/JNK 平均 +0.08%，信用环境暂未恶化。",
+            "利率：十年期美债 4.48%，仍在中高位，对成长估值有压制。",
+            "美元/黄金：美元 -0.04%、黄金 +0.41%，用于观察避险与宏观压力是否升温。"
         ],
         "risk_summary": {
             "level": "低到中等",
-            "summary": "当前触发 1 项观察阈值；主要关注 大盘指数同步走弱。",
+            "summary": "当前触发 0 项观察阈值；暂无重大风险阈值触发。",
             "action": "若 VIX 上破 20 且信用债同步走弱，优先降低追高和高杠杆；若风险未扩散，可保持分批执行。"
         },
         "rotation_summary": {
             "sector_leaders": [
                 {
-                    "symbol": "XLK",
-                    "name": "科技",
-                    "change": "+1.67%"
+                    "symbol": "XLV",
+                    "name": "医疗保健",
+                    "change": "+2.74%"
+                },
+                {
+                    "symbol": "XLF",
+                    "name": "金融",
+                    "change": "+2.51%"
                 },
                 {
                     "symbol": "XLRE",
                     "name": "房地产",
-                    "change": "-0.05%"
-                },
-                {
-                    "symbol": "XLC",
-                    "name": "通信服务",
-                    "change": "-0.06%"
+                    "change": "+2.01%"
                 }
             ],
             "industry_leaders": [
                 {
-                    "symbol": "IGV",
-                    "name": "软件",
-                    "change": "+2.66%"
+                    "symbol": "KRE",
+                    "name": "区域银行",
+                    "change": "+2.91%"
                 },
                 {
-                    "symbol": "SMH",
-                    "name": "半导体",
-                    "change": "+2.25%"
+                    "symbol": "XBI",
+                    "name": "生物科技",
+                    "change": "+2.77%"
                 },
                 {
-                    "symbol": "SKYY",
-                    "name": "云计算",
-                    "change": "+2.24%"
+                    "symbol": "ITA",
+                    "name": "航空航天防务",
+                    "change": "+2.58%"
                 }
             ],
-            "interpretation": "强势主要来自成长/周期/主题方向，风险偏好仍有延续基础。"
+            "interpretation": "防御板块靠前，说明资金更偏谨慎。"
         },
         "tomorrow_watchlist": [
             "VIX 是否继续低于 20，确认波动风险没有扩散。",
@@ -95,39 +95,39 @@
             "label": "标普500",
             "unit": "指数点位",
             "previous": "7553.68",
-            "current": "7553.68",
-            "delta": "+0.00",
-            "direction": "flat",
-            "tone": "neutral"
+            "current": "7584.31",
+            "delta": "+30.63",
+            "direction": "up",
+            "tone": "positive"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
             "previous": "26853.98",
-            "current": "26853.98",
-            "delta": "+0.00",
-            "direction": "flat",
-            "tone": "neutral"
+            "current": "26830.96",
+            "delta": "-23.02",
+            "direction": "down",
+            "tone": "negative"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
             "previous": "16.59",
-            "current": "16.59",
-            "delta": "+0.00",
-            "direction": "flat",
-            "tone": "neutral"
+            "current": "15.22",
+            "delta": "-1.37",
+            "direction": "down",
+            "tone": "positive"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
             "previous": "54.00",
-            "current": "54.00",
-            "delta": "+0.00",
-            "direction": "flat",
+            "current": "55.00",
+            "delta": "+1.00",
+            "direction": "up",
             "tone": "positive"
         },
         {
@@ -135,10 +135,10 @@
             "label": "十年期美债",
             "unit": "收益率",
             "previous": "4.49",
-            "current": "4.49",
-            "delta": "+0.00",
-            "direction": "flat",
-            "tone": "neutral"
+            "current": "4.48",
+            "delta": "-0.01",
+            "direction": "down",
+            "tone": "positive"
         }
     ],
     "watchlist_triggers": [
@@ -164,7 +164,7 @@
         },
         {
             "label": "大盘指数同步走弱",
-            "active": true,
+            "active": false,
             "detail": "标普与纳指同时回落，说明风险偏好从局部扩散到大盘层面。"
         },
         {
@@ -179,287 +179,65 @@
         }
     ],
     "sector_rotation": {
-        "leadership": "科技与大盘表现接近",
-        "growth_gap": "-0.15%",
-        "credit_tone": "信用环境偏谨慎",
+        "leadership": "大盘宽基强于科技成长",
+        "growth_gap": "-0.49%",
+        "credit_tone": "信用环境支撑风险资产",
         "notes": [
-            "纳指相对标普：-0.15%",
-            "高收益债平均表现：-0.09%"
+            "纳指相对标普：-0.49%",
+            "高收益债平均表现：+0.08%"
         ]
     },
     "sector_heatmap": [
         {
-            "symbol": "IGV",
-            "name": "软件",
-            "full_name": "Software",
+            "symbol": "KRE",
+            "name": "区域银行",
+            "full_name": "Regional Banks",
             "category": "行业",
             "group": "industry",
             "holdings": [
                 {
-                    "symbol": "MSFT",
-                    "name": "Microsoft"
+                    "symbol": "HBAN",
+                    "name": "Huntington Bancshares"
                 },
                 {
-                    "symbol": "CRM",
-                    "name": "Salesforce"
+                    "symbol": "RF",
+                    "name": "Regions Financial"
                 },
                 {
-                    "symbol": "ORCL",
-                    "name": "Oracle"
+                    "symbol": "CFG",
+                    "name": "Citizens Financial"
                 },
                 {
-                    "symbol": "ADBE",
-                    "name": "Adobe"
+                    "symbol": "KEY",
+                    "name": "KeyCorp"
                 },
                 {
-                    "symbol": "NOW",
-                    "name": "ServiceNow"
+                    "symbol": "FITB",
+                    "name": "Fifth Third Bancorp"
                 },
                 {
-                    "symbol": "INTU",
-                    "name": "Intuit"
+                    "symbol": "MTB",
+                    "name": "M&T Bank"
                 },
                 {
-                    "symbol": "PANW",
-                    "name": "Palo Alto Networks"
+                    "symbol": "ZION",
+                    "name": "Zions Bancorp"
                 },
                 {
-                    "symbol": "CRWD",
-                    "name": "CrowdStrike"
+                    "symbol": "WAL",
+                    "name": "Western Alliance"
                 }
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "100.20",
-            "change": "+2.66%",
-            "change_pct": 2.66,
+            "price": "69.96",
+            "change": "+2.91%",
+            "change_pct": 2.91,
             "tone": "strong_up",
             "heatmap_scale": "industry",
             "heatmap_color": "rgba(22, 163, 74, 0.90)",
             "heatmap_text_color": "#ffffff",
             "heatmap_intensity": 1.0
-        },
-        {
-            "symbol": "SMH",
-            "name": "半导体",
-            "full_name": "Semiconductors",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "NVDA",
-                    "name": "NVIDIA"
-                },
-                {
-                    "symbol": "TSM",
-                    "name": "Taiwan Semiconductor"
-                },
-                {
-                    "symbol": "AVGO",
-                    "name": "Broadcom"
-                },
-                {
-                    "symbol": "ASML",
-                    "name": "ASML"
-                },
-                {
-                    "symbol": "AMD",
-                    "name": "AMD"
-                },
-                {
-                    "symbol": "QCOM",
-                    "name": "Qualcomm"
-                },
-                {
-                    "symbol": "TXN",
-                    "name": "Texas Instruments"
-                },
-                {
-                    "symbol": "MU",
-                    "name": "Micron"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "637.90",
-            "change": "+2.25%",
-            "change_pct": 2.25,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.79)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.846
-        },
-        {
-            "symbol": "SKYY",
-            "name": "云计算",
-            "full_name": "Cloud Computing",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "MSFT",
-                    "name": "Microsoft"
-                },
-                {
-                    "symbol": "ORCL",
-                    "name": "Oracle"
-                },
-                {
-                    "symbol": "AMZN",
-                    "name": "Amazon"
-                },
-                {
-                    "symbol": "GOOGL",
-                    "name": "Alphabet"
-                },
-                {
-                    "symbol": "IBM",
-                    "name": "IBM"
-                },
-                {
-                    "symbol": "SNOW",
-                    "name": "Snowflake"
-                },
-                {
-                    "symbol": "NET",
-                    "name": "Cloudflare"
-                },
-                {
-                    "symbol": "DDOG",
-                    "name": "Datadog"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "147.74",
-            "change": "+2.24%",
-            "change_pct": 2.24,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.79)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.842
-        },
-        {
-            "symbol": "HACK",
-            "name": "网络安全",
-            "full_name": "Cybersecurity",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "PANW",
-                    "name": "Palo Alto Networks"
-                },
-                {
-                    "symbol": "CRWD",
-                    "name": "CrowdStrike"
-                },
-                {
-                    "symbol": "FTNT",
-                    "name": "Fortinet"
-                },
-                {
-                    "symbol": "ZS",
-                    "name": "Zscaler"
-                },
-                {
-                    "symbol": "OKTA",
-                    "name": "Okta"
-                },
-                {
-                    "symbol": "GEN",
-                    "name": "Gen Digital"
-                },
-                {
-                    "symbol": "CHKP",
-                    "name": "Check Point"
-                },
-                {
-                    "symbol": "CYBR",
-                    "name": "CyberArk"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "102.21",
-            "change": "+2.21%",
-            "change_pct": 2.21,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.78)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.831
-        },
-        {
-            "symbol": "XLK",
-            "name": "科技",
-            "full_name": "Technology",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "196.23",
-            "change": "+1.67%",
-            "change_pct": 1.67,
-            "tone": "strong_up",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(22, 163, 74, 0.90)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 1.0
-        },
-        {
-            "symbol": "TAN",
-            "name": "太阳能",
-            "full_name": "Solar",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "FSLR",
-                    "name": "First Solar"
-                },
-                {
-                    "symbol": "ENPH",
-                    "name": "Enphase Energy"
-                },
-                {
-                    "symbol": "SEDG",
-                    "name": "SolarEdge"
-                },
-                {
-                    "symbol": "RUN",
-                    "name": "Sunrun"
-                },
-                {
-                    "symbol": "NXT",
-                    "name": "Nextracker"
-                },
-                {
-                    "symbol": "ARRY",
-                    "name": "Array Technologies"
-                },
-                {
-                    "symbol": "CSIQ",
-                    "name": "Canadian Solar"
-                },
-                {
-                    "symbol": "JKS",
-                    "name": "JinkoSolar"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "70.29",
-            "change": "+1.17%",
-            "change_pct": 1.17,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.50)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.44
         },
         {
             "symbol": "XBI",
@@ -503,239 +281,14 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "129.83",
-            "change": "+0.02%",
-            "change_pct": 0.02,
-            "tone": "flat",
+            "price": "133.39",
+            "change": "+2.77%",
+            "change_pct": 2.77,
+            "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.19)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.008
-        },
-        {
-            "symbol": "XRT",
-            "name": "零售",
-            "full_name": "Retail",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "ANF",
-                    "name": "Abercrombie & Fitch"
-                },
-                {
-                    "symbol": "GPS",
-                    "name": "Gap"
-                },
-                {
-                    "symbol": "COST",
-                    "name": "Costco"
-                },
-                {
-                    "symbol": "WMT",
-                    "name": "Walmart"
-                },
-                {
-                    "symbol": "TGT",
-                    "name": "Target"
-                },
-                {
-                    "symbol": "TJX",
-                    "name": "TJX"
-                },
-                {
-                    "symbol": "HD",
-                    "name": "Home Depot"
-                },
-                {
-                    "symbol": "LOW",
-                    "name": "Lowe’s"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "83.37",
-            "change": "-0.04%",
-            "change_pct": -0.04,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.19)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.015
-        },
-        {
-            "symbol": "XLRE",
-            "name": "房地产",
-            "full_name": "Real Estate",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "43.51",
-            "change": "-0.05%",
-            "change_pct": -0.05,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.20)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.03
-        },
-        {
-            "symbol": "XLC",
-            "name": "通信服务",
-            "full_name": "Communication Services",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "112.08",
-            "change": "-0.06%",
-            "change_pct": -0.06,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.21)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.036
-        },
-        {
-            "symbol": "XHB",
-            "name": "住宅建筑",
-            "full_name": "Homebuilders",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "DHI",
-                    "name": "D.R. Horton"
-                },
-                {
-                    "symbol": "LEN",
-                    "name": "Lennar"
-                },
-                {
-                    "symbol": "PHM",
-                    "name": "PulteGroup"
-                },
-                {
-                    "symbol": "NVR",
-                    "name": "NVR"
-                },
-                {
-                    "symbol": "TOL",
-                    "name": "Toll Brothers"
-                },
-                {
-                    "symbol": "HD",
-                    "name": "Home Depot"
-                },
-                {
-                    "symbol": "LOW",
-                    "name": "Lowe’s"
-                },
-                {
-                    "symbol": "BLD",
-                    "name": "TopBuild"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "103.89",
-            "change": "-0.11%",
-            "change_pct": -0.11,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.21)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.041
-        },
-        {
-            "symbol": "XLF",
-            "name": "金融",
-            "full_name": "Financials",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "50.87",
-            "change": "-0.12%",
-            "change_pct": -0.12,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.23)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.072
-        },
-        {
-            "symbol": "KRE",
-            "name": "区域银行",
-            "full_name": "Regional Banks",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "HBAN",
-                    "name": "Huntington Bancshares"
-                },
-                {
-                    "symbol": "RF",
-                    "name": "Regions Financial"
-                },
-                {
-                    "symbol": "CFG",
-                    "name": "Citizens Financial"
-                },
-                {
-                    "symbol": "KEY",
-                    "name": "KeyCorp"
-                },
-                {
-                    "symbol": "FITB",
-                    "name": "Fifth Third Bancorp"
-                },
-                {
-                    "symbol": "MTB",
-                    "name": "M&T Bank"
-                },
-                {
-                    "symbol": "ZION",
-                    "name": "Zions Bancorp"
-                },
-                {
-                    "symbol": "WAL",
-                    "name": "Western Alliance"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "67.88",
-            "change": "-0.15%",
-            "change_pct": -0.15,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.22)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.056
-        },
-        {
-            "symbol": "XLY",
-            "name": "可选消费",
-            "full_name": "Consumer Discretionary",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "116.73",
-            "change": "-0.16%",
-            "change_pct": -0.16,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.25)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.096
+            "heatmap_color": "rgba(22, 163, 74, 0.87)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.952
         },
         {
             "symbol": "XLV",
@@ -746,86 +299,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "147.55",
-            "change": "-0.30%",
-            "change_pct": -0.3,
-            "tone": "down",
+            "price": "152.04",
+            "change": "+2.74%",
+            "change_pct": 2.74,
+            "tone": "strong_up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.31)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.18
-        },
-        {
-            "symbol": "XLE",
-            "name": "能源",
-            "full_name": "Energy",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "58.71",
-            "change": "-0.33%",
-            "change_pct": -0.33,
-            "tone": "down",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.32)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.198
-        },
-        {
-            "symbol": "XLI",
-            "name": "工业",
-            "full_name": "Industrials",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "174.05",
-            "change": "-0.37%",
-            "change_pct": -0.37,
-            "tone": "down",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.34)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.222
-        },
-        {
-            "symbol": "XLU",
-            "name": "公用事业",
-            "full_name": "Utilities",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "43.71",
-            "change": "-0.39%",
-            "change_pct": -0.39,
-            "tone": "down",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.35)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.234
-        },
-        {
-            "symbol": "XLB",
-            "name": "材料",
-            "full_name": "Materials",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "51.63",
-            "change": "-0.39%",
-            "change_pct": -0.39,
-            "tone": "down",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.35)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.234
+            "heatmap_color": "rgba(22, 163, 74, 0.90)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 1.0
         },
         {
             "symbol": "ITA",
@@ -869,14 +350,254 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "224.89",
-            "change": "-0.45%",
-            "change_pct": -0.45,
-            "tone": "down",
+            "price": "231.73",
+            "change": "+2.58%",
+            "change_pct": 2.58,
+            "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.30)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.169
+            "heatmap_color": "rgba(22, 163, 74, 0.82)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.887
+        },
+        {
+            "symbol": "IGV",
+            "name": "软件",
+            "full_name": "Software",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "MSFT",
+                    "name": "Microsoft"
+                },
+                {
+                    "symbol": "CRM",
+                    "name": "Salesforce"
+                },
+                {
+                    "symbol": "ORCL",
+                    "name": "Oracle"
+                },
+                {
+                    "symbol": "ADBE",
+                    "name": "Adobe"
+                },
+                {
+                    "symbol": "NOW",
+                    "name": "ServiceNow"
+                },
+                {
+                    "symbol": "INTU",
+                    "name": "Intuit"
+                },
+                {
+                    "symbol": "PANW",
+                    "name": "Palo Alto Networks"
+                },
+                {
+                    "symbol": "CRWD",
+                    "name": "CrowdStrike"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "100.11",
+            "change": "+2.57%",
+            "change_pct": 2.57,
+            "tone": "strong_up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.82)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.883
+        },
+        {
+            "symbol": "XLF",
+            "name": "金融",
+            "full_name": "Financials",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "52.21",
+            "change": "+2.51%",
+            "change_pct": 2.51,
+            "tone": "strong_up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.84)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.916
+        },
+        {
+            "symbol": "SKYY",
+            "name": "云计算",
+            "full_name": "Cloud Computing",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "MSFT",
+                    "name": "Microsoft"
+                },
+                {
+                    "symbol": "ORCL",
+                    "name": "Oracle"
+                },
+                {
+                    "symbol": "AMZN",
+                    "name": "Amazon"
+                },
+                {
+                    "symbol": "GOOGL",
+                    "name": "Alphabet"
+                },
+                {
+                    "symbol": "IBM",
+                    "name": "IBM"
+                },
+                {
+                    "symbol": "SNOW",
+                    "name": "Snowflake"
+                },
+                {
+                    "symbol": "NET",
+                    "name": "Cloudflare"
+                },
+                {
+                    "symbol": "DDOG",
+                    "name": "Datadog"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "147.99",
+            "change": "+2.42%",
+            "change_pct": 2.42,
+            "tone": "strong_up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.78)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.832
+        },
+        {
+            "symbol": "XLRE",
+            "name": "房地产",
+            "full_name": "Real Estate",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "44.40",
+            "change": "+2.01%",
+            "change_pct": 2.01,
+            "tone": "strong_up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.71)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.734
+        },
+        {
+            "symbol": "TAN",
+            "name": "太阳能",
+            "full_name": "Solar",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "FSLR",
+                    "name": "First Solar"
+                },
+                {
+                    "symbol": "ENPH",
+                    "name": "Enphase Energy"
+                },
+                {
+                    "symbol": "SEDG",
+                    "name": "SolarEdge"
+                },
+                {
+                    "symbol": "RUN",
+                    "name": "Sunrun"
+                },
+                {
+                    "symbol": "NXT",
+                    "name": "Nextracker"
+                },
+                {
+                    "symbol": "ARRY",
+                    "name": "Array Technologies"
+                },
+                {
+                    "symbol": "CSIQ",
+                    "name": "Canadian Solar"
+                },
+                {
+                    "symbol": "JKS",
+                    "name": "JinkoSolar"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "70.52",
+            "change": "+1.50%",
+            "change_pct": 1.5,
+            "tone": "strong_up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.55)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.515
+        },
+        {
+            "symbol": "HACK",
+            "name": "网络安全",
+            "full_name": "Cybersecurity",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "PANW",
+                    "name": "Palo Alto Networks"
+                },
+                {
+                    "symbol": "CRWD",
+                    "name": "CrowdStrike"
+                },
+                {
+                    "symbol": "FTNT",
+                    "name": "Fortinet"
+                },
+                {
+                    "symbol": "ZS",
+                    "name": "Zscaler"
+                },
+                {
+                    "symbol": "OKTA",
+                    "name": "Okta"
+                },
+                {
+                    "symbol": "GEN",
+                    "name": "Gen Digital"
+                },
+                {
+                    "symbol": "CHKP",
+                    "name": "Check Point"
+                },
+                {
+                    "symbol": "CYBR",
+                    "name": "CyberArk"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "101.08",
+            "change": "+1.08%",
+            "change_pct": 1.08,
+            "tone": "strong_up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.45)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.371
         },
         {
             "symbol": "IYT",
@@ -920,14 +641,293 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "83.56",
-            "change": "-0.64%",
-            "change_pct": -0.64,
-            "tone": "down",
+            "price": "84.36",
+            "change": "+1.07%",
+            "change_pct": 1.07,
+            "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.35)",
+            "heatmap_color": "rgba(22, 163, 74, 0.44)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.368
+        },
+        {
+            "symbol": "XLC",
+            "name": "通信服务",
+            "full_name": "Communication Services",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "113.10",
+            "change": "+0.84%",
+            "change_pct": 0.84,
+            "tone": "up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.40)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.307
+        },
+        {
+            "symbol": "XLI",
+            "name": "工业",
+            "full_name": "Industrials",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "176.12",
+            "change": "+0.82%",
+            "change_pct": 0.82,
+            "tone": "up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.40)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.299
+        },
+        {
+            "symbol": "XHB",
+            "name": "住宅建筑",
+            "full_name": "Homebuilders",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "DHI",
+                    "name": "D.R. Horton"
+                },
+                {
+                    "symbol": "LEN",
+                    "name": "Lennar"
+                },
+                {
+                    "symbol": "PHM",
+                    "name": "PulteGroup"
+                },
+                {
+                    "symbol": "NVR",
+                    "name": "NVR"
+                },
+                {
+                    "symbol": "TOL",
+                    "name": "Toll Brothers"
+                },
+                {
+                    "symbol": "HD",
+                    "name": "Home Depot"
+                },
+                {
+                    "symbol": "LOW",
+                    "name": "Lowe’s"
+                },
+                {
+                    "symbol": "BLD",
+                    "name": "TopBuild"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "104.71",
+            "change": "+0.68%",
+            "change_pct": 0.68,
+            "tone": "up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.35)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.234
+        },
+        {
+            "symbol": "SMH",
+            "name": "半导体",
+            "full_name": "Semiconductors",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "NVDA",
+                    "name": "NVIDIA"
+                },
+                {
+                    "symbol": "TSM",
+                    "name": "Taiwan Semiconductor"
+                },
+                {
+                    "symbol": "AVGO",
+                    "name": "Broadcom"
+                },
+                {
+                    "symbol": "ASML",
+                    "name": "ASML"
+                },
+                {
+                    "symbol": "AMD",
+                    "name": "AMD"
+                },
+                {
+                    "symbol": "QCOM",
+                    "name": "Qualcomm"
+                },
+                {
+                    "symbol": "TXN",
+                    "name": "Texas Instruments"
+                },
+                {
+                    "symbol": "MU",
+                    "name": "Micron"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "627.53",
+            "change": "+0.59%",
+            "change_pct": 0.59,
+            "tone": "up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.33)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.203
+        },
+        {
+            "symbol": "XLY",
+            "name": "可选消费",
+            "full_name": "Consumer Discretionary",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "117.24",
+            "change": "+0.28%",
+            "change_pct": 0.28,
+            "tone": "up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.25)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.102
+        },
+        {
+            "symbol": "XLU",
+            "name": "公用事业",
+            "full_name": "Utilities",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "43.96",
+            "change": "+0.18%",
+            "change_pct": 0.18,
+            "tone": "flat",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.23)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.066
+        },
+        {
+            "symbol": "XRT",
+            "name": "零售",
+            "full_name": "Retail",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "ANF",
+                    "name": "Abercrombie & Fitch"
+                },
+                {
+                    "symbol": "GPS",
+                    "name": "Gap"
+                },
+                {
+                    "symbol": "COST",
+                    "name": "Costco"
+                },
+                {
+                    "symbol": "WMT",
+                    "name": "Walmart"
+                },
+                {
+                    "symbol": "TGT",
+                    "name": "Target"
+                },
+                {
+                    "symbol": "TJX",
+                    "name": "TJX"
+                },
+                {
+                    "symbol": "HD",
+                    "name": "Home Depot"
+                },
+                {
+                    "symbol": "LOW",
+                    "name": "Lowe’s"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "83.54",
+            "change": "+0.17%",
+            "change_pct": 0.17,
+            "tone": "flat",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.22)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.058
+        },
+        {
+            "symbol": "XLK",
+            "name": "科技",
+            "full_name": "Technology",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "193.12",
+            "change": "+0.06%",
+            "change_pct": 0.06,
+            "tone": "flat",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.20)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.022
+        },
+        {
+            "symbol": "XLE",
+            "name": "能源",
+            "full_name": "Energy",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "58.76",
+            "change": "-0.26%",
+            "change_pct": -0.26,
+            "tone": "down",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(220, 38, 38, 0.25)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.241
+            "heatmap_intensity": 0.095
+        },
+        {
+            "symbol": "XLB",
+            "name": "材料",
+            "full_name": "Materials",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "51.62",
+            "change": "-0.41%",
+            "change_pct": -0.41,
+            "tone": "down",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(220, 38, 38, 0.29)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.15
         },
         {
             "symbol": "XLP",
@@ -938,146 +938,146 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "82.16",
-            "change": "-0.78%",
-            "change_pct": -0.78,
+            "price": "82.03",
+            "change": "-0.94%",
+            "change_pct": -0.94,
             "tone": "down",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.52)",
+            "heatmap_color": "rgba(220, 38, 38, 0.43)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.467
+            "heatmap_intensity": 0.343
         }
     ],
     "market_breadth": {
-        "overall": "窄幅上涨",
+        "overall": "宽度中性",
         "items": [
             {
                 "label": "等权标普 vs 标普",
                 "symbols": "RSP/SPY",
-                "left_change": "+0.24%",
-                "right_change": "+0.50%",
-                "spread": "-0.26%",
+                "left_change": "+0.98%",
+                "right_change": "+0.89%",
+                "spread": "+0.09%",
                 "tone": "neutral",
                 "note": "差异不大，市场内部扩散程度中性。"
             },
             {
                 "label": "等权纳指 vs 纳指",
                 "symbols": "QQQE/QQQ",
-                "left_change": "-0.00%",
-                "right_change": "+0.80%",
-                "spread": "-0.80%",
+                "left_change": "-0.22%",
+                "right_change": "+0.31%",
+                "spread": "-0.53%",
                 "tone": "negative",
                 "note": "纳指上涨集中在少数大权重科技股。"
             },
             {
                 "label": "小盘股 vs 标普",
                 "symbols": "IWM/SPY",
-                "left_change": "+0.14%",
-                "right_change": "+0.50%",
-                "spread": "-0.36%",
-                "tone": "negative",
-                "note": "小盘落后，资金仍偏向大盘核心资产。"
+                "left_change": "+1.65%",
+                "right_change": "+0.89%",
+                "spread": "+0.76%",
+                "tone": "positive",
+                "note": "小盘跑赢，风险偏好向更广市场扩散。"
             }
         ],
-        "summary": "上涨主要集中在大权重或少数主题，追高要更克制。"
+        "summary": "内部宽度信号混合，暂不能确认全面扩散。"
     },
     "style_factors": {
         "items": [
             {
-                "symbol": "MTUM",
-                "name": "动量",
-                "change": "+1.26%",
-                "change_pct": 1.26,
+                "symbol": "IWM",
+                "name": "小盘",
+                "change": "+1.65%",
+                "change_pct": 1.65,
+                "tone": "strong_up"
+            },
+            {
+                "symbol": "QUAL",
+                "name": "质量",
+                "change": "+1.01%",
+                "change_pct": 1.01,
                 "tone": "strong_up"
             },
             {
                 "symbol": "VYM",
                 "name": "高股息",
-                "change": "+0.77%",
-                "change_pct": 0.77,
+                "change": "+0.71%",
+                "change_pct": 0.71,
                 "tone": "up"
             },
             {
                 "symbol": "IWF",
                 "name": "成长",
-                "change": "+0.52%",
-                "change_pct": 0.52,
+                "change": "+0.69%",
+                "change_pct": 0.69,
                 "tone": "up"
-            },
-            {
-                "symbol": "QUAL",
-                "name": "质量",
-                "change": "+0.23%",
-                "change_pct": 0.23,
-                "tone": "flat"
-            },
-            {
-                "symbol": "IWM",
-                "name": "小盘",
-                "change": "+0.14%",
-                "change_pct": 0.14,
-                "tone": "flat"
             },
             {
                 "symbol": "USMV",
                 "name": "低波动",
-                "change": "+0.00%",
-                "change_pct": 0.0,
+                "change": "+0.38%",
+                "change_pct": 0.38,
+                "tone": "up"
+            },
+            {
+                "symbol": "MTUM",
+                "name": "动量",
+                "change": "+0.11%",
+                "change_pct": 0.11,
                 "tone": "flat"
             },
             {
                 "symbol": "IWD",
                 "name": "价值",
-                "change": "-1.12%",
-                "change_pct": -1.12,
-                "tone": "strong_down"
+                "change": "-0.41%",
+                "change_pct": -0.41,
+                "tone": "down"
             }
         ],
         "leaders": [
             {
-                "symbol": "MTUM",
-                "name": "动量",
-                "change": "+1.26%",
-                "change_pct": 1.26,
+                "symbol": "IWM",
+                "name": "小盘",
+                "change": "+1.65%",
+                "change_pct": 1.65,
+                "tone": "strong_up"
+            },
+            {
+                "symbol": "QUAL",
+                "name": "质量",
+                "change": "+1.01%",
+                "change_pct": 1.01,
                 "tone": "strong_up"
             },
             {
                 "symbol": "VYM",
                 "name": "高股息",
-                "change": "+0.77%",
-                "change_pct": 0.77,
-                "tone": "up"
-            },
-            {
-                "symbol": "IWF",
-                "name": "成长",
-                "change": "+0.52%",
-                "change_pct": 0.52,
+                "change": "+0.71%",
+                "change_pct": 0.71,
                 "tone": "up"
             }
         ],
-        "leadership": "成长/动量占优",
-        "interpretation": "资金偏向进攻型资产，适合重点观察科技、软件、半导体延续性。"
+        "leadership": "风格分化不明显",
+        "interpretation": "风格信号暂不集中，更多看大盘趋势和市场宽度确认。"
     },
     "trend_state": {
-        "overall": "震荡偏多",
+        "overall": "震荡",
         "items": [
             {
                 "key": "SP500",
                 "label": "标普500",
                 "state": "震荡偏多",
-                "today": "-0.74%",
-                "five_day": "+0.51%",
-                "one_month": "+4.90%",
+                "today": "+0.41%",
+                "five_day": "-0.15%",
+                "one_month": "+4.48%",
                 "momentum": "decelerating"
             },
             {
                 "key": "NASDAQ",
                 "label": "纳斯达克",
-                "state": "震荡偏多",
-                "today": "-0.89%",
-                "five_day": "+0.78%",
-                "one_month": "+7.13%",
+                "state": "震荡",
+                "today": "-0.09%",
+                "five_day": "-0.88%",
+                "one_month": "+5.94%",
                 "momentum": "decelerating"
             }
         ],
@@ -1088,33 +1088,33 @@
         "components": [
             {
                 "name": "大盘趋势",
-                "score": 1.5,
+                "score": 1.0,
                 "max": 2.5,
-                "detail": "趋势状态：震荡偏多；标普 -0.74%、纳指 -0.89%。"
+                "detail": "趋势状态：震荡；标普 +0.41%、纳指 -0.09%。"
             },
             {
                 "name": "情绪/VIX",
                 "score": 2.0,
                 "max": 2.0,
-                "detail": "VIX 16.6，恐惧贪婪 54。"
+                "detail": "VIX 15.2，恐惧贪婪 55。"
             },
             {
                 "name": "信用环境",
                 "score": 1.5,
                 "max": 2.0,
-                "detail": "HYG/JNK 平均 -0.09%。"
+                "detail": "HYG/JNK 平均 +0.08%。"
             },
             {
                 "name": "利率美元",
                 "score": 1.2,
                 "max": 1.5,
-                "detail": "TNX 4.49%，DXY -0.18%。"
+                "detail": "TNX 4.48%，DXY -0.04%。"
             },
             {
                 "name": "市场宽度",
-                "score": 0.3,
+                "score": 0.8,
                 "max": 1.5,
-                "detail": "宽度判断：窄幅上涨。"
+                "detail": "宽度判断：宽度中性。"
             }
         ],
         "summary": "评分由趋势、情绪、信用、宏观阻力和市场宽度拆解而来；当前为 6.5/10。"
@@ -1129,28 +1129,28 @@
         "evidence": [
             {
                 "group": "大盘趋势",
-                "stance": "震荡偏多",
+                "stance": "震荡",
                 "detail": "趋势信号分化，等待方向确认。"
             },
             {
                 "group": "市场宽度",
-                "stance": "窄幅上涨",
-                "detail": "上涨主要集中在大权重或少数主题，追高要更克制。"
+                "stance": "宽度中性",
+                "detail": "内部宽度信号混合，暂不能确认全面扩散。"
             },
             {
                 "group": "风格因子",
-                "stance": "成长/动量占优",
-                "detail": "领涨风格：动量(MTUM) +1.26%、高股息(VYM) +0.77%、成长(IWF) +0.52%。资金偏向进攻型资产，适合重点观察科技、软件、半导体延续性。"
+                "stance": "风格分化不明显",
+                "detail": "领涨风格：小盘(IWM) +1.65%、质量(QUAL) +1.01%、高股息(VYM) +0.71%。风格信号暂不集中，更多看大盘趋势和市场宽度确认。"
             },
             {
                 "group": "板块/行业轮动",
                 "stance": "轮动观察",
-                "detail": "板块：科技(XLK) +1.67%、房地产(XLRE) -0.05%、通信服务(XLC) -0.06%；行业：软件(IGV) +2.66%、半导体(SMH) +2.25%、云计算(SKYY) +2.24%。强势主要来自成长/周期/主题方向，风险偏好仍有延续基础。"
+                "detail": "板块：医疗保健(XLV) +2.74%、金融(XLF) +2.51%、房地产(XLRE) +2.01%；行业：区域银行(KRE) +2.91%、生物科技(XBI) +2.77%、航空航天防务(ITA) +2.58%。防御板块靠前，说明资金更偏谨慎。"
             },
             {
                 "group": "风险触发",
                 "stance": "低到中等",
-                "detail": "当前触发 1 项观察阈值；主要关注 大盘指数同步走弱。"
+                "detail": "当前触发 0 项观察阈值；暂无重大风险阈值触发。"
             },
             {
                 "group": "评分拆解",
@@ -1165,22 +1165,14 @@
             },
             {
                 "title": "进攻配置",
-                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：科技(XLK) +1.67%、房地产(XLRE) -0.05%、通信服务(XLC) -0.06%；细分行业重点观察 软件(IGV) +2.66%、半导体(SMH) +2.25%、云计算(SKYY) +2.24%；风格上参考 动量(MTUM) +1.26%、高股息(VYM) +0.77%、成长(IWF) +0.52%。"
+                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：医疗保健(XLV) +2.74%、金融(XLF) +2.51%、房地产(XLRE) +2.01%；细分行业重点观察 区域银行(KRE) +2.91%、生物科技(XBI) +2.77%、航空航天防务(ITA) +2.58%；风格上参考 小盘(IWM) +1.65%、质量(QUAL) +1.01%、高股息(VYM) +0.71%。"
             },
             {
                 "title": "防御配置",
                 "detail": "保留现金/短债机动仓；若市场宽度继续窄、利率美元压制增强，降低高估值和高波动敞口。"
-            },
-            {
-                "title": "追高限制",
-                "detail": "市场宽度偏窄时，不把少数权重股上涨误判为全面牛市；新增仓位采用回调分批。"
             }
         ],
         "risk_controls": [
-            {
-                "title": "已触发风险",
-                "detail": "大盘指数同步走弱：标普与纳指同时回落，说明风险偏好从局部扩散到大盘层面。"
-            },
             {
                 "title": "加仓条件",
                 "detail": "VIX 维持 20 以下、HYG/JNK 不同步走弱、RSP/QQQE 相对 SPY/QQQ 改善，且强势行业从少数主题扩散。"
@@ -1217,14 +1209,19 @@
             "date": "2026-06-03",
             "score": 6.0,
             "bias": "中性震荡"
+        },
+        {
+            "date": "2026-06-04",
+            "score": 6.0,
+            "bias": "中性震荡"
         }
     ],
     "strategies": [
-        "📊 大盘走势：今日回调 0.74%，但五日维度仍上涨 0.5%，为强势上涨后的正常回踩，可视为短期布局机会。",
-        "😰 情绪研判（VIX + F&G）：VIX 16.6，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。 近五日 VIX 变动 +4.7%，情绪整体稳定。 恐惧贪婪指数 54（neutral），情绪处于中性区间，市场参与者分歧较大，方向选择更多依赖基本面和技术面的共振信号。",
-        "💧 信用市场（中性）：高收益债 HYG（+0.02%）/ JNK（-0.21%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。 月内高收益债上涨 0.4%，信用环境整体宽松，有利于风险资产。",
-        "🏦 利率环境（TNX 4.491%）：十年期美债收益率 4.491%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。  五日 近期下跌 0.1%，月内 近期上涨 1.0%，利率处于区间震荡状态。",
-        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.18%），避险情绪无明显异动。 月内黄金跌 0.5%，整体处于区间整理。 美元基本稳定（DXY -0.18%），对跨资产影响中性。 月内美元走强 0.8%，美元震荡，跨资产影响有限。",
+        "📊 大盘走势：今日收涨 0.41%，但五日维度仍下跌 0.2%，属于下跌趋势中的技术性反弹，需警惕反弹高度有限。",
+        "😰 情绪研判（VIX + F&G）：VIX 15.2，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。 近五日 VIX 变动 -4.0%，情绪整体稳定。 恐惧贪婪指数 55（neutral），情绪处于中性区间，市场参与者分歧较大，方向选择更多依赖基本面和技术面的共振信号。",
+        "💧 信用市场（中性）：高收益债 HYG（+0.20%）/ JNK（-0.03%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。 月内高收益债上涨 0.4%，信用环境整体宽松，有利于风险资产。",
+        "🏦 利率环境（TNX 4.477%）：十年期美债收益率 4.477%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。  五日 近期上涨 0.7%，月内 近期上涨 0.7%，利率处于区间震荡状态。",
+        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.41%），避险情绪无明显异动。 月内黄金跌 0.2%，整体处于区间整理。 美元基本稳定（DXY -0.04%），对跨资产影响中性。 月内美元走强 1.0%，美元震荡，跨资产影响有限。",
         "⚪ 综合研判（评分 6.0/10 · 中性震荡）：综合评分 6.0/10，多空信号相互抵消，市场方向不明朗，处于震荡寻方向阶段。贸然追涨追跌均风险较大。 操作建议：维持三至四成防御性仓位，以现金和短债为主。等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。"
     ],
     "charts": {
@@ -1232,370 +1229,318 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 7598.9502
+                    "v": 7543.4399
                 },
                 {
                     "t": "09:35",
-                    "v": 7593.9199
+                    "v": 7543.8501
                 },
                 {
                     "t": "09:40",
-                    "v": 7579.0898
+                    "v": 7534.5
                 },
                 {
                     "t": "09:45",
-                    "v": 7566.0098
+                    "v": 7539.5
                 },
                 {
                     "t": "09:50",
-                    "v": 7573.4199
+                    "v": 7542.71
                 },
                 {
                     "t": "09:55",
-                    "v": 7574.4302
+                    "v": 7545.6499
                 },
                 {
                     "t": "10:00",
-                    "v": 7580.73
+                    "v": 7540.4502
                 },
                 {
                     "t": "10:05",
-                    "v": 7581.2202
+                    "v": 7541.5601
                 },
                 {
                     "t": "10:10",
-                    "v": 7586.2002
+                    "v": 7548.5898
                 },
                 {
                     "t": "10:15",
-                    "v": 7579.0801
+                    "v": 7547.3901
                 },
                 {
                     "t": "10:20",
-                    "v": 7579.5898
+                    "v": 7556.8799
                 },
                 {
                     "t": "10:25",
-                    "v": 7584.4302
+                    "v": 7554.4902
                 },
                 {
                     "t": "10:30",
-                    "v": 7582.1499
+                    "v": 7554.4399
                 },
                 {
                     "t": "10:35",
-                    "v": 7585.1602
+                    "v": 7551.5698
                 },
                 {
                     "t": "10:40",
-                    "v": 7580.3101
+                    "v": 7553.0298
                 },
                 {
                     "t": "10:45",
-                    "v": 7576.3799
+                    "v": 7551.5801
                 },
                 {
                     "t": "10:50",
-                    "v": 7578.3501
+                    "v": 7553.0498
                 },
                 {
                     "t": "10:55",
-                    "v": 7577.21
+                    "v": 7556.73
                 },
                 {
                     "t": "11:00",
-                    "v": 7579.3398
+                    "v": 7559.9102
                 },
                 {
                     "t": "11:05",
-                    "v": 7577.6602
+                    "v": 7568.54
                 },
                 {
                     "t": "11:10",
-                    "v": 7576.1699
-                },
-                {
-                    "t": "11:15",
-                    "v": 7577.5
-                },
-                {
-                    "t": "11:20",
-                    "v": 7571.2598
-                },
-                {
-                    "t": "11:25",
-                    "v": 7576.6001
-                },
-                {
-                    "t": "11:30",
-                    "v": 7572.0
-                },
-                {
-                    "t": "11:35",
-                    "v": 7569.3701
-                },
-                {
-                    "t": "11:40",
-                    "v": 7568.4399
-                },
-                {
-                    "t": "11:45",
-                    "v": 7568.1499
-                },
-                {
-                    "t": "11:50",
-                    "v": 7568.9399
-                },
-                {
-                    "t": "11:55",
-                    "v": 7567.8799
-                },
-                {
-                    "t": "12:00",
-                    "v": 7569.0298
-                },
-                {
-                    "t": "12:05",
-                    "v": 7566.48
-                },
-                {
-                    "t": "12:10",
-                    "v": 7568.3799
-                },
-                {
-                    "t": "12:15",
-                    "v": 7564.7798
-                },
-                {
-                    "t": "12:20",
-                    "v": 7556.79
-                },
-                {
-                    "t": "12:25",
-                    "v": 7558.6401
-                },
-                {
-                    "t": "12:30",
-                    "v": 7559.9502
-                },
-                {
-                    "t": "12:35",
-                    "v": 7554.98
-                },
-                {
-                    "t": "12:40",
-                    "v": 7556.0
-                },
-                {
-                    "t": "12:45",
-                    "v": 7561.6401
-                },
-                {
-                    "t": "12:50",
-                    "v": 7561.8999
-                },
-                {
-                    "t": "12:55",
-                    "v": 7567.1001
-                },
-                {
-                    "t": "13:00",
-                    "v": 7562.4102
-                },
-                {
-                    "t": "13:05",
-                    "v": 7565.3198
-                },
-                {
-                    "t": "13:10",
-                    "v": 7558.29
-                },
-                {
-                    "t": "13:15",
-                    "v": 7557.7202
-                },
-                {
-                    "t": "13:20",
-                    "v": 7560.9502
-                },
-                {
-                    "t": "13:25",
-                    "v": 7562.4199
-                },
-                {
-                    "t": "13:30",
-                    "v": 7564.9502
-                },
-                {
-                    "t": "13:35",
-                    "v": 7565.7202
-                },
-                {
-                    "t": "13:40",
-                    "v": 7568.5098
-                },
-                {
-                    "t": "13:45",
-                    "v": 7568.21
-                },
-                {
-                    "t": "13:50",
-                    "v": 7571.9902
-                },
-                {
-                    "t": "13:55",
-                    "v": 7571.8198
-                },
-                {
-                    "t": "14:00",
-                    "v": 7571.0801
-                },
-                {
-                    "t": "14:05",
-                    "v": 7569.3701
-                },
-                {
-                    "t": "14:10",
-                    "v": 7568.5298
-                },
-                {
-                    "t": "14:15",
                     "v": 7570.7798
                 },
                 {
+                    "t": "11:15",
+                    "v": 7571.52
+                },
+                {
+                    "t": "11:20",
+                    "v": 7572.5601
+                },
+                {
+                    "t": "11:25",
+                    "v": 7573.8599
+                },
+                {
+                    "t": "11:30",
+                    "v": 7571.1299
+                },
+                {
+                    "t": "11:35",
+                    "v": 7570.9399
+                },
+                {
+                    "t": "11:40",
+                    "v": 7567.23
+                },
+                {
+                    "t": "11:45",
+                    "v": 7563.73
+                },
+                {
+                    "t": "11:50",
+                    "v": 7567.5
+                },
+                {
+                    "t": "11:55",
+                    "v": 7567.5898
+                },
+                {
+                    "t": "12:00",
+                    "v": 7569.6602
+                },
+                {
+                    "t": "12:05",
+                    "v": 7577.1299
+                },
+                {
+                    "t": "12:10",
+                    "v": 7576.77
+                },
+                {
+                    "t": "12:15",
+                    "v": 7578.3101
+                },
+                {
+                    "t": "12:20",
+                    "v": 7580.8398
+                },
+                {
+                    "t": "12:25",
+                    "v": 7579.4399
+                },
+                {
+                    "t": "12:30",
+                    "v": 7578.2598
+                },
+                {
+                    "t": "12:35",
+                    "v": 7581.9199
+                },
+                {
+                    "t": "12:40",
+                    "v": 7582.8301
+                },
+                {
+                    "t": "12:45",
+                    "v": 7582.2402
+                },
+                {
+                    "t": "12:50",
+                    "v": 7583.9502
+                },
+                {
+                    "t": "12:55",
+                    "v": 7583.1899
+                },
+                {
+                    "t": "13:00",
+                    "v": 7582.0898
+                },
+                {
+                    "t": "13:05",
+                    "v": 7584.0801
+                },
+                {
+                    "t": "13:10",
+                    "v": 7583.6001
+                },
+                {
+                    "t": "13:15",
+                    "v": 7583.7598
+                },
+                {
+                    "t": "13:20",
+                    "v": 7583.02
+                },
+                {
+                    "t": "13:25",
+                    "v": 7585.8301
+                },
+                {
+                    "t": "13:30",
+                    "v": 7587.0801
+                },
+                {
+                    "t": "13:35",
+                    "v": 7585.9702
+                },
+                {
+                    "t": "13:40",
+                    "v": 7588.0498
+                },
+                {
+                    "t": "13:45",
+                    "v": 7589.1099
+                },
+                {
+                    "t": "13:50",
+                    "v": 7588.7202
+                },
+                {
+                    "t": "13:55",
+                    "v": 7592.21
+                },
+                {
+                    "t": "14:00",
+                    "v": 7592.9702
+                },
+                {
+                    "t": "14:05",
+                    "v": 7592.9199
+                },
+                {
+                    "t": "14:10",
+                    "v": 7592.0601
+                },
+                {
+                    "t": "14:15",
+                    "v": 7593.1499
+                },
+                {
                     "t": "14:20",
-                    "v": 7572.6802
+                    "v": 7593.3999
                 },
                 {
                     "t": "14:25",
-                    "v": 7575.7002
+                    "v": 7593.5698
                 },
                 {
                     "t": "14:30",
-                    "v": 7573.5698
+                    "v": 7593.52
                 },
                 {
                     "t": "14:35",
-                    "v": 7573.2202
+                    "v": 7592.9302
                 },
                 {
                     "t": "14:40",
-                    "v": 7573.04
+                    "v": 7593.04
                 },
                 {
                     "t": "14:45",
-                    "v": 7572.1802
+                    "v": 7593.9399
                 },
                 {
                     "t": "14:50",
-                    "v": 7572.2402
+                    "v": 7593.0698
                 },
                 {
                     "t": "14:55",
-                    "v": 7572.0498
+                    "v": 7591.1099
                 },
                 {
                     "t": "15:00",
-                    "v": 7566.5298
+                    "v": 7594.0601
                 },
                 {
                     "t": "15:05",
-                    "v": 7567.48
+                    "v": 7594.3501
                 },
                 {
                     "t": "15:10",
-                    "v": 7566.2002
+                    "v": 7592.48
                 },
                 {
                     "t": "15:15",
-                    "v": 7567.3398
+                    "v": 7591.5498
                 },
                 {
                     "t": "15:20",
-                    "v": 7562.8599
+                    "v": 7594.6499
                 },
                 {
                     "t": "15:25",
-                    "v": 7564.3799
+                    "v": 7597.7798
                 },
                 {
                     "t": "15:30",
-                    "v": 7564.0098
+                    "v": 7596.3301
                 },
                 {
                     "t": "15:35",
-                    "v": 7569.6499
+                    "v": 7596.6401
                 },
                 {
                     "t": "15:40",
-                    "v": 7568.8501
+                    "v": 7592.3701
                 },
                 {
                     "t": "15:45",
-                    "v": 7569.1201
+                    "v": 7593.2798
                 },
                 {
                     "t": "15:50",
-                    "v": 7561.0801
+                    "v": 7590.2202
                 },
                 {
                     "t": "15:55",
-                    "v": 7556.8198
+                    "v": 7584.8198
                 }
             ],
             "5d": [
-                {
-                    "t": "05/28 09:30",
-                    "v": 7518.4902
-                },
-                {
-                    "t": "05/28 10:00",
-                    "v": 7544.3198
-                },
-                {
-                    "t": "05/28 10:30",
-                    "v": 7545.6602
-                },
-                {
-                    "t": "05/28 11:00",
-                    "v": 7556.9199
-                },
-                {
-                    "t": "05/28 11:30",
-                    "v": 7557.9702
-                },
-                {
-                    "t": "05/28 12:00",
-                    "v": 7561.0
-                },
-                {
-                    "t": "05/28 12:30",
-                    "v": 7564.6499
-                },
-                {
-                    "t": "05/28 13:00",
-                    "v": 7559.8398
-                },
-                {
-                    "t": "05/28 13:30",
-                    "v": 7563.9302
-                },
-                {
-                    "t": "05/28 14:00",
-                    "v": 7565.0698
-                },
-                {
-                    "t": "05/28 14:30",
-                    "v": 7559.1699
-                },
-                {
-                    "t": "05/28 15:00",
-                    "v": 7564.71
-                },
-                {
-                    "t": "05/28 15:30",
-                    "v": 7563.4302
-                },
                 {
                     "t": "05/29 09:30",
                     "v": 7596.3901
@@ -1803,13 +1748,61 @@
                 {
                     "t": "06/03 15:30",
                     "v": 7556.8198
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 7545.6499
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 7554.4902
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 7556.73
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 7573.8599
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 7567.5898
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 7579.4399
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 7583.1899
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 7585.8301
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 7592.21
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 7593.5698
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 7591.1099
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 7597.7798
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 7584.8198
                 }
             ],
             "1mo": [
-                {
-                    "t": "05/04",
-                    "v": 7200.75
-                },
                 {
                     "t": "05/05",
                     "v": 7259.2202
@@ -1893,6 +1886,10 @@
                 {
                     "t": "06/03",
                     "v": 7553.6802
+                },
+                {
+                    "t": "06/04",
+                    "v": 7584.3101
                 }
             ]
         },
@@ -1900,370 +1897,318 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 27053.8184
+                    "v": 26660.6855
                 },
                 {
                     "t": "09:35",
-                    "v": 27032.3418
+                    "v": 26666.418
                 },
                 {
                     "t": "09:40",
-                    "v": 26951.4922
+                    "v": 26585.9512
                 },
                 {
                     "t": "09:45",
-                    "v": 26873.1016
+                    "v": 26594.498
                 },
                 {
                     "t": "09:50",
-                    "v": 26904.1914
+                    "v": 26608.375
                 },
                 {
                     "t": "09:55",
-                    "v": 26912.1934
+                    "v": 26627.4883
                 },
                 {
                     "t": "10:00",
-                    "v": 26954.8027
+                    "v": 26597.1191
                 },
                 {
                     "t": "10:05",
-                    "v": 26959.5098
+                    "v": 26589.5059
                 },
                 {
                     "t": "10:10",
-                    "v": 26998.5645
+                    "v": 26656.3203
                 },
                 {
                     "t": "10:15",
-                    "v": 26976.832
+                    "v": 26647.6562
                 },
                 {
                     "t": "10:20",
-                    "v": 26965.6133
+                    "v": 26686.8359
                 },
                 {
                     "t": "10:25",
-                    "v": 26994.4473
+                    "v": 26690.6211
                 },
                 {
                     "t": "10:30",
-                    "v": 26976.4785
+                    "v": 26695.5781
                 },
                 {
                     "t": "10:35",
-                    "v": 26981.4414
+                    "v": 26682.5645
                 },
                 {
                     "t": "10:40",
-                    "v": 26965.1602
+                    "v": 26691.0117
                 },
                 {
                     "t": "10:45",
-                    "v": 26946.0078
+                    "v": 26689.1934
                 },
                 {
                     "t": "10:50",
-                    "v": 26952.9082
+                    "v": 26695.2949
                 },
                 {
                     "t": "10:55",
-                    "v": 26935.6328
+                    "v": 26719.2012
                 },
                 {
                     "t": "11:00",
-                    "v": 26947.1719
+                    "v": 26731.6602
                 },
                 {
                     "t": "11:05",
-                    "v": 26936.7285
+                    "v": 26776.043
                 },
                 {
                     "t": "11:10",
-                    "v": 26931.4707
+                    "v": 26794.7324
                 },
                 {
                     "t": "11:15",
-                    "v": 26931.8809
+                    "v": 26803.8398
                 },
                 {
                     "t": "11:20",
-                    "v": 26899.1855
+                    "v": 26807.0586
                 },
                 {
                     "t": "11:25",
-                    "v": 26921.541
+                    "v": 26800.2715
                 },
                 {
                     "t": "11:30",
-                    "v": 26895.0723
+                    "v": 26790.0156
                 },
                 {
                     "t": "11:35",
-                    "v": 26887.2617
+                    "v": 26785.9082
                 },
                 {
                     "t": "11:40",
-                    "v": 26881.4414
+                    "v": 26767.7578
                 },
                 {
                     "t": "11:45",
-                    "v": 26879.4219
+                    "v": 26732.7715
                 },
                 {
                     "t": "11:50",
-                    "v": 26887.0
+                    "v": 26759.1211
                 },
                 {
                     "t": "11:55",
-                    "v": 26880.5059
+                    "v": 26763.8809
                 },
                 {
                     "t": "12:00",
-                    "v": 26877.5273
+                    "v": 26774.1641
                 },
                 {
                     "t": "12:05",
-                    "v": 26866.5625
+                    "v": 26800.4023
                 },
                 {
                     "t": "12:10",
-                    "v": 26872.1934
+                    "v": 26794.2383
                 },
                 {
                     "t": "12:15",
-                    "v": 26848.4551
+                    "v": 26799.4805
                 },
                 {
                     "t": "12:20",
-                    "v": 26812.6836
+                    "v": 26816.543
                 },
                 {
                     "t": "12:25",
-                    "v": 26812.1172
+                    "v": 26804.3203
                 },
                 {
                     "t": "12:30",
-                    "v": 26820.7871
+                    "v": 26792.0078
                 },
                 {
                     "t": "12:35",
-                    "v": 26793.2773
+                    "v": 26817.9688
                 },
                 {
                     "t": "12:40",
-                    "v": 26793.7598
+                    "v": 26826.1738
                 },
                 {
                     "t": "12:45",
-                    "v": 26828.2168
+                    "v": 26815.5234
                 },
                 {
                     "t": "12:50",
-                    "v": 26829.6348
+                    "v": 26828.7227
                 },
                 {
                     "t": "12:55",
-                    "v": 26858.2129
+                    "v": 26822.7207
                 },
                 {
                     "t": "13:00",
-                    "v": 26830.6562
+                    "v": 26818.6641
                 },
                 {
                     "t": "13:05",
-                    "v": 26840.5195
+                    "v": 26836.3613
                 },
                 {
                     "t": "13:10",
-                    "v": 26802.6621
+                    "v": 26840.9238
                 },
                 {
                     "t": "13:15",
-                    "v": 26799.0215
+                    "v": 26841.7676
                 },
                 {
                     "t": "13:20",
-                    "v": 26820.9395
+                    "v": 26847.1582
                 },
                 {
                     "t": "13:25",
-                    "v": 26831.0352
+                    "v": 26863.3203
                 },
                 {
                     "t": "13:30",
-                    "v": 26842.0723
+                    "v": 26876.8477
                 },
                 {
                     "t": "13:35",
-                    "v": 26846.0645
+                    "v": 26865.3457
                 },
                 {
                     "t": "13:40",
-                    "v": 26864.2988
+                    "v": 26877.8301
                 },
                 {
                     "t": "13:45",
-                    "v": 26863.6172
+                    "v": 26880.5488
                 },
                 {
                     "t": "13:50",
-                    "v": 26878.4766
+                    "v": 26884.4102
                 },
                 {
                     "t": "13:55",
-                    "v": 26883.9883
+                    "v": 26900.2754
                 },
                 {
                     "t": "14:00",
-                    "v": 26887.2207
+                    "v": 26911.6074
                 },
                 {
                     "t": "14:05",
-                    "v": 26878.1445
+                    "v": 26917.1875
                 },
                 {
                     "t": "14:10",
-                    "v": 26868.6211
+                    "v": 26913.7559
                 },
                 {
                     "t": "14:15",
-                    "v": 26883.0723
+                    "v": 26919.1582
                 },
                 {
                     "t": "14:20",
-                    "v": 26898.0996
+                    "v": 26912.8008
                 },
                 {
                     "t": "14:25",
-                    "v": 26913.1992
+                    "v": 26917.7324
                 },
                 {
                     "t": "14:30",
-                    "v": 26907.6016
+                    "v": 26910.5293
                 },
                 {
                     "t": "14:35",
-                    "v": 26895.3574
+                    "v": 26909.543
                 },
                 {
                     "t": "14:40",
-                    "v": 26899.0605
+                    "v": 26912.8613
                 },
                 {
                     "t": "14:45",
-                    "v": 26900.8145
+                    "v": 26912.5195
                 },
                 {
                     "t": "14:50",
-                    "v": 26897.5098
+                    "v": 26905.2852
                 },
                 {
                     "t": "14:55",
-                    "v": 26895.6035
+                    "v": 26889.0332
                 },
                 {
                     "t": "15:00",
-                    "v": 26873.6445
+                    "v": 26899.6309
                 },
                 {
                     "t": "15:05",
-                    "v": 26879.668
+                    "v": 26900.3672
                 },
                 {
                     "t": "15:10",
-                    "v": 26877.1445
+                    "v": 26891.5078
                 },
                 {
                     "t": "15:15",
-                    "v": 26878.2422
+                    "v": 26878.2539
                 },
                 {
                     "t": "15:20",
-                    "v": 26860.7656
+                    "v": 26892.2422
                 },
                 {
                     "t": "15:25",
-                    "v": 26870.0078
+                    "v": 26911.0137
                 },
                 {
                     "t": "15:30",
-                    "v": 26876.4727
+                    "v": 26902.3086
                 },
                 {
                     "t": "15:35",
-                    "v": 26899.6777
+                    "v": 26904.3828
                 },
                 {
                     "t": "15:40",
-                    "v": 26901.3223
+                    "v": 26886.707
                 },
                 {
                     "t": "15:45",
-                    "v": 26901.4551
+                    "v": 26885.5059
                 },
                 {
                     "t": "15:50",
-                    "v": 26865.6211
+                    "v": 26867.7402
                 },
                 {
                     "t": "15:55",
-                    "v": 26862.9297
+                    "v": 26835.207
                 }
             ],
             "5d": [
-                {
-                    "t": "05/28 09:30",
-                    "v": 26654.8008
-                },
-                {
-                    "t": "05/28 10:00",
-                    "v": 26757.0996
-                },
-                {
-                    "t": "05/28 10:30",
-                    "v": 26782.8008
-                },
-                {
-                    "t": "05/28 11:00",
-                    "v": 26843.8633
-                },
-                {
-                    "t": "05/28 11:30",
-                    "v": 26846.1074
-                },
-                {
-                    "t": "05/28 12:00",
-                    "v": 26870.1406
-                },
-                {
-                    "t": "05/28 12:30",
-                    "v": 26885.7754
-                },
-                {
-                    "t": "05/28 13:00",
-                    "v": 26877.0332
-                },
-                {
-                    "t": "05/28 13:30",
-                    "v": 26913.623
-                },
-                {
-                    "t": "05/28 14:00",
-                    "v": 26918.1035
-                },
-                {
-                    "t": "05/28 14:30",
-                    "v": 26903.4883
-                },
-                {
-                    "t": "05/28 15:00",
-                    "v": 26915.5762
-                },
-                {
-                    "t": "05/28 15:30",
-                    "v": 26916.9141
-                },
                 {
                     "t": "05/29 09:30",
                     "v": 27073.6992
@@ -2471,13 +2416,61 @@
                 {
                     "t": "06/03 15:30",
                     "v": 26862.9297
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 26627.4883
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 26690.6211
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 26719.2012
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 26800.2715
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 26763.8809
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 26804.3203
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 26822.7207
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 26863.3203
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 26900.2754
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 26917.7324
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 26889.0332
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 26911.0137
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 26835.207
                 }
             ],
             "1mo": [
-                {
-                    "t": "05/04",
-                    "v": 25067.8008
-                },
                 {
                     "t": "05/05",
                     "v": 25326.1309
@@ -2561,6 +2554,10 @@
                 {
                     "t": "06/03",
                     "v": 26853.9805
+                },
+                {
+                    "t": "06/04",
+                    "v": 26830.957
                 }
             ]
         },
@@ -2724,7 +2721,459 @@
                 },
                 {
                     "t": "06:30",
-                    "v": 16.58
+                    "v": 16.59
+                },
+                {
+                    "t": "06:35",
+                    "v": 16.6
+                },
+                {
+                    "t": "06:40",
+                    "v": 16.63
+                },
+                {
+                    "t": "06:45",
+                    "v": 16.64
+                },
+                {
+                    "t": "06:50",
+                    "v": 16.66
+                },
+                {
+                    "t": "06:55",
+                    "v": 16.67
+                },
+                {
+                    "t": "07:00",
+                    "v": 16.61
+                },
+                {
+                    "t": "07:05",
+                    "v": 16.62
+                },
+                {
+                    "t": "07:10",
+                    "v": 16.56
+                },
+                {
+                    "t": "07:15",
+                    "v": 16.55
+                },
+                {
+                    "t": "07:20",
+                    "v": 16.56
+                },
+                {
+                    "t": "07:25",
+                    "v": 16.56
+                },
+                {
+                    "t": "07:30",
+                    "v": 16.61
+                },
+                {
+                    "t": "07:35",
+                    "v": 16.71
+                },
+                {
+                    "t": "07:40",
+                    "v": 16.68
+                },
+                {
+                    "t": "07:45",
+                    "v": 16.6
+                },
+                {
+                    "t": "07:50",
+                    "v": 16.55
+                },
+                {
+                    "t": "07:55",
+                    "v": 16.51
+                },
+                {
+                    "t": "08:00",
+                    "v": 16.54
+                },
+                {
+                    "t": "08:05",
+                    "v": 16.5
+                },
+                {
+                    "t": "08:10",
+                    "v": 16.6
+                },
+                {
+                    "t": "08:15",
+                    "v": 16.6
+                },
+                {
+                    "t": "08:20",
+                    "v": 16.55
+                },
+                {
+                    "t": "08:25",
+                    "v": 16.52
+                },
+                {
+                    "t": "08:30",
+                    "v": 16.53
+                },
+                {
+                    "t": "08:35",
+                    "v": 16.49
+                },
+                {
+                    "t": "08:40",
+                    "v": 16.46
+                },
+                {
+                    "t": "08:45",
+                    "v": 16.41
+                },
+                {
+                    "t": "08:50",
+                    "v": 16.36
+                },
+                {
+                    "t": "08:55",
+                    "v": 16.37
+                },
+                {
+                    "t": "09:00",
+                    "v": 16.4
+                },
+                {
+                    "t": "09:05",
+                    "v": 16.39
+                },
+                {
+                    "t": "09:10",
+                    "v": 16.39
+                },
+                {
+                    "t": "09:15",
+                    "v": 16.31
+                },
+                {
+                    "t": "09:20",
+                    "v": 16.34
+                },
+                {
+                    "t": "09:25",
+                    "v": 16.34
+                },
+                {
+                    "t": "09:30",
+                    "v": 16.2
+                },
+                {
+                    "t": "09:35",
+                    "v": 16.14
+                },
+                {
+                    "t": "09:40",
+                    "v": 16.19
+                },
+                {
+                    "t": "09:45",
+                    "v": 16.07
+                },
+                {
+                    "t": "09:50",
+                    "v": 16.02
+                },
+                {
+                    "t": "09:55",
+                    "v": 15.97
+                },
+                {
+                    "t": "10:00",
+                    "v": 16.03
+                },
+                {
+                    "t": "10:05",
+                    "v": 15.93
+                },
+                {
+                    "t": "10:10",
+                    "v": 15.8
+                },
+                {
+                    "t": "10:15",
+                    "v": 15.78
+                },
+                {
+                    "t": "10:20",
+                    "v": 15.66
+                },
+                {
+                    "t": "10:25",
+                    "v": 15.69
+                },
+                {
+                    "t": "10:30",
+                    "v": 15.72
+                },
+                {
+                    "t": "10:35",
+                    "v": 15.8
+                },
+                {
+                    "t": "10:40",
+                    "v": 15.8
+                },
+                {
+                    "t": "10:45",
+                    "v": 15.82
+                },
+                {
+                    "t": "10:50",
+                    "v": 15.78
+                },
+                {
+                    "t": "10:55",
+                    "v": 15.74
+                },
+                {
+                    "t": "11:00",
+                    "v": 15.73
+                },
+                {
+                    "t": "11:05",
+                    "v": 15.63
+                },
+                {
+                    "t": "11:10",
+                    "v": 15.64
+                },
+                {
+                    "t": "11:15",
+                    "v": 15.67
+                },
+                {
+                    "t": "11:20",
+                    "v": 15.63
+                },
+                {
+                    "t": "11:25",
+                    "v": 15.66
+                },
+                {
+                    "t": "11:30",
+                    "v": 15.69
+                },
+                {
+                    "t": "11:35",
+                    "v": 15.67
+                },
+                {
+                    "t": "11:40",
+                    "v": 15.68
+                },
+                {
+                    "t": "11:45",
+                    "v": 15.71
+                },
+                {
+                    "t": "11:50",
+                    "v": 15.63
+                },
+                {
+                    "t": "11:55",
+                    "v": 15.61
+                },
+                {
+                    "t": "12:00",
+                    "v": 15.6
+                },
+                {
+                    "t": "12:05",
+                    "v": 15.51
+                },
+                {
+                    "t": "12:10",
+                    "v": 15.55
+                },
+                {
+                    "t": "12:15",
+                    "v": 15.55
+                },
+                {
+                    "t": "12:20",
+                    "v": 15.52
+                },
+                {
+                    "t": "12:25",
+                    "v": 15.55
+                },
+                {
+                    "t": "12:30",
+                    "v": 15.55
+                },
+                {
+                    "t": "12:35",
+                    "v": 15.47
+                },
+                {
+                    "t": "12:40",
+                    "v": 15.47
+                },
+                {
+                    "t": "12:45",
+                    "v": 15.46
+                },
+                {
+                    "t": "12:50",
+                    "v": 15.44
+                },
+                {
+                    "t": "12:55",
+                    "v": 15.45
+                },
+                {
+                    "t": "13:00",
+                    "v": 15.45
+                },
+                {
+                    "t": "13:05",
+                    "v": 15.42
+                },
+                {
+                    "t": "13:10",
+                    "v": 15.42
+                },
+                {
+                    "t": "13:15",
+                    "v": 15.42
+                },
+                {
+                    "t": "13:20",
+                    "v": 15.42
+                },
+                {
+                    "t": "13:25",
+                    "v": 15.4
+                },
+                {
+                    "t": "13:30",
+                    "v": 15.39
+                },
+                {
+                    "t": "13:35",
+                    "v": 15.41
+                },
+                {
+                    "t": "13:40",
+                    "v": 15.4
+                },
+                {
+                    "t": "13:45",
+                    "v": 15.39
+                },
+                {
+                    "t": "13:50",
+                    "v": 15.39
+                },
+                {
+                    "t": "13:55",
+                    "v": 15.34
+                },
+                {
+                    "t": "14:00",
+                    "v": 15.36
+                },
+                {
+                    "t": "14:05",
+                    "v": 15.37
+                },
+                {
+                    "t": "14:10",
+                    "v": 15.37
+                },
+                {
+                    "t": "14:15",
+                    "v": 15.37
+                },
+                {
+                    "t": "14:20",
+                    "v": 15.38
+                },
+                {
+                    "t": "14:25",
+                    "v": 15.39
+                },
+                {
+                    "t": "14:30",
+                    "v": 15.39
+                },
+                {
+                    "t": "14:35",
+                    "v": 15.37
+                },
+                {
+                    "t": "14:40",
+                    "v": 15.37
+                },
+                {
+                    "t": "14:45",
+                    "v": 15.37
+                },
+                {
+                    "t": "14:50",
+                    "v": 15.38
+                },
+                {
+                    "t": "14:55",
+                    "v": 15.37
+                },
+                {
+                    "t": "15:00",
+                    "v": 15.37
+                },
+                {
+                    "t": "15:05",
+                    "v": 15.37
+                },
+                {
+                    "t": "15:10",
+                    "v": 15.36
+                },
+                {
+                    "t": "15:15",
+                    "v": 15.36
+                },
+                {
+                    "t": "15:20",
+                    "v": 15.33
+                },
+                {
+                    "t": "15:25",
+                    "v": 15.28
+                },
+                {
+                    "t": "15:30",
+                    "v": 15.26
+                },
+                {
+                    "t": "15:35",
+                    "v": 15.25
+                },
+                {
+                    "t": "15:40",
+                    "v": 15.28
+                },
+                {
+                    "t": "15:45",
+                    "v": 15.23
+                },
+                {
+                    "t": "15:50",
+                    "v": 15.19
+                },
+                {
+                    "t": "15:55",
+                    "v": 15.21
                 }
             ],
             "5d": [
@@ -3190,7 +3639,79 @@
                 },
                 {
                     "t": "06/04 06:30",
-                    "v": 16.58
+                    "v": 16.67
+                },
+                {
+                    "t": "06/04 07:00",
+                    "v": 16.56
+                },
+                {
+                    "t": "06/04 07:30",
+                    "v": 16.51
+                },
+                {
+                    "t": "06/04 08:00",
+                    "v": 16.52
+                },
+                {
+                    "t": "06/04 08:30",
+                    "v": 16.37
+                },
+                {
+                    "t": "06/04 09:00",
+                    "v": 16.34
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 15.97
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 15.69
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 15.74
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 15.66
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 15.61
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 15.55
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 15.45
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 15.4
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 15.34
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 15.39
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 15.37
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 15.28
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 15.21
                 }
             ],
             "1mo": [
@@ -3288,7 +3809,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 16.58
+                    "v": 15.21
                 }
             ]
         },
@@ -3296,370 +3817,318 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 79.76
+                    "v": 79.795
                 },
                 {
                     "t": "09:35",
-                    "v": 79.715
+                    "v": 79.805
                 },
                 {
                     "t": "09:40",
-                    "v": 79.69
+                    "v": 79.7758
                 },
                 {
                     "t": "09:45",
-                    "v": 79.665
+                    "v": 79.805
                 },
                 {
                     "t": "09:50",
-                    "v": 79.685
+                    "v": 79.785
                 },
                 {
                     "t": "09:55",
-                    "v": 79.69
+                    "v": 79.795
                 },
                 {
                     "t": "10:00",
-                    "v": 79.72
+                    "v": 79.79
                 },
                 {
                     "t": "10:05",
-                    "v": 79.73
+                    "v": 79.785
                 },
                 {
                     "t": "10:10",
-                    "v": 79.73
+                    "v": 79.785
                 },
                 {
                     "t": "10:15",
-                    "v": 79.705
+                    "v": 79.795
                 },
                 {
                     "t": "10:20",
-                    "v": 79.72
+                    "v": 79.795
                 },
                 {
                     "t": "10:25",
-                    "v": 79.735
+                    "v": 79.79
                 },
                 {
                     "t": "10:30",
-                    "v": 79.72
+                    "v": 79.8
                 },
                 {
                     "t": "10:35",
-                    "v": 79.72
+                    "v": 79.785
                 },
                 {
                     "t": "10:40",
-                    "v": 79.725
+                    "v": 79.795
                 },
                 {
                     "t": "10:45",
-                    "v": 79.71
+                    "v": 79.79
                 },
                 {
                     "t": "10:50",
-                    "v": 79.715
+                    "v": 79.795
                 },
                 {
                     "t": "10:55",
-                    "v": 79.715
+                    "v": 79.79
                 },
                 {
                     "t": "11:00",
-                    "v": 79.715
+                    "v": 79.8
                 },
                 {
                     "t": "11:05",
-                    "v": 79.705
+                    "v": 79.83
                 },
                 {
                     "t": "11:10",
-                    "v": 79.71
+                    "v": 79.835
                 },
                 {
                     "t": "11:15",
-                    "v": 79.715
+                    "v": 79.84
                 },
                 {
                     "t": "11:20",
-                    "v": 79.71
+                    "v": 79.835
                 },
                 {
                     "t": "11:25",
-                    "v": 79.7
+                    "v": 79.825
                 },
                 {
                     "t": "11:30",
-                    "v": 79.69
+                    "v": 79.83
                 },
                 {
                     "t": "11:35",
-                    "v": 79.68
+                    "v": 79.83
                 },
                 {
                     "t": "11:40",
-                    "v": 79.685
+                    "v": 79.805
                 },
                 {
                     "t": "11:45",
-                    "v": 79.665
+                    "v": 79.8
                 },
                 {
                     "t": "11:50",
-                    "v": 79.67
+                    "v": 79.8
                 },
                 {
                     "t": "11:55",
-                    "v": 79.67
+                    "v": 79.8
                 },
                 {
                     "t": "12:00",
-                    "v": 79.67
+                    "v": 79.795
                 },
                 {
                     "t": "12:05",
-                    "v": 79.675
+                    "v": 79.79
                 },
                 {
                     "t": "12:10",
-                    "v": 79.68
+                    "v": 79.795
                 },
                 {
                     "t": "12:15",
-                    "v": 79.665
+                    "v": 79.805
                 },
                 {
                     "t": "12:20",
-                    "v": 79.655
+                    "v": 79.805
                 },
                 {
                     "t": "12:25",
-                    "v": 79.64
+                    "v": 79.81
                 },
                 {
                     "t": "12:30",
-                    "v": 79.655
+                    "v": 79.805
                 },
                 {
                     "t": "12:35",
-                    "v": 79.65
+                    "v": 79.805
                 },
                 {
                     "t": "12:40",
-                    "v": 79.64
+                    "v": 79.82
                 },
                 {
                     "t": "12:45",
-                    "v": 79.655
+                    "v": 79.795
                 },
                 {
                     "t": "12:50",
-                    "v": 79.645
+                    "v": 79.795
                 },
                 {
                     "t": "12:55",
-                    "v": 79.645
+                    "v": 79.81
                 },
                 {
                     "t": "13:00",
-                    "v": 79.645
+                    "v": 79.795
                 },
                 {
                     "t": "13:05",
-                    "v": 79.665
+                    "v": 79.795
                 },
                 {
                     "t": "13:10",
-                    "v": 79.635
+                    "v": 79.8
                 },
                 {
                     "t": "13:15",
-                    "v": 79.645
+                    "v": 79.8
                 },
                 {
                     "t": "13:20",
-                    "v": 79.645
+                    "v": 79.785
                 },
                 {
                     "t": "13:25",
-                    "v": 79.655
+                    "v": 79.785
                 },
                 {
                     "t": "13:30",
-                    "v": 79.645
+                    "v": 79.81
                 },
                 {
                     "t": "13:35",
-                    "v": 79.68
+                    "v": 79.8
                 },
                 {
                     "t": "13:40",
-                    "v": 79.675
+                    "v": 79.8
                 },
                 {
                     "t": "13:45",
-                    "v": 79.695
+                    "v": 79.795
                 },
                 {
                     "t": "13:50",
-                    "v": 79.715
+                    "v": 79.8
                 },
                 {
                     "t": "13:55",
-                    "v": 79.72
+                    "v": 79.8
                 },
                 {
                     "t": "14:00",
-                    "v": 79.73
+                    "v": 79.81
                 },
                 {
                     "t": "14:05",
-                    "v": 79.715
+                    "v": 79.82
                 },
                 {
                     "t": "14:10",
-                    "v": 79.71
+                    "v": 79.835
                 },
                 {
                     "t": "14:15",
-                    "v": 79.715
+                    "v": 79.835
                 },
                 {
                     "t": "14:20",
-                    "v": 79.715
+                    "v": 79.825
                 },
                 {
                     "t": "14:25",
-                    "v": 79.715
+                    "v": 79.82
                 },
                 {
                     "t": "14:30",
-                    "v": 79.69
+                    "v": 79.825
                 },
                 {
                     "t": "14:35",
-                    "v": 79.695
+                    "v": 79.82
                 },
                 {
                     "t": "14:40",
-                    "v": 79.68
+                    "v": 79.82
                 },
                 {
                     "t": "14:45",
-                    "v": 79.68
+                    "v": 79.83
                 },
                 {
                     "t": "14:50",
-                    "v": 79.685
+                    "v": 79.84
                 },
                 {
                     "t": "14:55",
-                    "v": 79.685
+                    "v": 79.82
                 },
                 {
                     "t": "15:00",
-                    "v": 79.685
+                    "v": 79.82
                 },
                 {
                     "t": "15:05",
-                    "v": 79.695
+                    "v": 79.815
                 },
                 {
                     "t": "15:10",
-                    "v": 79.7
+                    "v": 79.815
                 },
                 {
                     "t": "15:15",
-                    "v": 79.705
+                    "v": 79.815
                 },
                 {
                     "t": "15:20",
-                    "v": 79.695
+                    "v": 79.815
                 },
                 {
                     "t": "15:25",
-                    "v": 79.695
+                    "v": 79.815
                 },
                 {
                     "t": "15:30",
-                    "v": 79.695
+                    "v": 79.8122
                 },
                 {
                     "t": "15:35",
-                    "v": 79.715
+                    "v": 79.815
                 },
                 {
                     "t": "15:40",
-                    "v": 79.71
+                    "v": 79.815
                 },
                 {
                     "t": "15:45",
-                    "v": 79.705
+                    "v": 79.82
                 },
                 {
                     "t": "15:50",
-                    "v": 79.705
+                    "v": 79.82
                 },
                 {
                     "t": "15:55",
-                    "v": 79.69
+                    "v": 79.82
                 }
             ],
             "5d": [
-                {
-                    "t": "05/28 09:30",
-                    "v": 80.08
-                },
-                {
-                    "t": "05/28 10:00",
-                    "v": 80.2
-                },
-                {
-                    "t": "05/28 10:30",
-                    "v": 80.225
-                },
-                {
-                    "t": "05/28 11:00",
-                    "v": 80.24
-                },
-                {
-                    "t": "05/28 11:30",
-                    "v": 80.235
-                },
-                {
-                    "t": "05/28 12:00",
-                    "v": 80.255
-                },
-                {
-                    "t": "05/28 12:30",
-                    "v": 80.255
-                },
-                {
-                    "t": "05/28 13:00",
-                    "v": 80.215
-                },
-                {
-                    "t": "05/28 13:30",
-                    "v": 80.22
-                },
-                {
-                    "t": "05/28 14:00",
-                    "v": 80.205
-                },
-                {
-                    "t": "05/28 14:30",
-                    "v": 80.175
-                },
-                {
-                    "t": "05/28 15:00",
-                    "v": 80.195
-                },
-                {
-                    "t": "05/28 15:30",
-                    "v": 80.19
-                },
                 {
                     "t": "05/29 09:30",
                     "v": 80.26
@@ -3867,13 +4336,61 @@
                 {
                     "t": "06/03 15:30",
                     "v": 79.69
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 79.795
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 79.79
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 79.79
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 79.825
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 79.8
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 79.81
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 79.81
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 79.785
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 79.8
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 79.82
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 79.82
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 79.815
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 79.82
                 }
             ],
             "1mo": [
-                {
-                    "t": "05/04",
-                    "v": 79.3936
-                },
                 {
                     "t": "05/05",
                     "v": 79.513
@@ -3957,6 +4474,10 @@
                 {
                     "t": "06/03",
                     "v": 79.68
+                },
+                {
+                    "t": "06/04",
+                    "v": 79.82
                 }
             ]
         },
@@ -3964,370 +4485,318 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 96.075
+                    "v": 96.125
                 },
                 {
                     "t": "09:35",
-                    "v": 96.02
+                    "v": 96.145
                 },
                 {
                     "t": "09:40",
-                    "v": 95.98
+                    "v": 96.125
                 },
                 {
                     "t": "09:45",
-                    "v": 95.95
+                    "v": 96.14
                 },
                 {
                     "t": "09:50",
-                    "v": 95.99
+                    "v": 96.12
                 },
                 {
                     "t": "09:55",
-                    "v": 95.98
+                    "v": 96.125
                 },
                 {
                     "t": "10:00",
-                    "v": 96.005
+                    "v": 96.13
                 },
                 {
                     "t": "10:05",
-                    "v": 96.025
+                    "v": 96.115
                 },
                 {
                     "t": "10:10",
-                    "v": 96.05
+                    "v": 96.115
                 },
                 {
                     "t": "10:15",
-                    "v": 96.0
+                    "v": 96.13
                 },
                 {
                     "t": "10:20",
-                    "v": 96.0
+                    "v": 96.145
                 },
                 {
                     "t": "10:25",
-                    "v": 96.03
+                    "v": 96.135
                 },
                 {
                     "t": "10:30",
-                    "v": 96.015
+                    "v": 96.135
                 },
                 {
                     "t": "10:35",
-                    "v": 96.015
+                    "v": 96.12
                 },
                 {
                     "t": "10:40",
-                    "v": 96.015
+                    "v": 96.13
                 },
                 {
                     "t": "10:45",
-                    "v": 96.015
+                    "v": 96.125
                 },
                 {
                     "t": "10:50",
-                    "v": 96.025
+                    "v": 96.13
                 },
                 {
                     "t": "10:55",
-                    "v": 96.0151
+                    "v": 96.12
                 },
                 {
                     "t": "11:00",
-                    "v": 96.0199
+                    "v": 96.145
                 },
                 {
                     "t": "11:05",
-                    "v": 96.015
+                    "v": 96.175
                 },
                 {
                     "t": "11:10",
-                    "v": 96.015
+                    "v": 96.17
                 },
                 {
                     "t": "11:15",
-                    "v": 96.0199
+                    "v": 96.2
                 },
                 {
                     "t": "11:20",
-                    "v": 96.005
+                    "v": 96.1752
                 },
                 {
                     "t": "11:25",
-                    "v": 95.995
+                    "v": 96.17
                 },
                 {
                     "t": "11:30",
-                    "v": 95.985
+                    "v": 96.165
                 },
                 {
                     "t": "11:35",
-                    "v": 95.97
+                    "v": 96.175
                 },
                 {
                     "t": "11:40",
-                    "v": 95.975
+                    "v": 96.145
                 },
                 {
                     "t": "11:45",
-                    "v": 95.97
+                    "v": 96.145
                 },
                 {
                     "t": "11:50",
-                    "v": 95.965
+                    "v": 96.14
                 },
                 {
                     "t": "11:55",
-                    "v": 95.965
+                    "v": 96.13
                 },
                 {
                     "t": "12:00",
-                    "v": 95.965
+                    "v": 96.125
                 },
                 {
                     "t": "12:05",
-                    "v": 95.955
+                    "v": 96.135
                 },
                 {
                     "t": "12:10",
-                    "v": 95.965
+                    "v": 96.125
                 },
                 {
                     "t": "12:15",
-                    "v": 95.955
+                    "v": 96.135
                 },
                 {
                     "t": "12:20",
-                    "v": 95.94
+                    "v": 96.13
                 },
                 {
                     "t": "12:25",
-                    "v": 95.935
+                    "v": 96.135
                 },
                 {
                     "t": "12:30",
-                    "v": 95.95
+                    "v": 96.14
                 },
                 {
                     "t": "12:35",
-                    "v": 95.93
+                    "v": 96.15
                 },
                 {
                     "t": "12:40",
-                    "v": 95.93
+                    "v": 96.145
                 },
                 {
                     "t": "12:45",
-                    "v": 95.945
+                    "v": 96.135
                 },
                 {
                     "t": "12:50",
-                    "v": 95.935
+                    "v": 96.135
                 },
                 {
                     "t": "12:55",
-                    "v": 95.94
+                    "v": 96.135
                 },
                 {
                     "t": "13:00",
-                    "v": 95.935
+                    "v": 96.135
                 },
                 {
                     "t": "13:05",
-                    "v": 95.955
+                    "v": 96.13
                 },
                 {
                     "t": "13:10",
-                    "v": 95.9201
+                    "v": 96.13
                 },
                 {
                     "t": "13:15",
-                    "v": 95.925
+                    "v": 96.125
                 },
                 {
                     "t": "13:20",
-                    "v": 95.935
+                    "v": 96.1154
                 },
                 {
                     "t": "13:25",
-                    "v": 95.945
+                    "v": 96.105
                 },
                 {
                     "t": "13:30",
-                    "v": 95.935
+                    "v": 96.125
                 },
                 {
                     "t": "13:35",
-                    "v": 95.97
+                    "v": 96.125
                 },
                 {
                     "t": "13:40",
-                    "v": 95.965
+                    "v": 96.13
                 },
                 {
                     "t": "13:45",
-                    "v": 95.99
+                    "v": 96.13
                 },
                 {
                     "t": "13:50",
-                    "v": 96.015
+                    "v": 96.13
                 },
                 {
                     "t": "13:55",
-                    "v": 96.02
+                    "v": 96.13
                 },
                 {
                     "t": "14:00",
-                    "v": 96.025
+                    "v": 96.15
                 },
                 {
                     "t": "14:05",
-                    "v": 96.015
+                    "v": 96.155
                 },
                 {
                     "t": "14:10",
-                    "v": 96.005
+                    "v": 96.165
                 },
                 {
                     "t": "14:15",
-                    "v": 96.02
+                    "v": 96.165
                 },
                 {
                     "t": "14:20",
-                    "v": 96.02
+                    "v": 96.165
                 },
                 {
                     "t": "14:25",
-                    "v": 96.025
+                    "v": 96.165
                 },
                 {
                     "t": "14:30",
-                    "v": 96.0
+                    "v": 96.165
                 },
                 {
                     "t": "14:35",
-                    "v": 95.995
+                    "v": 96.165
                 },
                 {
                     "t": "14:40",
-                    "v": 95.985
+                    "v": 96.165
                 },
                 {
                     "t": "14:45",
-                    "v": 95.995
+                    "v": 96.17
                 },
                 {
                     "t": "14:50",
-                    "v": 95.995
+                    "v": 96.177
                 },
                 {
                     "t": "14:55",
-                    "v": 95.985
+                    "v": 96.165
                 },
                 {
                     "t": "15:00",
-                    "v": 95.985
+                    "v": 96.17
                 },
                 {
                     "t": "15:05",
-                    "v": 96.005
+                    "v": 96.155
                 },
                 {
                     "t": "15:10",
-                    "v": 96.005
+                    "v": 96.155
                 },
                 {
                     "t": "15:15",
-                    "v": 96.015
+                    "v": 96.151
                 },
                 {
                     "t": "15:20",
-                    "v": 96.01
+                    "v": 96.145
                 },
                 {
                     "t": "15:25",
-                    "v": 96.015
+                    "v": 96.155
                 },
                 {
                     "t": "15:30",
-                    "v": 96.015
+                    "v": 96.155
                 },
                 {
                     "t": "15:35",
-                    "v": 96.035
+                    "v": 96.15
                 },
                 {
                     "t": "15:40",
-                    "v": 96.03
+                    "v": 96.155
                 },
                 {
                     "t": "15:45",
-                    "v": 96.025
+                    "v": 96.155
                 },
                 {
                     "t": "15:50",
-                    "v": 96.015
+                    "v": 96.165
                 },
                 {
                     "t": "15:55",
-                    "v": 96.01
+                    "v": 96.17
                 }
             ],
             "5d": [
-                {
-                    "t": "05/28 09:30",
-                    "v": 96.48
-                },
-                {
-                    "t": "05/28 10:00",
-                    "v": 96.6266
-                },
-                {
-                    "t": "05/28 10:30",
-                    "v": 96.65
-                },
-                {
-                    "t": "05/28 11:00",
-                    "v": 96.675
-                },
-                {
-                    "t": "05/28 11:30",
-                    "v": 96.68
-                },
-                {
-                    "t": "05/28 12:00",
-                    "v": 96.695
-                },
-                {
-                    "t": "05/28 12:30",
-                    "v": 96.69
-                },
-                {
-                    "t": "05/28 13:00",
-                    "v": 96.645
-                },
-                {
-                    "t": "05/28 13:30",
-                    "v": 96.655
-                },
-                {
-                    "t": "05/28 14:00",
-                    "v": 96.64
-                },
-                {
-                    "t": "05/28 14:30",
-                    "v": 96.595
-                },
-                {
-                    "t": "05/28 15:00",
-                    "v": 96.62
-                },
-                {
-                    "t": "05/28 15:30",
-                    "v": 96.63
-                },
                 {
                     "t": "05/29 09:30",
                     "v": 96.68
@@ -4535,13 +5004,61 @@
                 {
                     "t": "06/03 15:30",
                     "v": 96.01
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 96.125
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 96.135
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 96.12
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 96.17
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 96.13
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 96.135
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 96.135
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 96.105
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 96.13
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 96.165
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 96.165
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 96.155
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 96.17
                 }
             ],
             "1mo": [
-                {
-                    "t": "05/04",
-                    "v": 95.5806
-                },
                 {
                     "t": "05/05",
                     "v": 95.7
@@ -4625,6 +5142,10 @@
                 {
                     "t": "06/03",
                     "v": 96.0
+                },
+                {
+                    "t": "06/04",
+                    "v": 96.17
                 }
             ]
         },
@@ -4632,382 +5153,326 @@
             "intraday": [
                 {
                     "t": "08:20",
-                    "v": 4.489
-                },
-                {
-                    "t": "08:25",
-                    "v": 4.491
-                },
-                {
-                    "t": "08:30",
-                    "v": 4.493
-                },
-                {
-                    "t": "08:35",
-                    "v": 4.497
-                },
-                {
-                    "t": "08:40",
-                    "v": 4.491
-                },
-                {
-                    "t": "08:45",
-                    "v": 4.493
-                },
-                {
-                    "t": "08:50",
-                    "v": 4.491
-                },
-                {
-                    "t": "08:55",
-                    "v": 4.491
-                },
-                {
-                    "t": "09:00",
-                    "v": 4.489
-                },
-                {
-                    "t": "09:05",
-                    "v": 4.489
-                },
-                {
-                    "t": "09:10",
-                    "v": 4.489
-                },
-                {
-                    "t": "09:15",
-                    "v": 4.493
-                },
-                {
-                    "t": "09:20",
-                    "v": 4.493
-                },
-                {
-                    "t": "09:25",
-                    "v": 4.491
-                },
-                {
-                    "t": "09:30",
-                    "v": 4.489
-                },
-                {
-                    "t": "09:35",
-                    "v": 4.491
-                },
-                {
-                    "t": "09:40",
-                    "v": 4.493
-                },
-                {
-                    "t": "09:45",
-                    "v": 4.491
-                },
-                {
-                    "t": "09:50",
-                    "v": 4.489
-                },
-                {
-                    "t": "09:55",
-                    "v": 4.489
-                },
-                {
-                    "t": "10:00",
-                    "v": 4.485
-                },
-                {
-                    "t": "10:05",
-                    "v": 4.481
-                },
-                {
-                    "t": "10:10",
-                    "v": 4.475
-                },
-                {
-                    "t": "10:15",
-                    "v": 4.477
-                },
-                {
-                    "t": "10:20",
-                    "v": 4.475
-                },
-                {
-                    "t": "10:25",
-                    "v": 4.475
-                },
-                {
-                    "t": "10:30",
-                    "v": 4.477
-                },
-                {
-                    "t": "10:35",
-                    "v": 4.477
-                },
-                {
-                    "t": "10:40",
-                    "v": 4.483
-                },
-                {
-                    "t": "10:45",
-                    "v": 4.485
-                },
-                {
-                    "t": "10:50",
-                    "v": 4.481
-                },
-                {
-                    "t": "10:55",
-                    "v": 4.481
-                },
-                {
-                    "t": "11:00",
-                    "v": 4.485
-                },
-                {
-                    "t": "11:05",
-                    "v": 4.485
-                },
-                {
-                    "t": "11:10",
-                    "v": 4.487
-                },
-                {
-                    "t": "11:15",
-                    "v": 4.485
-                },
-                {
-                    "t": "11:20",
-                    "v": 4.491
-                },
-                {
-                    "t": "11:25",
-                    "v": 4.489
-                },
-                {
-                    "t": "11:30",
-                    "v": 4.493
-                },
-                {
-                    "t": "11:35",
-                    "v": 4.497
-                },
-                {
-                    "t": "11:40",
-                    "v": 4.499
-                },
-                {
-                    "t": "11:45",
-                    "v": 4.5
-                },
-                {
-                    "t": "11:50",
-                    "v": 4.499
-                },
-                {
-                    "t": "11:55",
-                    "v": 4.499
-                },
-                {
-                    "t": "12:00",
-                    "v": 4.5
-                },
-                {
-                    "t": "12:05",
-                    "v": 4.5
-                },
-                {
-                    "t": "12:10",
-                    "v": 4.5
-                },
-                {
-                    "t": "12:15",
-                    "v": 4.503
-                },
-                {
-                    "t": "12:20",
-                    "v": 4.503
-                },
-                {
-                    "t": "12:25",
-                    "v": 4.5
-                },
-                {
-                    "t": "12:30",
-                    "v": 4.499
-                },
-                {
-                    "t": "12:35",
-                    "v": 4.497
-                },
-                {
-                    "t": "12:40",
-                    "v": 4.495
-                },
-                {
-                    "t": "12:45",
-                    "v": 4.497
-                },
-                {
-                    "t": "12:50",
-                    "v": 4.497
-                },
-                {
-                    "t": "12:55",
-                    "v": 4.495
-                },
-                {
-                    "t": "13:00",
-                    "v": 4.493
-                },
-                {
-                    "t": "13:05",
-                    "v": 4.491
-                },
-                {
-                    "t": "13:10",
-                    "v": 4.495
-                },
-                {
-                    "t": "13:15",
-                    "v": 4.497
-                },
-                {
-                    "t": "13:20",
-                    "v": 4.497
-                },
-                {
-                    "t": "13:25",
-                    "v": 4.495
-                },
-                {
-                    "t": "13:30",
-                    "v": 4.495
-                },
-                {
-                    "t": "13:35",
-                    "v": 4.495
-                },
-                {
-                    "t": "13:40",
-                    "v": 4.495
-                },
-                {
-                    "t": "13:45",
-                    "v": 4.493
-                },
-                {
-                    "t": "13:50",
-                    "v": 4.493
-                },
-                {
-                    "t": "13:55",
-                    "v": 4.489
-                },
-                {
-                    "t": "14:00",
-                    "v": 4.491
-                },
-                {
-                    "t": "14:05",
-                    "v": 4.491
-                },
-                {
-                    "t": "14:10",
-                    "v": 4.491
-                },
-                {
-                    "t": "14:15",
-                    "v": 4.491
-                },
-                {
-                    "t": "14:20",
-                    "v": 4.489
-                },
-                {
-                    "t": "14:25",
-                    "v": 4.489
-                },
-                {
-                    "t": "14:30",
-                    "v": 4.491
-                },
-                {
-                    "t": "14:35",
-                    "v": 4.491
-                },
-                {
-                    "t": "14:40",
-                    "v": 4.489
-                },
-                {
-                    "t": "14:45",
-                    "v": 4.489
-                },
-                {
-                    "t": "14:50",
-                    "v": 4.489
-                },
-                {
-                    "t": "14:55",
-                    "v": 4.491
-                }
-            ],
-            "5d": [
-                {
-                    "t": "05/28 08:00",
-                    "v": 4.495
-                },
-                {
-                    "t": "05/28 08:30",
-                    "v": 4.471
-                },
-                {
-                    "t": "05/28 09:00",
-                    "v": 4.487
-                },
-                {
-                    "t": "05/28 09:30",
-                    "v": 4.489
-                },
-                {
-                    "t": "05/28 10:00",
-                    "v": 4.465
-                },
-                {
-                    "t": "05/28 10:30",
-                    "v": 4.455
-                },
-                {
-                    "t": "05/28 11:00",
-                    "v": 4.459
-                },
-                {
-                    "t": "05/28 11:30",
-                    "v": 4.469
-                },
-                {
-                    "t": "05/28 12:00",
-                    "v": 4.455
-                },
-                {
-                    "t": "05/28 12:30",
-                    "v": 4.451
-                },
-                {
-                    "t": "05/28 13:00",
-                    "v": 4.455
-                },
-                {
-                    "t": "05/28 13:30",
                     "v": 4.453
                 },
                 {
-                    "t": "05/28 14:00",
+                    "t": "08:25",
+                    "v": 4.453
+                },
+                {
+                    "t": "08:30",
+                    "v": 4.455
+                },
+                {
+                    "t": "08:35",
+                    "v": 4.453
+                },
+                {
+                    "t": "08:40",
+                    "v": 4.455
+                },
+                {
+                    "t": "08:45",
+                    "v": 4.453
+                },
+                {
+                    "t": "08:50",
+                    "v": 4.453
+                },
+                {
+                    "t": "08:55",
                     "v": 4.457
                 },
                 {
-                    "t": "05/28 14:30",
+                    "t": "09:00",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:05",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:10",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:15",
+                    "v": 4.459
+                },
+                {
+                    "t": "09:20",
+                    "v": 4.459
+                },
+                {
+                    "t": "09:25",
+                    "v": 4.461
+                },
+                {
+                    "t": "09:30",
+                    "v": 4.461
+                },
+                {
+                    "t": "09:35",
+                    "v": 4.461
+                },
+                {
+                    "t": "09:40",
+                    "v": 4.461
+                },
+                {
+                    "t": "09:45",
+                    "v": 4.453
+                },
+                {
+                    "t": "09:50",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:55",
                     "v": 4.455
                 },
+                {
+                    "t": "10:00",
+                    "v": 4.451
+                },
+                {
+                    "t": "10:05",
+                    "v": 4.455
+                },
+                {
+                    "t": "10:10",
+                    "v": 4.455
+                },
+                {
+                    "t": "10:15",
+                    "v": 4.453
+                },
+                {
+                    "t": "10:20",
+                    "v": 4.461
+                },
+                {
+                    "t": "10:25",
+                    "v": 4.465
+                },
+                {
+                    "t": "10:30",
+                    "v": 4.463
+                },
+                {
+                    "t": "10:35",
+                    "v": 4.465
+                },
+                {
+                    "t": "10:40",
+                    "v": 4.465
+                },
+                {
+                    "t": "10:45",
+                    "v": 4.465
+                },
+                {
+                    "t": "10:50",
+                    "v": 4.463
+                },
+                {
+                    "t": "10:55",
+                    "v": 4.465
+                },
+                {
+                    "t": "11:00",
+                    "v": 4.465
+                },
+                {
+                    "t": "11:05",
+                    "v": 4.465
+                },
+                {
+                    "t": "11:10",
+                    "v": 4.463
+                },
+                {
+                    "t": "11:15",
+                    "v": 4.463
+                },
+                {
+                    "t": "11:20",
+                    "v": 4.461
+                },
+                {
+                    "t": "11:25",
+                    "v": 4.463
+                },
+                {
+                    "t": "11:30",
+                    "v": 4.465
+                },
+                {
+                    "t": "11:35",
+                    "v": 4.463
+                },
+                {
+                    "t": "11:40",
+                    "v": 4.465
+                },
+                {
+                    "t": "11:45",
+                    "v": 4.463
+                },
+                {
+                    "t": "11:50",
+                    "v": 4.465
+                },
+                {
+                    "t": "11:55",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:00",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:05",
+                    "v": 4.461
+                },
+                {
+                    "t": "12:10",
+                    "v": 4.461
+                },
+                {
+                    "t": "12:15",
+                    "v": 4.463
+                },
+                {
+                    "t": "12:20",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:25",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:30",
+                    "v": 4.463
+                },
+                {
+                    "t": "12:35",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:40",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:45",
+                    "v": 4.465
+                },
+                {
+                    "t": "12:50",
+                    "v": 4.467
+                },
+                {
+                    "t": "12:55",
+                    "v": 4.467
+                },
+                {
+                    "t": "13:00",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:05",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:10",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:15",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:20",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:25",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:30",
+                    "v": 4.465
+                },
+                {
+                    "t": "13:35",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:40",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:45",
+                    "v": 4.469
+                },
+                {
+                    "t": "13:50",
+                    "v": 4.473
+                },
+                {
+                    "t": "13:55",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:00",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:05",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:10",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:15",
+                    "v": 4.469
+                },
+                {
+                    "t": "14:20",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:25",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:30",
+                    "v": 4.477
+                },
+                {
+                    "t": "14:35",
+                    "v": 4.479
+                },
+                {
+                    "t": "14:40",
+                    "v": 4.475
+                },
+                {
+                    "t": "14:45",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:50",
+                    "v": 4.473
+                },
+                {
+                    "t": "14:55",
+                    "v": 4.477
+                }
+            ],
+            "5d": [
                 {
                     "t": "05/29 08:00",
                     "v": 4.447
@@ -5231,6 +5696,62 @@
                 {
                     "t": "06/03 14:30",
                     "v": 4.491
+                },
+                {
+                    "t": "06/04 08:00",
+                    "v": 4.455
+                },
+                {
+                    "t": "06/04 08:30",
+                    "v": 4.457
+                },
+                {
+                    "t": "06/04 09:00",
+                    "v": 4.461
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 4.451
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 4.463
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 4.465
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 4.465
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 4.465
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 4.463
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 4.469
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 4.465
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 4.473
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 4.477
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 4.477
                 }
             ],
             "1mo": [
@@ -5321,6 +5842,10 @@
                 {
                     "t": "06/03",
                     "v": 4.491
+                },
+                {
+                    "t": "06/04",
+                    "v": 4.477
                 }
             ]
         },
@@ -5644,7 +6169,459 @@
                 },
                 {
                     "t": "06:35",
-                    "v": 4498.0
+                    "v": 4496.7002
+                },
+                {
+                    "t": "06:40",
+                    "v": 4499.3999
+                },
+                {
+                    "t": "06:45",
+                    "v": 4499.2998
+                },
+                {
+                    "t": "06:50",
+                    "v": 4498.7002
+                },
+                {
+                    "t": "06:55",
+                    "v": 4501.6001
+                },
+                {
+                    "t": "07:00",
+                    "v": 4500.1001
+                },
+                {
+                    "t": "07:05",
+                    "v": 4505.2002
+                },
+                {
+                    "t": "07:10",
+                    "v": 4501.2998
+                },
+                {
+                    "t": "07:15",
+                    "v": 4506.2002
+                },
+                {
+                    "t": "07:20",
+                    "v": 4506.7998
+                },
+                {
+                    "t": "07:25",
+                    "v": 4517.3999
+                },
+                {
+                    "t": "07:30",
+                    "v": 4512.8999
+                },
+                {
+                    "t": "07:35",
+                    "v": 4515.7002
+                },
+                {
+                    "t": "07:40",
+                    "v": 4519.7998
+                },
+                {
+                    "t": "07:45",
+                    "v": 4529.2002
+                },
+                {
+                    "t": "07:50",
+                    "v": 4531.2998
+                },
+                {
+                    "t": "07:55",
+                    "v": 4539.2002
+                },
+                {
+                    "t": "08:00",
+                    "v": 4525.1001
+                },
+                {
+                    "t": "08:05",
+                    "v": 4526.1001
+                },
+                {
+                    "t": "08:10",
+                    "v": 4521.5
+                },
+                {
+                    "t": "08:15",
+                    "v": 4520.0
+                },
+                {
+                    "t": "08:20",
+                    "v": 4525.3999
+                },
+                {
+                    "t": "08:25",
+                    "v": 4526.1001
+                },
+                {
+                    "t": "08:30",
+                    "v": 4527.0
+                },
+                {
+                    "t": "08:35",
+                    "v": 4526.6001
+                },
+                {
+                    "t": "08:40",
+                    "v": 4529.7002
+                },
+                {
+                    "t": "08:45",
+                    "v": 4532.6001
+                },
+                {
+                    "t": "08:50",
+                    "v": 4535.8999
+                },
+                {
+                    "t": "08:55",
+                    "v": 4531.6001
+                },
+                {
+                    "t": "09:00",
+                    "v": 4532.7998
+                },
+                {
+                    "t": "09:05",
+                    "v": 4532.3999
+                },
+                {
+                    "t": "09:10",
+                    "v": 4530.7998
+                },
+                {
+                    "t": "09:15",
+                    "v": 4535.7998
+                },
+                {
+                    "t": "09:20",
+                    "v": 4532.5
+                },
+                {
+                    "t": "09:25",
+                    "v": 4532.2998
+                },
+                {
+                    "t": "09:30",
+                    "v": 4533.7002
+                },
+                {
+                    "t": "09:35",
+                    "v": 4537.1001
+                },
+                {
+                    "t": "09:40",
+                    "v": 4542.6001
+                },
+                {
+                    "t": "09:45",
+                    "v": 4537.7998
+                },
+                {
+                    "t": "09:50",
+                    "v": 4526.3999
+                },
+                {
+                    "t": "09:55",
+                    "v": 4523.7002
+                },
+                {
+                    "t": "10:00",
+                    "v": 4523.2002
+                },
+                {
+                    "t": "10:05",
+                    "v": 4518.2002
+                },
+                {
+                    "t": "10:10",
+                    "v": 4515.5
+                },
+                {
+                    "t": "10:15",
+                    "v": 4515.5
+                },
+                {
+                    "t": "10:20",
+                    "v": 4513.0
+                },
+                {
+                    "t": "10:25",
+                    "v": 4513.6001
+                },
+                {
+                    "t": "10:30",
+                    "v": 4512.0
+                },
+                {
+                    "t": "10:35",
+                    "v": 4507.7002
+                },
+                {
+                    "t": "10:40",
+                    "v": 4502.7002
+                },
+                {
+                    "t": "10:45",
+                    "v": 4494.0
+                },
+                {
+                    "t": "10:50",
+                    "v": 4491.0
+                },
+                {
+                    "t": "10:55",
+                    "v": 4493.1001
+                },
+                {
+                    "t": "11:00",
+                    "v": 4497.7998
+                },
+                {
+                    "t": "11:05",
+                    "v": 4497.8999
+                },
+                {
+                    "t": "11:10",
+                    "v": 4499.7002
+                },
+                {
+                    "t": "11:15",
+                    "v": 4501.2998
+                },
+                {
+                    "t": "11:20",
+                    "v": 4498.7002
+                },
+                {
+                    "t": "11:25",
+                    "v": 4498.3999
+                },
+                {
+                    "t": "11:30",
+                    "v": 4499.6001
+                },
+                {
+                    "t": "11:35",
+                    "v": 4504.7998
+                },
+                {
+                    "t": "11:40",
+                    "v": 4500.3999
+                },
+                {
+                    "t": "11:45",
+                    "v": 4501.8999
+                },
+                {
+                    "t": "11:50",
+                    "v": 4505.5
+                },
+                {
+                    "t": "11:55",
+                    "v": 4504.8999
+                },
+                {
+                    "t": "12:00",
+                    "v": 4504.0
+                },
+                {
+                    "t": "12:05",
+                    "v": 4510.2002
+                },
+                {
+                    "t": "12:10",
+                    "v": 4507.0
+                },
+                {
+                    "t": "12:15",
+                    "v": 4511.2998
+                },
+                {
+                    "t": "12:20",
+                    "v": 4512.2998
+                },
+                {
+                    "t": "12:25",
+                    "v": 4511.5
+                },
+                {
+                    "t": "12:30",
+                    "v": 4508.0
+                },
+                {
+                    "t": "12:35",
+                    "v": 4509.2998
+                },
+                {
+                    "t": "12:40",
+                    "v": 4508.7002
+                },
+                {
+                    "t": "12:45",
+                    "v": 4508.8999
+                },
+                {
+                    "t": "12:50",
+                    "v": 4509.2998
+                },
+                {
+                    "t": "12:55",
+                    "v": 4510.7998
+                },
+                {
+                    "t": "13:00",
+                    "v": 4509.2998
+                },
+                {
+                    "t": "13:05",
+                    "v": 4507.2998
+                },
+                {
+                    "t": "13:10",
+                    "v": 4503.8999
+                },
+                {
+                    "t": "13:15",
+                    "v": 4503.3999
+                },
+                {
+                    "t": "13:20",
+                    "v": 4503.3999
+                },
+                {
+                    "t": "13:25",
+                    "v": 4504.7998
+                },
+                {
+                    "t": "13:30",
+                    "v": 4508.0
+                },
+                {
+                    "t": "13:35",
+                    "v": 4505.7002
+                },
+                {
+                    "t": "13:40",
+                    "v": 4504.6001
+                },
+                {
+                    "t": "13:45",
+                    "v": 4506.7002
+                },
+                {
+                    "t": "13:50",
+                    "v": 4506.2998
+                },
+                {
+                    "t": "13:55",
+                    "v": 4506.0
+                },
+                {
+                    "t": "14:00",
+                    "v": 4504.7998
+                },
+                {
+                    "t": "14:05",
+                    "v": 4505.1001
+                },
+                {
+                    "t": "14:10",
+                    "v": 4506.8999
+                },
+                {
+                    "t": "14:15",
+                    "v": 4506.6001
+                },
+                {
+                    "t": "14:20",
+                    "v": 4508.2002
+                },
+                {
+                    "t": "14:25",
+                    "v": 4505.8999
+                },
+                {
+                    "t": "14:30",
+                    "v": 4501.3999
+                },
+                {
+                    "t": "14:35",
+                    "v": 4501.3999
+                },
+                {
+                    "t": "14:40",
+                    "v": 4502.1001
+                },
+                {
+                    "t": "14:45",
+                    "v": 4503.1001
+                },
+                {
+                    "t": "14:50",
+                    "v": 4506.1001
+                },
+                {
+                    "t": "14:55",
+                    "v": 4505.8999
+                },
+                {
+                    "t": "15:00",
+                    "v": 4509.2002
+                },
+                {
+                    "t": "15:05",
+                    "v": 4506.2998
+                },
+                {
+                    "t": "15:10",
+                    "v": 4506.0
+                },
+                {
+                    "t": "15:15",
+                    "v": 4506.7998
+                },
+                {
+                    "t": "15:20",
+                    "v": 4507.1001
+                },
+                {
+                    "t": "15:25",
+                    "v": 4507.7998
+                },
+                {
+                    "t": "15:30",
+                    "v": 4506.3999
+                },
+                {
+                    "t": "15:35",
+                    "v": 4506.7002
+                },
+                {
+                    "t": "15:40",
+                    "v": 4505.6001
+                },
+                {
+                    "t": "15:45",
+                    "v": 4506.0
+                },
+                {
+                    "t": "15:50",
+                    "v": 4506.1001
+                },
+                {
+                    "t": "15:55",
+                    "v": 4508.8999
+                },
+                {
+                    "t": "16:00",
+                    "v": 4509.1001
                 }
             ],
             "5d": [
@@ -6302,7 +7279,83 @@
                 },
                 {
                     "t": "06/04 06:30",
-                    "v": 4498.0
+                    "v": 4501.6001
+                },
+                {
+                    "t": "06/04 07:00",
+                    "v": 4517.3999
+                },
+                {
+                    "t": "06/04 07:30",
+                    "v": 4539.2002
+                },
+                {
+                    "t": "06/04 08:00",
+                    "v": 4526.1001
+                },
+                {
+                    "t": "06/04 08:30",
+                    "v": 4531.6001
+                },
+                {
+                    "t": "06/04 09:00",
+                    "v": 4532.2998
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 4523.7002
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 4513.6001
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 4493.1001
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 4498.3999
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 4504.8999
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 4511.5
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 4510.7998
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 4504.7998
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 4506.0
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 4505.8999
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 4505.8999
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 4507.7998
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 4508.8999
+                },
+                {
+                    "t": "06/04 16:00",
+                    "v": 4509.1001
                 }
             ],
             "1mo": [
@@ -6396,7 +7449,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 4498.0
+                    "v": 4509.1001
                 }
             ]
         },
@@ -6720,7 +7773,459 @@
                 },
                 {
                     "t": "06:35",
+                    "v": 99.292
+                },
+                {
+                    "t": "06:40",
                     "v": 99.294
+                },
+                {
+                    "t": "06:45",
+                    "v": 99.303
+                },
+                {
+                    "t": "06:50",
+                    "v": 99.313
+                },
+                {
+                    "t": "06:55",
+                    "v": 99.302
+                },
+                {
+                    "t": "07:00",
+                    "v": 99.265
+                },
+                {
+                    "t": "07:05",
+                    "v": 99.255
+                },
+                {
+                    "t": "07:10",
+                    "v": 99.255
+                },
+                {
+                    "t": "07:15",
+                    "v": 99.219
+                },
+                {
+                    "t": "07:20",
+                    "v": 99.21
+                },
+                {
+                    "t": "07:25",
+                    "v": 99.213
+                },
+                {
+                    "t": "07:30",
+                    "v": 99.231
+                },
+                {
+                    "t": "07:35",
+                    "v": 99.214
+                },
+                {
+                    "t": "07:40",
+                    "v": 99.19
+                },
+                {
+                    "t": "07:45",
+                    "v": 99.184
+                },
+                {
+                    "t": "07:50",
+                    "v": 99.19
+                },
+                {
+                    "t": "07:55",
+                    "v": 99.202
+                },
+                {
+                    "t": "08:00",
+                    "v": 99.214
+                },
+                {
+                    "t": "08:05",
+                    "v": 99.22
+                },
+                {
+                    "t": "08:10",
+                    "v": 99.24
+                },
+                {
+                    "t": "08:15",
+                    "v": 99.241
+                },
+                {
+                    "t": "08:20",
+                    "v": 99.226
+                },
+                {
+                    "t": "08:25",
+                    "v": 99.227
+                },
+                {
+                    "t": "08:30",
+                    "v": 99.212
+                },
+                {
+                    "t": "08:35",
+                    "v": 99.22
+                },
+                {
+                    "t": "08:40",
+                    "v": 99.222
+                },
+                {
+                    "t": "08:45",
+                    "v": 99.216
+                },
+                {
+                    "t": "08:50",
+                    "v": 99.2
+                },
+                {
+                    "t": "08:55",
+                    "v": 99.238
+                },
+                {
+                    "t": "09:00",
+                    "v": 99.233
+                },
+                {
+                    "t": "09:05",
+                    "v": 99.236
+                },
+                {
+                    "t": "09:10",
+                    "v": 99.263
+                },
+                {
+                    "t": "09:15",
+                    "v": 99.246
+                },
+                {
+                    "t": "09:20",
+                    "v": 99.252
+                },
+                {
+                    "t": "09:25",
+                    "v": 99.248
+                },
+                {
+                    "t": "09:30",
+                    "v": 99.241
+                },
+                {
+                    "t": "09:35",
+                    "v": 99.236
+                },
+                {
+                    "t": "09:40",
+                    "v": 99.225
+                },
+                {
+                    "t": "09:45",
+                    "v": 99.229
+                },
+                {
+                    "t": "09:50",
+                    "v": 99.25
+                },
+                {
+                    "t": "09:55",
+                    "v": 99.246
+                },
+                {
+                    "t": "10:00",
+                    "v": 99.27
+                },
+                {
+                    "t": "10:05",
+                    "v": 99.271
+                },
+                {
+                    "t": "10:10",
+                    "v": 99.272
+                },
+                {
+                    "t": "10:15",
+                    "v": 99.265
+                },
+                {
+                    "t": "10:20",
+                    "v": 99.277
+                },
+                {
+                    "t": "10:25",
+                    "v": 99.29
+                },
+                {
+                    "t": "10:30",
+                    "v": 99.305
+                },
+                {
+                    "t": "10:35",
+                    "v": 99.312
+                },
+                {
+                    "t": "10:40",
+                    "v": 99.301
+                },
+                {
+                    "t": "10:45",
+                    "v": 99.306
+                },
+                {
+                    "t": "10:50",
+                    "v": 99.302
+                },
+                {
+                    "t": "10:55",
+                    "v": 99.301
+                },
+                {
+                    "t": "11:00",
+                    "v": 99.321
+                },
+                {
+                    "t": "11:05",
+                    "v": 99.338
+                },
+                {
+                    "t": "11:10",
+                    "v": 99.343
+                },
+                {
+                    "t": "11:15",
+                    "v": 99.348
+                },
+                {
+                    "t": "11:20",
+                    "v": 99.348
+                },
+                {
+                    "t": "11:25",
+                    "v": 99.354
+                },
+                {
+                    "t": "11:30",
+                    "v": 99.35
+                },
+                {
+                    "t": "11:35",
+                    "v": 99.345
+                },
+                {
+                    "t": "11:40",
+                    "v": 99.355
+                },
+                {
+                    "t": "11:45",
+                    "v": 99.347
+                },
+                {
+                    "t": "11:50",
+                    "v": 99.331
+                },
+                {
+                    "t": "11:55",
+                    "v": 99.318
+                },
+                {
+                    "t": "12:00",
+                    "v": 99.324
+                },
+                {
+                    "t": "12:05",
+                    "v": 99.315
+                },
+                {
+                    "t": "12:10",
+                    "v": 99.318
+                },
+                {
+                    "t": "12:15",
+                    "v": 99.311
+                },
+                {
+                    "t": "12:20",
+                    "v": 99.32
+                },
+                {
+                    "t": "12:25",
+                    "v": 99.317
+                },
+                {
+                    "t": "12:30",
+                    "v": 99.33
+                },
+                {
+                    "t": "12:35",
+                    "v": 99.331
+                },
+                {
+                    "t": "12:40",
+                    "v": 99.333
+                },
+                {
+                    "t": "12:45",
+                    "v": 99.338
+                },
+                {
+                    "t": "12:50",
+                    "v": 99.347
+                },
+                {
+                    "t": "12:55",
+                    "v": 99.348
+                },
+                {
+                    "t": "13:00",
+                    "v": 99.354
+                },
+                {
+                    "t": "13:05",
+                    "v": 99.365
+                },
+                {
+                    "t": "13:10",
+                    "v": 99.365
+                },
+                {
+                    "t": "13:15",
+                    "v": 99.365
+                },
+                {
+                    "t": "13:20",
+                    "v": 99.368
+                },
+                {
+                    "t": "13:25",
+                    "v": 99.376
+                },
+                {
+                    "t": "13:30",
+                    "v": 99.365
+                },
+                {
+                    "t": "13:35",
+                    "v": 99.379
+                },
+                {
+                    "t": "13:40",
+                    "v": 99.37
+                },
+                {
+                    "t": "13:45",
+                    "v": 99.377
+                },
+                {
+                    "t": "13:50",
+                    "v": 99.378
+                },
+                {
+                    "t": "13:55",
+                    "v": 99.374
+                },
+                {
+                    "t": "14:00",
+                    "v": 99.375
+                },
+                {
+                    "t": "14:05",
+                    "v": 99.381
+                },
+                {
+                    "t": "14:10",
+                    "v": 99.377
+                },
+                {
+                    "t": "14:15",
+                    "v": 99.38
+                },
+                {
+                    "t": "14:20",
+                    "v": 99.387
+                },
+                {
+                    "t": "14:25",
+                    "v": 99.401
+                },
+                {
+                    "t": "14:30",
+                    "v": 99.406
+                },
+                {
+                    "t": "14:35",
+                    "v": 99.394
+                },
+                {
+                    "t": "14:40",
+                    "v": 99.4
+                },
+                {
+                    "t": "14:45",
+                    "v": 99.401
+                },
+                {
+                    "t": "14:50",
+                    "v": 99.419
+                },
+                {
+                    "t": "14:55",
+                    "v": 99.413
+                },
+                {
+                    "t": "15:00",
+                    "v": 99.416
+                },
+                {
+                    "t": "15:05",
+                    "v": 99.432
+                },
+                {
+                    "t": "15:10",
+                    "v": 99.435
+                },
+                {
+                    "t": "15:15",
+                    "v": 99.428
+                },
+                {
+                    "t": "15:20",
+                    "v": 99.43
+                },
+                {
+                    "t": "15:25",
+                    "v": 99.432
+                },
+                {
+                    "t": "15:30",
+                    "v": 99.43
+                },
+                {
+                    "t": "15:35",
+                    "v": 99.435
+                },
+                {
+                    "t": "15:40",
+                    "v": 99.441
+                },
+                {
+                    "t": "15:45",
+                    "v": 99.441
+                },
+                {
+                    "t": "15:50",
+                    "v": 99.427
+                },
+                {
+                    "t": "15:55",
+                    "v": 99.433
+                },
+                {
+                    "t": "16:00",
+                    "v": 99.429
                 }
             ],
             "5d": [
@@ -7378,7 +8883,83 @@
                 },
                 {
                     "t": "06/04 06:30",
-                    "v": 99.294
+                    "v": 99.302
+                },
+                {
+                    "t": "06/04 07:00",
+                    "v": 99.213
+                },
+                {
+                    "t": "06/04 07:30",
+                    "v": 99.202
+                },
+                {
+                    "t": "06/04 08:00",
+                    "v": 99.227
+                },
+                {
+                    "t": "06/04 08:30",
+                    "v": 99.238
+                },
+                {
+                    "t": "06/04 09:00",
+                    "v": 99.248
+                },
+                {
+                    "t": "06/04 09:30",
+                    "v": 99.246
+                },
+                {
+                    "t": "06/04 10:00",
+                    "v": 99.29
+                },
+                {
+                    "t": "06/04 10:30",
+                    "v": 99.301
+                },
+                {
+                    "t": "06/04 11:00",
+                    "v": 99.354
+                },
+                {
+                    "t": "06/04 11:30",
+                    "v": 99.318
+                },
+                {
+                    "t": "06/04 12:00",
+                    "v": 99.317
+                },
+                {
+                    "t": "06/04 12:30",
+                    "v": 99.348
+                },
+                {
+                    "t": "06/04 13:00",
+                    "v": 99.376
+                },
+                {
+                    "t": "06/04 13:30",
+                    "v": 99.374
+                },
+                {
+                    "t": "06/04 14:00",
+                    "v": 99.401
+                },
+                {
+                    "t": "06/04 14:30",
+                    "v": 99.413
+                },
+                {
+                    "t": "06/04 15:00",
+                    "v": 99.432
+                },
+                {
+                    "t": "06/04 15:30",
+                    "v": 99.433
+                },
+                {
+                    "t": "06/04 16:00",
+                    "v": 99.429
                 }
             ],
             "1mo": [
@@ -7472,7 +9053,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 99.294
+                    "v": 99.429
                 }
             ]
         }
