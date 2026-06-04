@@ -5,20 +5,20 @@
     "SP500_change": "0.41",
     "NASDAQ_price": "26830.96",
     "NASDAQ_change": "-0.09",
-    "VIX_price": "15.22",
-    "VIX_change": "-5.47",
+    "VIX_price": "15.40",
+    "VIX_change": "-4.35",
     "VIX_Status": "正常区间",
     "VIX_Tip": "常规定投，持股待涨",
     "FG_Score": "55",
     "FG_Status": "neutral",
-    "HYG_price": "79.82",
-    "HYG_change": "0.20",
-    "JNK_price": "96.17",
-    "JNK_change": "-0.03",
+    "HYG_price": "79.83",
+    "HYG_change": "0.21",
+    "JNK_price": "96.15",
+    "JNK_change": "-0.05",
     "TNX_price": "4.477%",
     "TNX_change": "-0.31",
-    "GOLD_price": "4509.00",
-    "GOLD_change": "0.41",
+    "GOLD_price": "4489.30",
+    "GOLD_change": "-0.03",
     "DXY_price": "99.43",
     "DXY_change": "-0.04",
     "decision_summary": {
@@ -26,14 +26,14 @@
         "score": "6.0",
         "bias": "中性震荡",
         "allocation": "3-4成",
-        "primary_driver": "标普当日收涨 +0.41%；VIX 15.2 且回落，波动压力温和",
+        "primary_driver": "标普当日收涨 +0.41%；VIX 15.4 且回落，波动压力温和",
         "primary_risk": "十年期美债 4.48% 仍在中高位",
         "logic_breakdown": [
             "指数：标普 +0.41%、纳指 -0.09%，宽基强于成长。",
-            "波动率：VIX 15.2，低于 20，短线恐慌未升温。",
+            "波动率：VIX 15.4，低于 20，短线恐慌未升温。",
             "信用：HYG/JNK 平均 +0.08%，信用环境暂未恶化。",
             "利率：十年期美债 4.48%，仍在中高位，对成长估值有压制。",
-            "美元/黄金：美元 -0.04%、黄金 +0.41%，用于观察避险与宏观压力是否升温。"
+            "美元/黄金：美元 -0.04%、黄金 -0.03%，用于观察避险与宏观压力是否升温。"
         ],
         "risk_summary": {
             "level": "低到中等",
@@ -45,34 +45,34 @@
                 {
                     "symbol": "XLV",
                     "name": "医疗保健",
-                    "change": "+2.74%"
+                    "change": "+2.76%"
                 },
                 {
                     "symbol": "XLF",
                     "name": "金融",
-                    "change": "+2.51%"
+                    "change": "+2.47%"
                 },
                 {
                     "symbol": "XLRE",
                     "name": "房地产",
-                    "change": "+2.01%"
+                    "change": "+2.00%"
                 }
             ],
             "industry_leaders": [
                 {
                     "symbol": "KRE",
                     "name": "区域银行",
-                    "change": "+2.91%"
+                    "change": "+2.94%"
                 },
                 {
                     "symbol": "XBI",
                     "name": "生物科技",
-                    "change": "+2.77%"
+                    "change": "+2.79%"
                 },
                 {
-                    "symbol": "ITA",
-                    "name": "航空航天防务",
-                    "change": "+2.58%"
+                    "symbol": "IGV",
+                    "name": "软件",
+                    "change": "+2.52%"
                 }
             ],
             "interpretation": "防御板块靠前，说明资金更偏谨慎。"
@@ -94,51 +94,51 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7553.68",
+            "previous": "7584.31",
             "current": "7584.31",
-            "delta": "+30.63",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "26853.98",
+            "previous": "26830.96",
             "current": "26830.96",
-            "delta": "-23.02",
-            "direction": "down",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "16.59",
-            "current": "15.22",
-            "delta": "-1.37",
-            "direction": "down",
-            "tone": "positive"
+            "previous": "15.22",
+            "current": "15.40",
+            "delta": "+0.18",
+            "direction": "up",
+            "tone": "negative"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "54.00",
+            "previous": "55.00",
             "current": "55.00",
-            "delta": "+1.00",
-            "direction": "up",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "positive"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.49",
+            "previous": "4.48",
             "current": "4.48",
-            "delta": "-0.01",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
@@ -230,9 +230,9 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "69.96",
-            "change": "+2.91%",
-            "change_pct": 2.91,
+            "price": "69.98",
+            "change": "+2.94%",
+            "change_pct": 2.94,
             "tone": "strong_up",
             "heatmap_scale": "industry",
             "heatmap_color": "rgba(22, 163, 74, 0.90)",
@@ -281,14 +281,14 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "133.39",
-            "change": "+2.77%",
-            "change_pct": 2.77,
+            "price": "133.42",
+            "change": "+2.79%",
+            "change_pct": 2.79,
             "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.87)",
+            "heatmap_color": "rgba(22, 163, 74, 0.86)",
             "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.952
+            "heatmap_intensity": 0.949
         },
         {
             "symbol": "XLV",
@@ -299,65 +299,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "152.04",
-            "change": "+2.74%",
-            "change_pct": 2.74,
+            "price": "152.08",
+            "change": "+2.76%",
+            "change_pct": 2.76,
             "tone": "strong_up",
             "heatmap_scale": "sector",
             "heatmap_color": "rgba(22, 163, 74, 0.90)",
             "heatmap_text_color": "#ffffff",
             "heatmap_intensity": 1.0
-        },
-        {
-            "symbol": "ITA",
-            "name": "航空航天防务",
-            "full_name": "Aerospace & Defense",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "GE",
-                    "name": "GE Aerospace"
-                },
-                {
-                    "symbol": "RTX",
-                    "name": "RTX"
-                },
-                {
-                    "symbol": "LMT",
-                    "name": "Lockheed Martin"
-                },
-                {
-                    "symbol": "NOC",
-                    "name": "Northrop Grumman"
-                },
-                {
-                    "symbol": "GD",
-                    "name": "General Dynamics"
-                },
-                {
-                    "symbol": "BA",
-                    "name": "Boeing"
-                },
-                {
-                    "symbol": "TDG",
-                    "name": "TransDigm"
-                },
-                {
-                    "symbol": "HWM",
-                    "name": "Howmet Aerospace"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "231.73",
-            "change": "+2.58%",
-            "change_pct": 2.58,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.82)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.887
         },
         {
             "symbol": "IGV",
@@ -401,14 +350,65 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "100.11",
-            "change": "+2.57%",
-            "change_pct": 2.57,
+            "price": "100.06",
+            "change": "+2.52%",
+            "change_pct": 2.52,
             "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.82)",
+            "heatmap_color": "rgba(22, 163, 74, 0.80)",
             "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.883
+            "heatmap_intensity": 0.857
+        },
+        {
+            "symbol": "ITA",
+            "name": "航空航天防务",
+            "full_name": "Aerospace & Defense",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "GE",
+                    "name": "GE Aerospace"
+                },
+                {
+                    "symbol": "RTX",
+                    "name": "RTX"
+                },
+                {
+                    "symbol": "LMT",
+                    "name": "Lockheed Martin"
+                },
+                {
+                    "symbol": "NOC",
+                    "name": "Northrop Grumman"
+                },
+                {
+                    "symbol": "GD",
+                    "name": "General Dynamics"
+                },
+                {
+                    "symbol": "BA",
+                    "name": "Boeing"
+                },
+                {
+                    "symbol": "TDG",
+                    "name": "TransDigm"
+                },
+                {
+                    "symbol": "HWM",
+                    "name": "Howmet Aerospace"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "231.57",
+            "change": "+2.51%",
+            "change_pct": 2.51,
+            "tone": "strong_up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.79)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.854
         },
         {
             "symbol": "XLF",
@@ -419,14 +419,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "52.21",
-            "change": "+2.51%",
-            "change_pct": 2.51,
+            "price": "52.19",
+            "change": "+2.47%",
+            "change_pct": 2.47,
             "tone": "strong_up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(22, 163, 74, 0.84)",
+            "heatmap_color": "rgba(22, 163, 74, 0.82)",
             "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.916
+            "heatmap_intensity": 0.895
         },
         {
             "symbol": "SKYY",
@@ -475,9 +475,9 @@
             "change_pct": 2.42,
             "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.78)",
+            "heatmap_color": "rgba(22, 163, 74, 0.77)",
             "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.832
+            "heatmap_intensity": 0.823
         },
         {
             "symbol": "XLRE",
@@ -489,13 +489,13 @@
             "holding_scope": "none",
             "holding_note": "",
             "price": "44.40",
-            "change": "+2.01%",
-            "change_pct": 2.01,
+            "change": "+2.00%",
+            "change_pct": 2.0,
             "tone": "strong_up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(22, 163, 74, 0.71)",
+            "heatmap_color": "rgba(22, 163, 74, 0.70)",
             "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.734
+            "heatmap_intensity": 0.725
         },
         {
             "symbol": "TAN",
@@ -539,14 +539,14 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "70.52",
-            "change": "+1.50%",
-            "change_pct": 1.5,
+            "price": "70.44",
+            "change": "+1.38%",
+            "change_pct": 1.38,
             "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.55)",
+            "heatmap_color": "rgba(22, 163, 74, 0.52)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.515
+            "heatmap_intensity": 0.469
         },
         {
             "symbol": "HACK",
@@ -590,14 +590,14 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "101.08",
-            "change": "+1.08%",
-            "change_pct": 1.08,
+            "price": "101.14",
+            "change": "+1.14%",
+            "change_pct": 1.14,
             "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.45)",
+            "heatmap_color": "rgba(22, 163, 74, 0.46)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.371
+            "heatmap_intensity": 0.388
         },
         {
             "symbol": "IYT",
@@ -641,14 +641,14 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "84.36",
-            "change": "+1.07%",
-            "change_pct": 1.07,
+            "price": "84.39",
+            "change": "+1.10%",
+            "change_pct": 1.1,
             "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.44)",
+            "heatmap_color": "rgba(22, 163, 74, 0.45)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.368
+            "heatmap_intensity": 0.374
         },
         {
             "symbol": "XLC",
@@ -659,14 +659,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "113.10",
-            "change": "+0.84%",
-            "change_pct": 0.84,
+            "price": "113.11",
+            "change": "+0.86%",
+            "change_pct": 0.86,
             "tone": "up",
             "heatmap_scale": "sector",
             "heatmap_color": "rgba(22, 163, 74, 0.40)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.307
+            "heatmap_intensity": 0.312
         },
         {
             "symbol": "XLI",
@@ -677,14 +677,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "176.12",
-            "change": "+0.82%",
-            "change_pct": 0.82,
+            "price": "176.16",
+            "change": "+0.84%",
+            "change_pct": 0.84,
             "tone": "up",
             "heatmap_scale": "sector",
             "heatmap_color": "rgba(22, 163, 74, 0.40)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.299
+            "heatmap_intensity": 0.304
         },
         {
             "symbol": "XHB",
@@ -728,14 +728,14 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "104.71",
-            "change": "+0.68%",
-            "change_pct": 0.68,
+            "price": "104.72",
+            "change": "+0.69%",
+            "change_pct": 0.69,
             "tone": "up",
             "heatmap_scale": "industry",
             "heatmap_color": "rgba(22, 163, 74, 0.35)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.234
+            "heatmap_intensity": 0.235
         },
         {
             "symbol": "SMH",
@@ -784,9 +784,9 @@
             "change_pct": 0.59,
             "tone": "up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.33)",
+            "heatmap_color": "rgba(22, 163, 74, 0.32)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.203
+            "heatmap_intensity": 0.201
         },
         {
             "symbol": "XLY",
@@ -797,32 +797,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "117.24",
-            "change": "+0.28%",
-            "change_pct": 0.28,
+            "price": "117.26",
+            "change": "+0.29%",
+            "change_pct": 0.29,
             "tone": "up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(22, 163, 74, 0.25)",
+            "heatmap_color": "rgba(22, 163, 74, 0.26)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.102
-        },
-        {
-            "symbol": "XLU",
-            "name": "公用事业",
-            "full_name": "Utilities",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "43.96",
-            "change": "+0.18%",
-            "change_pct": 0.18,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(22, 163, 74, 0.23)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.066
+            "heatmap_intensity": 0.105
         },
         {
             "symbol": "XRT",
@@ -866,14 +848,32 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "83.54",
-            "change": "+0.17%",
-            "change_pct": 0.17,
+            "price": "83.53",
+            "change": "+0.16%",
+            "change_pct": 0.16,
             "tone": "flat",
             "heatmap_scale": "industry",
             "heatmap_color": "rgba(22, 163, 74, 0.22)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.058
+            "heatmap_intensity": 0.054
+        },
+        {
+            "symbol": "XLU",
+            "name": "公用事业",
+            "full_name": "Utilities",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "43.94",
+            "change": "+0.14%",
+            "change_pct": 0.14,
+            "tone": "flat",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.22)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.051
         },
         {
             "symbol": "XLK",
@@ -884,14 +884,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "193.12",
-            "change": "+0.06%",
-            "change_pct": 0.06,
+            "price": "193.17",
+            "change": "+0.09%",
+            "change_pct": 0.09,
             "tone": "flat",
             "heatmap_scale": "sector",
             "heatmap_color": "rgba(22, 163, 74, 0.20)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.022
+            "heatmap_intensity": 0.033
         },
         {
             "symbol": "XLE",
@@ -902,14 +902,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "58.76",
+            "price": "58.75",
             "change": "-0.26%",
             "change_pct": -0.26,
             "tone": "down",
             "heatmap_scale": "sector",
             "heatmap_color": "rgba(220, 38, 38, 0.25)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.095
+            "heatmap_intensity": 0.094
         },
         {
             "symbol": "XLB",
@@ -927,7 +927,7 @@
             "heatmap_scale": "sector",
             "heatmap_color": "rgba(220, 38, 38, 0.29)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.15
+            "heatmap_intensity": 0.149
         },
         {
             "symbol": "XLP",
@@ -938,14 +938,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "82.03",
-            "change": "-0.94%",
-            "change_pct": -0.94,
+            "price": "82.04",
+            "change": "-0.93%",
+            "change_pct": -0.93,
             "tone": "down",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.43)",
+            "heatmap_color": "rgba(220, 38, 38, 0.42)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.343
+            "heatmap_intensity": 0.337
         }
     ],
     "market_breadth": {
@@ -954,9 +954,9 @@
             {
                 "label": "等权标普 vs 标普",
                 "symbols": "RSP/SPY",
-                "left_change": "+0.98%",
-                "right_change": "+0.89%",
-                "spread": "+0.09%",
+                "left_change": "+1.00%",
+                "right_change": "+0.88%",
+                "spread": "+0.11%",
                 "tone": "neutral",
                 "note": "差异不大，市场内部扩散程度中性。"
             },
@@ -973,8 +973,8 @@
                 "label": "小盘股 vs 标普",
                 "symbols": "IWM/SPY",
                 "left_change": "+1.65%",
-                "right_change": "+0.89%",
-                "spread": "+0.76%",
+                "right_change": "+0.88%",
+                "spread": "+0.77%",
                 "tone": "positive",
                 "note": "小盘跑赢，风险偏好向更广市场扩散。"
             }
@@ -993,43 +993,43 @@
             {
                 "symbol": "QUAL",
                 "name": "质量",
-                "change": "+1.01%",
-                "change_pct": 1.01,
+                "change": "+1.02%",
+                "change_pct": 1.02,
                 "tone": "strong_up"
             },
             {
                 "symbol": "VYM",
                 "name": "高股息",
-                "change": "+0.71%",
-                "change_pct": 0.71,
+                "change": "+0.72%",
+                "change_pct": 0.72,
                 "tone": "up"
             },
             {
                 "symbol": "IWF",
                 "name": "成长",
-                "change": "+0.69%",
-                "change_pct": 0.69,
+                "change": "+0.68%",
+                "change_pct": 0.68,
                 "tone": "up"
             },
             {
                 "symbol": "USMV",
                 "name": "低波动",
-                "change": "+0.38%",
-                "change_pct": 0.38,
+                "change": "+0.42%",
+                "change_pct": 0.42,
                 "tone": "up"
             },
             {
                 "symbol": "MTUM",
                 "name": "动量",
-                "change": "+0.11%",
-                "change_pct": 0.11,
+                "change": "+0.14%",
+                "change_pct": 0.14,
                 "tone": "flat"
             },
             {
                 "symbol": "IWD",
                 "name": "价值",
-                "change": "-0.41%",
-                "change_pct": -0.41,
+                "change": "-0.40%",
+                "change_pct": -0.4,
                 "tone": "down"
             }
         ],
@@ -1044,15 +1044,15 @@
             {
                 "symbol": "QUAL",
                 "name": "质量",
-                "change": "+1.01%",
-                "change_pct": 1.01,
+                "change": "+1.02%",
+                "change_pct": 1.02,
                 "tone": "strong_up"
             },
             {
                 "symbol": "VYM",
                 "name": "高股息",
-                "change": "+0.71%",
-                "change_pct": 0.71,
+                "change": "+0.72%",
+                "change_pct": 0.72,
                 "tone": "up"
             }
         ],
@@ -1096,7 +1096,7 @@
                 "name": "情绪/VIX",
                 "score": 2.0,
                 "max": 2.0,
-                "detail": "VIX 15.2，恐惧贪婪 55。"
+                "detail": "VIX 15.4，恐惧贪婪 55。"
             },
             {
                 "name": "信用环境",
@@ -1140,12 +1140,12 @@
             {
                 "group": "风格因子",
                 "stance": "风格分化不明显",
-                "detail": "领涨风格：小盘(IWM) +1.65%、质量(QUAL) +1.01%、高股息(VYM) +0.71%。风格信号暂不集中，更多看大盘趋势和市场宽度确认。"
+                "detail": "领涨风格：小盘(IWM) +1.65%、质量(QUAL) +1.02%、高股息(VYM) +0.72%。风格信号暂不集中，更多看大盘趋势和市场宽度确认。"
             },
             {
                 "group": "板块/行业轮动",
                 "stance": "轮动观察",
-                "detail": "板块：医疗保健(XLV) +2.74%、金融(XLF) +2.51%、房地产(XLRE) +2.01%；行业：区域银行(KRE) +2.91%、生物科技(XBI) +2.77%、航空航天防务(ITA) +2.58%。防御板块靠前，说明资金更偏谨慎。"
+                "detail": "板块：医疗保健(XLV) +2.76%、金融(XLF) +2.47%、房地产(XLRE) +2.00%；行业：区域银行(KRE) +2.94%、生物科技(XBI) +2.79%、软件(IGV) +2.52%。防御板块靠前，说明资金更偏谨慎。"
             },
             {
                 "group": "风险触发",
@@ -1165,7 +1165,7 @@
             },
             {
                 "title": "进攻配置",
-                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：医疗保健(XLV) +2.74%、金融(XLF) +2.51%、房地产(XLRE) +2.01%；细分行业重点观察 区域银行(KRE) +2.91%、生物科技(XBI) +2.77%、航空航天防务(ITA) +2.58%；风格上参考 小盘(IWM) +1.65%、质量(QUAL) +1.01%、高股息(VYM) +0.71%。"
+                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：医疗保健(XLV) +2.76%、金融(XLF) +2.47%、房地产(XLRE) +2.00%；细分行业重点观察 区域银行(KRE) +2.94%、生物科技(XBI) +2.79%、软件(IGV) +2.52%；风格上参考 小盘(IWM) +1.65%、质量(QUAL) +1.02%、高股息(VYM) +0.72%。"
             },
             {
                 "title": "防御配置",
@@ -1218,10 +1218,10 @@
     ],
     "strategies": [
         "📊 大盘走势：今日收涨 0.41%，但五日维度仍下跌 0.2%，属于下跌趋势中的技术性反弹，需警惕反弹高度有限。",
-        "😰 情绪研判（VIX + F&G）：VIX 15.2，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。 近五日 VIX 变动 -4.0%，情绪整体稳定。 恐惧贪婪指数 55（neutral），情绪处于中性区间，市场参与者分歧较大，方向选择更多依赖基本面和技术面的共振信号。",
-        "💧 信用市场（中性）：高收益债 HYG（+0.20%）/ JNK（-0.03%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。 月内高收益债上涨 0.4%，信用环境整体宽松，有利于风险资产。",
+        "😰 情绪研判（VIX + F&G）：VIX 15.4，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。 近五日 VIX 变动 -2.8%，情绪整体稳定。 恐惧贪婪指数 55（neutral），情绪处于中性区间，市场参与者分歧较大，方向选择更多依赖基本面和技术面的共振信号。",
+        "💧 信用市场（中性）：高收益债 HYG（+0.21%）/ JNK（-0.05%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。 月内高收益债上涨 0.4%，信用环境整体宽松，有利于风险资产。",
         "🏦 利率环境（TNX 4.477%）：十年期美债收益率 4.477%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。  五日 近期上涨 0.7%，月内 近期上涨 0.7%，利率处于区间震荡状态。",
-        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.41%），避险情绪无明显异动。 月内黄金跌 0.2%，整体处于区间整理。 美元基本稳定（DXY -0.04%），对跨资产影响中性。 月内美元走强 1.0%，美元震荡，跨资产影响有限。",
+        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（-0.03%），避险情绪无明显异动。 月内黄金跌 0.7%，整体处于区间整理。 美元基本稳定（DXY -0.04%），对跨资产影响中性。 月内美元走强 1.0%，美元震荡，跨资产影响有限。",
         "⚪ 综合研判（评分 6.0/10 · 中性震荡）：综合评分 6.0/10，多空信号相互抵消，市场方向不明朗，处于震荡寻方向阶段。贸然追涨追跌均风险较大。 操作建议：维持三至四成防御性仓位，以现金和短债为主。等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。"
     ],
     "charts": {
@@ -3173,7 +3173,19 @@
                 },
                 {
                     "t": "15:55",
-                    "v": 15.21
+                    "v": 15.19
+                },
+                {
+                    "t": "16:00",
+                    "v": 15.31
+                },
+                {
+                    "t": "16:05",
+                    "v": 15.33
+                },
+                {
+                    "t": "16:10",
+                    "v": 15.39
                 }
             ],
             "5d": [
@@ -3711,7 +3723,11 @@
                 },
                 {
                     "t": "06/04 15:30",
-                    "v": 15.21
+                    "v": 15.19
+                },
+                {
+                    "t": "06/04 16:00",
+                    "v": 15.4
                 }
             ],
             "1mo": [
@@ -3809,7 +3825,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 15.21
+                    "v": 15.4
                 }
             ]
         },
@@ -4125,7 +4141,7 @@
                 },
                 {
                     "t": "15:55",
-                    "v": 79.82
+                    "v": 79.83
                 }
             ],
             "5d": [
@@ -4387,7 +4403,7 @@
                 },
                 {
                     "t": "06/04 15:30",
-                    "v": 79.82
+                    "v": 79.83
                 }
             ],
             "1mo": [
@@ -4477,7 +4493,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 79.82
+                    "v": 79.83
                 }
             ]
         },
@@ -4793,7 +4809,7 @@
                 },
                 {
                     "t": "15:55",
-                    "v": 96.17
+                    "v": 96.16
                 }
             ],
             "5d": [
@@ -5055,7 +5071,7 @@
                 },
                 {
                     "t": "06/04 15:30",
-                    "v": 96.17
+                    "v": 96.16
                 }
             ],
             "1mo": [
@@ -5145,7 +5161,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 96.17
+                    "v": 96.15
                 }
             ]
         },
@@ -6621,7 +6637,139 @@
                 },
                 {
                     "t": "16:00",
-                    "v": 4509.1001
+                    "v": 4507.6001
+                },
+                {
+                    "t": "16:05",
+                    "v": 4507.3999
+                },
+                {
+                    "t": "16:10",
+                    "v": 4505.6001
+                },
+                {
+                    "t": "16:15",
+                    "v": 4505.3999
+                },
+                {
+                    "t": "16:20",
+                    "v": 4505.6001
+                },
+                {
+                    "t": "16:25",
+                    "v": 4505.2998
+                },
+                {
+                    "t": "16:30",
+                    "v": 4503.8999
+                },
+                {
+                    "t": "16:35",
+                    "v": 4504.2002
+                },
+                {
+                    "t": "16:40",
+                    "v": 4503.0
+                },
+                {
+                    "t": "16:45",
+                    "v": 4502.7998
+                },
+                {
+                    "t": "16:50",
+                    "v": 4503.7998
+                },
+                {
+                    "t": "16:55",
+                    "v": 4502.3999
+                },
+                {
+                    "t": "18:00",
+                    "v": 4501.3999
+                },
+                {
+                    "t": "18:05",
+                    "v": 4502.3999
+                },
+                {
+                    "t": "18:10",
+                    "v": 4502.7002
+                },
+                {
+                    "t": "18:15",
+                    "v": 4505.2998
+                },
+                {
+                    "t": "18:20",
+                    "v": 4506.3999
+                },
+                {
+                    "t": "18:25",
+                    "v": 4506.0
+                },
+                {
+                    "t": "18:30",
+                    "v": 4505.3999
+                },
+                {
+                    "t": "18:35",
+                    "v": 4506.6001
+                },
+                {
+                    "t": "18:40",
+                    "v": 4502.6001
+                },
+                {
+                    "t": "18:45",
+                    "v": 4501.1001
+                },
+                {
+                    "t": "18:50",
+                    "v": 4497.0
+                },
+                {
+                    "t": "18:55",
+                    "v": 4496.8999
+                },
+                {
+                    "t": "19:00",
+                    "v": 4497.3999
+                },
+                {
+                    "t": "19:05",
+                    "v": 4499.1001
+                },
+                {
+                    "t": "19:10",
+                    "v": 4498.6001
+                },
+                {
+                    "t": "19:15",
+                    "v": 4497.1001
+                },
+                {
+                    "t": "19:20",
+                    "v": 4498.7998
+                },
+                {
+                    "t": "19:25",
+                    "v": 4496.5
+                },
+                {
+                    "t": "19:30",
+                    "v": 4493.1001
+                },
+                {
+                    "t": "19:35",
+                    "v": 4490.8999
+                },
+                {
+                    "t": "19:40",
+                    "v": 4490.2998
+                },
+                {
+                    "t": "19:45",
+                    "v": 4489.2002
                 }
             ],
             "5d": [
@@ -7355,7 +7503,27 @@
                 },
                 {
                     "t": "06/04 16:00",
-                    "v": 4509.1001
+                    "v": 4505.2998
+                },
+                {
+                    "t": "06/04 16:30",
+                    "v": 4502.3999
+                },
+                {
+                    "t": "06/04 18:00",
+                    "v": 4506.0
+                },
+                {
+                    "t": "06/04 18:30",
+                    "v": 4496.8999
+                },
+                {
+                    "t": "06/04 19:00",
+                    "v": 4496.5
+                },
+                {
+                    "t": "06/04 19:30",
+                    "v": 4489.2002
                 }
             ],
             "1mo": [
@@ -7449,7 +7617,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 4509.1001
+                    "v": 4489.2002
                 }
             ]
         },
@@ -8225,7 +8393,107 @@
                 },
                 {
                     "t": "16:00",
-                    "v": 99.429
+                    "v": 99.431
+                },
+                {
+                    "t": "16:05",
+                    "v": 99.443
+                },
+                {
+                    "t": "16:10",
+                    "v": 99.449
+                },
+                {
+                    "t": "16:15",
+                    "v": 99.449
+                },
+                {
+                    "t": "16:20",
+                    "v": 99.456
+                },
+                {
+                    "t": "16:25",
+                    "v": 99.458
+                },
+                {
+                    "t": "16:30",
+                    "v": 99.456
+                },
+                {
+                    "t": "16:35",
+                    "v": 99.453
+                },
+                {
+                    "t": "16:40",
+                    "v": 99.448
+                },
+                {
+                    "t": "16:45",
+                    "v": 99.447
+                },
+                {
+                    "t": "16:50",
+                    "v": 99.442
+                },
+                {
+                    "t": "16:55",
+                    "v": 99.446
+                },
+                {
+                    "t": "17:00",
+                    "v": 99.425
+                },
+                {
+                    "t": "17:05",
+                    "v": 99.416
+                },
+                {
+                    "t": "17:10",
+                    "v": 99.43
+                },
+                {
+                    "t": "17:15",
+                    "v": 99.432
+                },
+                {
+                    "t": "17:20",
+                    "v": 99.426
+                },
+                {
+                    "t": "17:25",
+                    "v": 99.421
+                },
+                {
+                    "t": "17:30",
+                    "v": 99.416
+                },
+                {
+                    "t": "17:35",
+                    "v": 99.435
+                },
+                {
+                    "t": "17:40",
+                    "v": 99.427
+                },
+                {
+                    "t": "17:45",
+                    "v": 99.416
+                },
+                {
+                    "t": "17:50",
+                    "v": 99.415
+                },
+                {
+                    "t": "17:55",
+                    "v": 99.423
+                },
+                {
+                    "t": "18:00",
+                    "v": 99.432
+                },
+                {
+                    "t": "19:45",
+                    "v": 99.434
                 }
             ],
             "5d": [
@@ -8959,7 +9227,27 @@
                 },
                 {
                     "t": "06/04 16:00",
-                    "v": 99.429
+                    "v": 99.458
+                },
+                {
+                    "t": "06/04 16:30",
+                    "v": 99.446
+                },
+                {
+                    "t": "06/04 17:00",
+                    "v": 99.421
+                },
+                {
+                    "t": "06/04 17:30",
+                    "v": 99.423
+                },
+                {
+                    "t": "06/04 18:00",
+                    "v": 99.432
+                },
+                {
+                    "t": "06/04 19:30",
+                    "v": 99.434
                 }
             ],
             "1mo": [
@@ -9053,7 +9341,7 @@
                 },
                 {
                     "t": "06/04",
-                    "v": 99.429
+                    "v": 99.434
                 }
             ]
         }
