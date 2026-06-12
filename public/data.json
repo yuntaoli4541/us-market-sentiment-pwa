@@ -5,8 +5,8 @@
     "SP500_change": "1.75",
     "NASDAQ_price": "25809.66",
     "NASDAQ_change": "2.54",
-    "VIX_price": "19.17",
-    "VIX_change": "-1.44",
+    "VIX_price": "19.05",
+    "VIX_change": "-2.06",
     "VIX_Status": "正常区间",
     "VIX_Tip": "常规定投，持股待涨",
     "FG_Score": "31",
@@ -17,23 +17,23 @@
     "JNK_change": "0.18",
     "TNX_price": "4.463%",
     "TNX_change": "-1.74",
-    "GOLD_price": "4232.50",
-    "GOLD_change": "0.27",
-    "DXY_price": "99.75",
+    "GOLD_price": "4227.00",
+    "GOLD_change": "0.14",
+    "DXY_price": "99.74",
     "DXY_change": "-0.02",
     "decision_summary": {
         "headline": "震荡观察，等待趋势和信用信号共振",
         "score": "6.0",
         "bias": "中性震荡",
         "allocation": "3-4成",
-        "primary_driver": "标普当日收涨 +1.75%；VIX 19.2 且回落，波动压力温和",
+        "primary_driver": "标普当日收涨 +1.75%；VIX 19.0 且回落，波动压力温和",
         "primary_risk": "十年期美债 4.46% 仍在中高位",
         "logic_breakdown": [
             "指数：标普 +1.75%、纳指 +2.54%，成长相对占优。",
-            "波动率：VIX 19.2，低于 20，短线恐慌未升温。",
+            "波动率：VIX 19.0，低于 20，短线恐慌未升温。",
             "信用：HYG/JNK 平均 +0.19%，信用环境暂未恶化。",
             "利率：十年期美债 4.46%，仍在中高位，对成长估值有压制。",
-            "美元/黄金：美元 -0.02%、黄金 +0.27%，用于观察避险与宏观压力是否升温。"
+            "美元/黄金：美元 -0.02%、黄金 +0.14%，用于观察避险与宏观压力是否升温。"
         ],
         "risk_summary": {
             "level": "低到中等",
@@ -60,11 +60,6 @@
             ],
             "industry_leaders": [
                 {
-                    "symbol": "IYT",
-                    "name": "运输",
-                    "change": "+4.07%"
-                },
-                {
                     "symbol": "XHB",
                     "name": "住宅建筑",
                     "change": "+0.51%"
@@ -73,6 +68,11 @@
                     "symbol": "HACK",
                     "name": "网络安全",
                     "change": "+0.27%"
+                },
+                {
+                    "symbol": "XRT",
+                    "name": "零售",
+                    "change": "+0.08%"
                 }
             ],
             "interpretation": "防御板块靠前，说明资金更偏谨慎。"
@@ -94,29 +94,29 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7266.99",
+            "previous": "7394.30",
             "current": "7394.30",
-            "delta": "+127.31",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "25169.50",
+            "previous": "25809.66",
             "current": "25809.66",
-            "delta": "+640.16",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "20.79",
-            "current": "19.17",
-            "delta": "-1.62",
+            "previous": "19.17",
+            "current": "19.05",
+            "delta": "-0.12",
             "direction": "down",
             "tone": "positive"
         },
@@ -124,21 +124,21 @@
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "27.00",
+            "previous": "31.00",
             "current": "31.00",
-            "delta": "+4.00",
-            "direction": "up",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "neutral"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.54",
+            "previous": "4.46",
             "current": "4.46",
-            "delta": "-0.08",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
@@ -189,57 +189,6 @@
     },
     "sector_heatmap": [
         {
-            "symbol": "IYT",
-            "name": "运输",
-            "full_name": "Transportation",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "UBER",
-                    "name": "Uber"
-                },
-                {
-                    "symbol": "UNP",
-                    "name": "Union Pacific"
-                },
-                {
-                    "symbol": "UPS",
-                    "name": "UPS"
-                },
-                {
-                    "symbol": "FDX",
-                    "name": "FedEx"
-                },
-                {
-                    "symbol": "CSX",
-                    "name": "CSX"
-                },
-                {
-                    "symbol": "NSC",
-                    "name": "Norfolk Southern"
-                },
-                {
-                    "symbol": "DAL",
-                    "name": "Delta Air Lines"
-                },
-                {
-                    "symbol": "LUV",
-                    "name": "Southwest Airlines"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "86.12",
-            "change": "+4.07%",
-            "change_pct": 4.07,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.90)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 1.0
-        },
-        {
             "symbol": "XHB",
             "name": "住宅建筑",
             "full_name": "Homebuilders",
@@ -286,9 +235,9 @@
             "change_pct": 0.51,
             "tone": "up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.27)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.125
+            "heatmap_color": "rgba(22, 163, 74, 0.65)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.654
         },
         {
             "symbol": "XLV",
@@ -355,9 +304,9 @@
             "change_pct": 0.27,
             "tone": "up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.23)",
+            "heatmap_color": "rgba(22, 163, 74, 0.43)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.066
+            "heatmap_intensity": 0.346
         },
         {
             "symbol": "XLP",
@@ -442,9 +391,9 @@
             "change_pct": 0.08,
             "tone": "flat",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.19)",
+            "heatmap_color": "rgba(22, 163, 74, 0.25)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.02
+            "heatmap_intensity": 0.103
         },
         {
             "symbol": "XLU",
@@ -547,9 +496,60 @@
             "change_pct": 0.03,
             "tone": "flat",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.19)",
+            "heatmap_color": "rgba(22, 163, 74, 0.21)",
             "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.007
+            "heatmap_intensity": 0.038
+        },
+        {
+            "symbol": "IYT",
+            "name": "运输",
+            "full_name": "Transportation",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "UBER",
+                    "name": "Uber"
+                },
+                {
+                    "symbol": "UNP",
+                    "name": "Union Pacific"
+                },
+                {
+                    "symbol": "UPS",
+                    "name": "UPS"
+                },
+                {
+                    "symbol": "FDX",
+                    "name": "FedEx"
+                },
+                {
+                    "symbol": "CSX",
+                    "name": "CSX"
+                },
+                {
+                    "symbol": "NSC",
+                    "name": "Norfolk Southern"
+                },
+                {
+                    "symbol": "DAL",
+                    "name": "Delta Air Lines"
+                },
+                {
+                    "symbol": "LUV",
+                    "name": "Southwest Airlines"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "86.12",
+            "change": "-0.03%",
+            "change_pct": -0.03,
+            "tone": "flat",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(220, 38, 38, 0.21)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.038
         },
         {
             "symbol": "XLE",
@@ -634,9 +634,9 @@
             "change_pct": -0.07,
             "tone": "flat",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.19)",
+            "heatmap_color": "rgba(220, 38, 38, 0.24)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.017
+            "heatmap_intensity": 0.09
         },
         {
             "symbol": "XLB",
@@ -703,9 +703,9 @@
             "change_pct": -0.12,
             "tone": "flat",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.20)",
+            "heatmap_color": "rgba(220, 38, 38, 0.29)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.029
+            "heatmap_intensity": 0.154
         },
         {
             "symbol": "KRE",
@@ -754,9 +754,9 @@
             "change_pct": -0.19,
             "tone": "flat",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.21)",
+            "heatmap_color": "rgba(220, 38, 38, 0.36)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.047
+            "heatmap_intensity": 0.244
         },
         {
             "symbol": "IGV",
@@ -805,9 +805,9 @@
             "change_pct": -0.32,
             "tone": "down",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.24)",
+            "heatmap_color": "rgba(220, 38, 38, 0.48)",
             "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.079
+            "heatmap_intensity": 0.41
         },
         {
             "symbol": "XLK",
@@ -892,9 +892,9 @@
             "change_pct": -0.62,
             "tone": "down",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.29)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.152
+            "heatmap_color": "rgba(220, 38, 38, 0.75)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.795
         },
         {
             "symbol": "SKYY",
@@ -943,9 +943,9 @@
             "change_pct": -0.78,
             "tone": "down",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.32)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.192
+            "heatmap_color": "rgba(220, 38, 38, 0.90)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 1.0
         }
     ],
     "market_breadth": {
@@ -1096,7 +1096,7 @@
                 "name": "情绪/VIX",
                 "score": 1.5,
                 "max": 2.0,
-                "detail": "VIX 19.2，恐惧贪婪 31。"
+                "detail": "VIX 19.0，恐惧贪婪 31。"
             },
             {
                 "name": "信用环境",
@@ -1145,7 +1145,7 @@
             {
                 "group": "板块/行业轮动",
                 "stance": "轮动观察",
-                "detail": "板块：医疗保健(XLV) +0.35%、必需消费(XLP) +0.24%、可选消费(XLY) +0.10%；行业：运输(IYT) +4.07%、住宅建筑(XHB) +0.51%、网络安全(HACK) +0.27%。防御板块靠前，说明资金更偏谨慎。"
+                "detail": "板块：医疗保健(XLV) +0.35%、必需消费(XLP) +0.24%、可选消费(XLY) +0.10%；行业：住宅建筑(XHB) +0.51%、网络安全(HACK) +0.27%、零售(XRT) +0.08%。防御板块靠前，说明资金更偏谨慎。"
             },
             {
                 "group": "风险触发",
@@ -1165,7 +1165,7 @@
             },
             {
                 "title": "进攻配置",
-                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：医疗保健(XLV) +0.35%、必需消费(XLP) +0.24%、可选消费(XLY) +0.10%；细分行业重点观察 运输(IYT) +4.07%、住宅建筑(XHB) +0.51%、网络安全(HACK) +0.27%；风格上参考 质量(QUAL) +0.95%、低波动(USMV) +0.02%、小盘(IWM) -0.30%。"
+                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：医疗保健(XLV) +0.35%、必需消费(XLP) +0.24%、可选消费(XLY) +0.10%；细分行业重点观察 住宅建筑(XHB) +0.51%、网络安全(HACK) +0.27%、零售(XRT) +0.08%；风格上参考 质量(QUAL) +0.95%、低波动(USMV) +0.02%、小盘(IWM) -0.30%。"
             },
             {
                 "title": "防御配置",
@@ -1243,10 +1243,10 @@
     ],
     "strategies": [
         "📊 大盘走势：今日收涨 1.75%，但五日维度仍下跌 1.4%，属于下跌趋势中的技术性反弹，需警惕反弹高度有限。",
-        "😰 情绪研判（VIX + F&G）：VIX 19.2，恐慌情绪开始升温，已进入历史均值上方区域，操盘时需适当缩减仓位，增加对冲。 近五日 VIX 变动 -4.1%，情绪整体稳定。 恐惧贪婪指数 31（fear），市场情绪偏悲观。历史回测显示，在该区间分批建仓标普500指数基金，12个月平均回报率显著优于随机时机。",
+        "😰 情绪研判（VIX + F&G）：VIX 19.0，恐慌情绪开始升温，已进入历史均值上方区域，操盘时需适当缩减仓位，增加对冲。 近五日 VIX 变动 -4.7%，情绪整体稳定。 恐惧贪婪指数 31（fear），市场情绪偏悲观。历史回测显示，在该区间分批建仓标普500指数基金，12个月平均回报率显著优于随机时机。",
         "💧 信用市场（中性）：高收益债 HYG（+0.19%）/ JNK（+0.18%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。 月内高收益债上涨 0.6%，信用环境整体宽松，有利于风险资产。",
         "🏦 利率环境（TNX 4.463%）：十年期美债收益率 4.463%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。  五日 近期下跌 1.5%，月内 近期上涨 1.2%，利率处于区间震荡状态。",
-        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.27%），避险情绪无明显异动。 月内黄金跌 9.5%，持续下跌显示风险偏好的中期修复。 美元基本稳定（DXY -0.02%），对跨资产影响中性。 月内美元走强 1.5%，美元震荡，跨资产影响有限。",
+        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.14%），避险情绪无明显异动。 月内黄金跌 9.6%，持续下跌显示风险偏好的中期修复。 美元基本稳定（DXY -0.02%），对跨资产影响中性。 月内美元走强 1.5%，美元震荡，跨资产影响有限。",
         "⚪ 综合研判（评分 6.0/10 · 中性震荡）：综合评分 6.0/10，多空信号相互抵消，市场方向不明朗，处于震荡寻方向阶段。贸然追涨追跌均风险较大。 操作建议：维持三至四成防御性仓位，以现金和短债为主。等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。"
     ],
     "charts": {
@@ -2766,7 +2766,23 @@
                 },
                 {
                     "t": "06:55",
-                    "v": 19.17
+                    "v": 19.15
+                },
+                {
+                    "t": "07:00",
+                    "v": 19.12
+                },
+                {
+                    "t": "07:05",
+                    "v": 19.16
+                },
+                {
+                    "t": "07:10",
+                    "v": 19.05
+                },
+                {
+                    "t": "07:15",
+                    "v": 19.05
                 }
             ],
             "5d": [
@@ -3232,7 +3248,11 @@
                 },
                 {
                     "t": "06/12 06:30",
-                    "v": 19.17
+                    "v": 19.15
+                },
+                {
+                    "t": "06/12 07:00",
+                    "v": 19.05
                 }
             ],
             "1mo": [
@@ -3330,7 +3350,7 @@
                 },
                 {
                     "t": "06/12",
-                    "v": 19.17
+                    "v": 19.05
                 }
             ]
         },
@@ -5710,7 +5730,23 @@
                 },
                 {
                     "t": "07:00",
-                    "v": 4231.5
+                    "v": 4226.8999
+                },
+                {
+                    "t": "07:05",
+                    "v": 4228.2002
+                },
+                {
+                    "t": "07:10",
+                    "v": 4228.2998
+                },
+                {
+                    "t": "07:15",
+                    "v": 4226.8999
+                },
+                {
+                    "t": "07:20",
+                    "v": 4228.3999
                 }
             ],
             "5d": [
@@ -6508,7 +6544,7 @@
                 },
                 {
                     "t": "06/12 07:00",
-                    "v": 4231.5
+                    "v": 4228.3999
                 }
             ],
             "1mo": [
@@ -6602,7 +6638,7 @@
                 },
                 {
                     "t": "06/12",
-                    "v": 4231.5
+                    "v": 4228.3999
                 }
             ]
         },
@@ -6946,7 +6982,23 @@
                 },
                 {
                     "t": "07:00",
-                    "v": 99.75
+                    "v": 99.757
+                },
+                {
+                    "t": "07:05",
+                    "v": 99.768
+                },
+                {
+                    "t": "07:10",
+                    "v": 99.752
+                },
+                {
+                    "t": "07:15",
+                    "v": 99.744
+                },
+                {
+                    "t": "07:20",
+                    "v": 99.741
                 }
             ],
             "5d": [
@@ -7744,7 +7796,7 @@
                 },
                 {
                     "t": "06/12 07:00",
-                    "v": 99.748
+                    "v": 99.741
                 }
             ],
             "1mo": [
@@ -7838,7 +7890,7 @@
                 },
                 {
                     "t": "06/12",
-                    "v": 99.748
+                    "v": 99.741
                 }
             ]
         }
