@@ -94,51 +94,51 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7394.30",
+            "previous": "7431.46",
             "current": "7431.46",
-            "delta": "+37.16",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "25809.66",
+            "previous": "25888.84",
             "current": "25888.84",
-            "delta": "+79.18",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "18.93",
+            "previous": "17.68",
             "current": "17.68",
-            "delta": "-1.25",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "31.00",
+            "previous": "34.00",
             "current": "34.00",
-            "delta": "+3.00",
-            "direction": "up",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "neutral"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.46",
+            "previous": "4.49",
             "current": "4.49",
-            "delta": "+0.02",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
