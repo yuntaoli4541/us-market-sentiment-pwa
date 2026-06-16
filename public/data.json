@@ -1,39 +1,39 @@
 {
-    "date": "2026年06月15日 16:00 ET",
-    "date_iso": "2026-06-15",
-    "SP500_price": "7554.29",
-    "SP500_change": "1.65",
-    "NASDAQ_price": "26683.94",
-    "NASDAQ_change": "3.07",
-    "VIX_price": "16.08",
-    "VIX_change": "-0.74",
+    "date": "2026年06月16日 16:00 ET",
+    "date_iso": "2026-06-16",
+    "SP500_price": "7546.57",
+    "SP500_change": "-0.12",
+    "NASDAQ_price": "26571.56",
+    "NASDAQ_change": "-0.42",
+    "VIX_price": "16.13",
+    "VIX_change": "-0.43",
     "VIX_Status": "正常区间",
     "VIX_Tip": "常规定投，持股待涨",
-    "FG_Score": "41",
+    "FG_Score": "40",
     "FG_Status": "fear",
-    "HYG_price": "80.04",
-    "HYG_change": "0.05",
-    "JNK_price": "96.45",
-    "JNK_change": "0.56",
-    "TNX_price": "4.443%",
-    "TNX_change": "-0.58",
-    "GOLD_price": "4366.30",
-    "GOLD_change": "0.34",
-    "DXY_price": "99.61",
-    "DXY_change": "-0.08",
+    "HYG_price": "80.02",
+    "HYG_change": "0.02",
+    "JNK_price": "96.43",
+    "JNK_change": "0.54",
+    "TNX_price": "4.441%",
+    "TNX_change": "-0.63",
+    "GOLD_price": "4352.20",
+    "GOLD_change": "0.02",
+    "DXY_price": "99.54",
+    "DXY_change": "-0.16",
     "decision_summary": {
-        "headline": "强势偏多，适合主动参与，但仍需分批执行",
-        "score": "8.0",
-        "bias": "强烈偏多",
-        "allocation": "7-8成",
-        "primary_driver": "标普当日收涨 +1.65%；VIX 16.1 且回落，波动压力温和",
-        "primary_risk": "十年期美债 4.44% 仍在中高位",
+        "headline": "震荡观察，等待趋势和信用信号共振",
+        "score": "6.0",
+        "bias": "中性震荡",
+        "allocation": "3-4成",
+        "primary_driver": "VIX 16.1 且回落，波动压力温和；高收益债同步企稳，信用环境尚可",
+        "primary_risk": "标普当日回落 -0.12%；十年期美债 4.44% 仍在中高位",
         "logic_breakdown": [
-            "指数：标普 +1.65%、纳指 +3.07%，成长相对占优。",
+            "指数：标普 -0.12%、纳指 -0.42%，宽基强于成长。",
             "波动率：VIX 16.1，低于 20，短线恐慌未升温。",
-            "信用：HYG/JNK 平均 +0.31%，信用环境暂未恶化。",
+            "信用：HYG/JNK 平均 +0.28%，信用环境暂未恶化。",
             "利率：十年期美债 4.44%，仍在中高位，对成长估值有压制。",
-            "美元/黄金：美元 -0.08%、黄金 +0.34%，用于观察避险与宏观压力是否升温。"
+            "美元/黄金：美元 -0.16%、黄金 +0.02%，用于观察避险与宏观压力是否升温。"
         ],
         "risk_summary": {
             "level": "低到中等",
@@ -43,39 +43,39 @@
         "rotation_summary": {
             "sector_leaders": [
                 {
-                    "symbol": "XLK",
-                    "name": "科技",
-                    "change": "+0.12%"
+                    "symbol": "XLF",
+                    "name": "金融",
+                    "change": "+1.38%"
                 },
                 {
-                    "symbol": "XLP",
-                    "name": "必需消费",
-                    "change": "-0.02%"
+                    "symbol": "XLI",
+                    "name": "工业",
+                    "change": "+1.16%"
                 },
                 {
-                    "symbol": "XLB",
-                    "name": "材料",
-                    "change": "-0.02%"
+                    "symbol": "XLU",
+                    "name": "公用事业",
+                    "change": "+1.12%"
                 }
             ],
             "industry_leaders": [
                 {
+                    "symbol": "XHB",
+                    "name": "住宅建筑",
+                    "change": "+1.62%"
+                },
+                {
                     "symbol": "IYT",
                     "name": "运输",
-                    "change": "+1.34%"
+                    "change": "+1.53%"
                 },
                 {
-                    "symbol": "XRT",
-                    "name": "零售",
-                    "change": "+0.42%"
-                },
-                {
-                    "symbol": "HACK",
-                    "name": "网络安全",
-                    "change": "+0.36%"
+                    "symbol": "ITA",
+                    "name": "航空航天防务",
+                    "change": "+0.76%"
                 }
             ],
-            "interpretation": "防御板块靠前，说明资金更偏谨慎。"
+            "interpretation": "强势主要来自成长/周期/主题方向，风险偏好仍有延续基础。"
         },
         "tomorrow_watchlist": [
             "VIX 是否继续低于 20，确认波动风险没有扩散。",
@@ -85,58 +85,58 @@
             "美元和黄金是否同步走强，若同步走强需警惕避险升温。"
         ]
     },
-    "score": "8.0",
-    "bias": "强烈偏多",
-    "bias_icon": "🟢",
-    "action_plan": "操作建议：可将仓位提升至七至八成，优先配置动能强劲的板块。标普500若出现 1-2% 的回调，是优质加仓窗口。建议配置结构：60% 标普500指数基金/ETF（SPY/VOO）+ 30% 纳斯达克成长（QQQ）+ 10% 现金待机。止损参考近期支撑位（约为当前价格的 -5%）。",
+    "score": "6.0",
+    "bias": "中性震荡",
+    "bias_icon": "⚪",
+    "action_plan": "操作建议：维持三至四成防御性仓位，以现金和短债为主。等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。",
     "daily_changes": [
         {
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7431.46",
-            "current": "7554.29",
-            "delta": "+122.83",
-            "direction": "up",
-            "tone": "positive"
+            "previous": "7554.29",
+            "current": "7546.57",
+            "delta": "-7.72",
+            "direction": "down",
+            "tone": "negative"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "25888.84",
-            "current": "26683.94",
-            "delta": "+795.10",
-            "direction": "up",
-            "tone": "positive"
+            "previous": "26683.94",
+            "current": "26571.56",
+            "delta": "-112.38",
+            "direction": "down",
+            "tone": "negative"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "17.68",
-            "current": "16.08",
-            "delta": "-1.60",
-            "direction": "down",
-            "tone": "positive"
+            "previous": "16.08",
+            "current": "16.13",
+            "delta": "+0.05",
+            "direction": "up",
+            "tone": "negative"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "34.00",
-            "current": "41.00",
-            "delta": "+7.00",
-            "direction": "up",
+            "previous": "41.00",
+            "current": "40.00",
+            "delta": "-1.00",
+            "direction": "down",
             "tone": "neutral"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.49",
+            "previous": "4.44",
             "current": "4.44",
-            "delta": "-0.04",
+            "delta": "-0.00",
             "direction": "down",
             "tone": "positive"
         }
@@ -179,168 +179,15 @@
         }
     ],
     "sector_rotation": {
-        "leadership": "成长/科技相对占优",
-        "growth_gap": "+1.42%",
+        "leadership": "科技与大盘表现接近",
+        "growth_gap": "-0.31%",
         "credit_tone": "信用环境支撑风险资产",
         "notes": [
-            "纳指相对标普：+1.42%",
-            "高收益债平均表现：+0.31%"
+            "纳指相对标普：-0.31%",
+            "高收益债平均表现：+0.28%"
         ]
     },
     "sector_heatmap": [
-        {
-            "symbol": "IYT",
-            "name": "运输",
-            "full_name": "Transportation",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "UBER",
-                    "name": "Uber"
-                },
-                {
-                    "symbol": "UNP",
-                    "name": "Union Pacific"
-                },
-                {
-                    "symbol": "UPS",
-                    "name": "UPS"
-                },
-                {
-                    "symbol": "FDX",
-                    "name": "FedEx"
-                },
-                {
-                    "symbol": "CSX",
-                    "name": "CSX"
-                },
-                {
-                    "symbol": "NSC",
-                    "name": "Norfolk Southern"
-                },
-                {
-                    "symbol": "DAL",
-                    "name": "Delta Air Lines"
-                },
-                {
-                    "symbol": "LUV",
-                    "name": "Southwest Airlines"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "86.51",
-            "change": "+1.34%",
-            "change_pct": 1.34,
-            "tone": "strong_up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.90)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 1.0
-        },
-        {
-            "symbol": "XRT",
-            "name": "零售",
-            "full_name": "Retail",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "ANF",
-                    "name": "Abercrombie & Fitch"
-                },
-                {
-                    "symbol": "GPS",
-                    "name": "Gap"
-                },
-                {
-                    "symbol": "COST",
-                    "name": "Costco"
-                },
-                {
-                    "symbol": "WMT",
-                    "name": "Walmart"
-                },
-                {
-                    "symbol": "TGT",
-                    "name": "Target"
-                },
-                {
-                    "symbol": "TJX",
-                    "name": "TJX"
-                },
-                {
-                    "symbol": "HD",
-                    "name": "Home Depot"
-                },
-                {
-                    "symbol": "LOW",
-                    "name": "Lowe’s"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "87.44",
-            "change": "+0.42%",
-            "change_pct": 0.42,
-            "tone": "up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.41)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.313
-        },
-        {
-            "symbol": "HACK",
-            "name": "网络安全",
-            "full_name": "Cybersecurity",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "PANW",
-                    "name": "Palo Alto Networks"
-                },
-                {
-                    "symbol": "CRWD",
-                    "name": "CrowdStrike"
-                },
-                {
-                    "symbol": "FTNT",
-                    "name": "Fortinet"
-                },
-                {
-                    "symbol": "ZS",
-                    "name": "Zscaler"
-                },
-                {
-                    "symbol": "OKTA",
-                    "name": "Okta"
-                },
-                {
-                    "symbol": "GEN",
-                    "name": "Gen Digital"
-                },
-                {
-                    "symbol": "CHKP",
-                    "name": "Check Point"
-                },
-                {
-                    "symbol": "CYBR",
-                    "name": "CyberArk"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "97.38",
-            "change": "+0.36%",
-            "change_pct": 0.36,
-            "tone": "up",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.37)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.269
-        },
         {
             "symbol": "XHB",
             "name": "住宅建筑",
@@ -383,374 +230,65 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "108.33",
-            "change": "+0.31%",
-            "change_pct": 0.31,
-            "tone": "up",
+            "price": "109.75",
+            "change": "+1.62%",
+            "change_pct": 1.62,
+            "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.35)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.231
+            "heatmap_color": "rgba(22, 163, 74, 0.69)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.707
         },
         {
-            "symbol": "SMH",
-            "name": "半导体",
-            "full_name": "Semiconductors",
+            "symbol": "IYT",
+            "name": "运输",
+            "full_name": "Transportation",
             "category": "行业",
             "group": "industry",
             "holdings": [
                 {
-                    "symbol": "NVDA",
-                    "name": "NVIDIA"
+                    "symbol": "UBER",
+                    "name": "Uber"
                 },
                 {
-                    "symbol": "TSM",
-                    "name": "Taiwan Semiconductor"
+                    "symbol": "UNP",
+                    "name": "Union Pacific"
                 },
                 {
-                    "symbol": "AVGO",
-                    "name": "Broadcom"
+                    "symbol": "UPS",
+                    "name": "UPS"
                 },
                 {
-                    "symbol": "ASML",
-                    "name": "ASML"
+                    "symbol": "FDX",
+                    "name": "FedEx"
                 },
                 {
-                    "symbol": "AMD",
-                    "name": "AMD"
+                    "symbol": "CSX",
+                    "name": "CSX"
                 },
                 {
-                    "symbol": "QCOM",
-                    "name": "Qualcomm"
+                    "symbol": "NSC",
+                    "name": "Norfolk Southern"
                 },
                 {
-                    "symbol": "TXN",
-                    "name": "Texas Instruments"
+                    "symbol": "DAL",
+                    "name": "Delta Air Lines"
                 },
                 {
-                    "symbol": "MU",
-                    "name": "Micron"
+                    "symbol": "LUV",
+                    "name": "Southwest Airlines"
                 }
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "647.10",
-            "change": "+0.23%",
-            "change_pct": 0.23,
-            "tone": "flat",
+            "price": "86.67",
+            "change": "+1.53%",
+            "change_pct": 1.53,
+            "tone": "strong_up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.30)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.172
-        },
-        {
-            "symbol": "SKYY",
-            "name": "云计算",
-            "full_name": "Cloud Computing",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "MSFT",
-                    "name": "Microsoft"
-                },
-                {
-                    "symbol": "ORCL",
-                    "name": "Oracle"
-                },
-                {
-                    "symbol": "AMZN",
-                    "name": "Amazon"
-                },
-                {
-                    "symbol": "GOOGL",
-                    "name": "Alphabet"
-                },
-                {
-                    "symbol": "IBM",
-                    "name": "IBM"
-                },
-                {
-                    "symbol": "SNOW",
-                    "name": "Snowflake"
-                },
-                {
-                    "symbol": "NET",
-                    "name": "Cloudflare"
-                },
-                {
-                    "symbol": "DDOG",
-                    "name": "Datadog"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "136.73",
-            "change": "+0.17%",
-            "change_pct": 0.17,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.27)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.127
-        },
-        {
-            "symbol": "XLK",
-            "name": "科技",
-            "full_name": "Technology",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "191.79",
-            "change": "+0.12%",
-            "change_pct": 0.12,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(22, 163, 74, 0.40)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.3
-        },
-        {
-            "symbol": "KRE",
-            "name": "区域银行",
-            "full_name": "Regional Banks",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "HBAN",
-                    "name": "Huntington Bancshares"
-                },
-                {
-                    "symbol": "RF",
-                    "name": "Regions Financial"
-                },
-                {
-                    "symbol": "CFG",
-                    "name": "Citizens Financial"
-                },
-                {
-                    "symbol": "KEY",
-                    "name": "KeyCorp"
-                },
-                {
-                    "symbol": "FITB",
-                    "name": "Fifth Third Bancorp"
-                },
-                {
-                    "symbol": "MTB",
-                    "name": "M&T Bank"
-                },
-                {
-                    "symbol": "ZION",
-                    "name": "Zions Bancorp"
-                },
-                {
-                    "symbol": "WAL",
-                    "name": "Western Alliance"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "72.23",
-            "change": "+0.07%",
-            "change_pct": 0.07,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.22)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.052
-        },
-        {
-            "symbol": "XBI",
-            "name": "生物科技",
-            "full_name": "Biotech",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "VRTX",
-                    "name": "Vertex"
-                },
-                {
-                    "symbol": "REGN",
-                    "name": "Regeneron"
-                },
-                {
-                    "symbol": "MRNA",
-                    "name": "Moderna"
-                },
-                {
-                    "symbol": "BIIB",
-                    "name": "Biogen"
-                },
-                {
-                    "symbol": "GILD",
-                    "name": "Gilead"
-                },
-                {
-                    "symbol": "ALNY",
-                    "name": "Alnylam"
-                },
-                {
-                    "symbol": "INCY",
-                    "name": "Incyte"
-                },
-                {
-                    "symbol": "EXEL",
-                    "name": "Exelixis"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "136.40",
-            "change": "+0.01%",
-            "change_pct": 0.01,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(22, 163, 74, 0.19)",
-            "heatmap_text_color": "#166534",
-            "heatmap_intensity": 0.007
-        },
-        {
-            "symbol": "TAN",
-            "name": "太阳能",
-            "full_name": "Solar",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "FSLR",
-                    "name": "First Solar"
-                },
-                {
-                    "symbol": "ENPH",
-                    "name": "Enphase Energy"
-                },
-                {
-                    "symbol": "SEDG",
-                    "name": "SolarEdge"
-                },
-                {
-                    "symbol": "RUN",
-                    "name": "Sunrun"
-                },
-                {
-                    "symbol": "NXT",
-                    "name": "Nextracker"
-                },
-                {
-                    "symbol": "ARRY",
-                    "name": "Array Technologies"
-                },
-                {
-                    "symbol": "CSIQ",
-                    "name": "Canadian Solar"
-                },
-                {
-                    "symbol": "JKS",
-                    "name": "JinkoSolar"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "62.70",
-            "change": "+0.00%",
-            "change_pct": 0.0,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "#f1f5f9",
-            "heatmap_text_color": "#334155",
-            "heatmap_intensity": 0.0
-        },
-        {
-            "symbol": "IGV",
-            "name": "软件",
-            "full_name": "Software",
-            "category": "行业",
-            "group": "industry",
-            "holdings": [
-                {
-                    "symbol": "MSFT",
-                    "name": "Microsoft"
-                },
-                {
-                    "symbol": "CRM",
-                    "name": "Salesforce"
-                },
-                {
-                    "symbol": "ORCL",
-                    "name": "Oracle"
-                },
-                {
-                    "symbol": "ADBE",
-                    "name": "Adobe"
-                },
-                {
-                    "symbol": "NOW",
-                    "name": "ServiceNow"
-                },
-                {
-                    "symbol": "INTU",
-                    "name": "Intuit"
-                },
-                {
-                    "symbol": "PANW",
-                    "name": "Palo Alto Networks"
-                },
-                {
-                    "symbol": "CRWD",
-                    "name": "CrowdStrike"
-                }
-            ],
-            "holding_scope": "top10_yfinance",
-            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "92.68",
-            "change": "-0.01%",
-            "change_pct": -0.01,
-            "tone": "flat",
-            "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.19)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.007
-        },
-        {
-            "symbol": "XLP",
-            "name": "必需消费",
-            "full_name": "Consumer Staples",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "85.48",
-            "change": "-0.02%",
-            "change_pct": -0.02,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.22)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.05
-        },
-        {
-            "symbol": "XLB",
-            "name": "材料",
-            "full_name": "Materials",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "52.50",
-            "change": "-0.02%",
-            "change_pct": -0.02,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.22)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.05
+            "heatmap_color": "rgba(22, 163, 74, 0.66)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.668
         },
         {
             "symbol": "XLF",
@@ -761,14 +299,14 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "53.56",
-            "change": "-0.07%",
-            "change_pct": -0.07,
-            "tone": "flat",
+            "price": "54.34",
+            "change": "+1.38%",
+            "change_pct": 1.38,
+            "tone": "strong_up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.31)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.175
+            "heatmap_color": "rgba(22, 163, 74, 0.83)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.896
         },
         {
             "symbol": "XLI",
@@ -779,68 +317,32 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "178.68",
-            "change": "-0.12%",
-            "change_pct": -0.12,
-            "tone": "flat",
+            "price": "180.97",
+            "change": "+1.16%",
+            "change_pct": 1.16,
+            "tone": "strong_up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.40)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.3
+            "heatmap_color": "rgba(22, 163, 74, 0.72)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.753
         },
         {
-            "symbol": "XLE",
-            "name": "能源",
-            "full_name": "Energy",
+            "symbol": "XLU",
+            "name": "公用事业",
+            "full_name": "Utilities",
             "category": "板块",
             "group": "sector",
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "55.55",
-            "change": "-0.16%",
-            "change_pct": -0.16,
-            "tone": "flat",
+            "price": "45.42",
+            "change": "+1.12%",
+            "change_pct": 1.12,
+            "tone": "strong_up",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.47)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.4
-        },
-        {
-            "symbol": "XLY",
-            "name": "可选消费",
-            "full_name": "Consumer Discretionary",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "118.57",
-            "change": "-0.19%",
-            "change_pct": -0.19,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.52)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.475
-        },
-        {
-            "symbol": "XLRE",
-            "name": "房地产",
-            "full_name": "Real Estate",
-            "category": "板块",
-            "group": "sector",
-            "holdings": [],
-            "holding_scope": "none",
-            "holding_note": "",
-            "price": "44.99",
-            "change": "-0.20%",
-            "change_pct": -0.2,
-            "tone": "flat",
-            "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.54)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.5
+            "heatmap_color": "rgba(22, 163, 74, 0.70)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.727
         },
         {
             "symbol": "ITA",
@@ -884,14 +386,188 @@
             ],
             "holding_scope": "top10_yfinance",
             "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
-            "price": "237.40",
-            "change": "-0.20%",
-            "change_pct": -0.2,
-            "tone": "flat",
+            "price": "239.67",
+            "change": "+0.76%",
+            "change_pct": 0.76,
+            "tone": "up",
             "heatmap_scale": "industry",
-            "heatmap_color": "rgba(220, 38, 38, 0.29)",
-            "heatmap_text_color": "#991b1b",
-            "heatmap_intensity": 0.149
+            "heatmap_color": "rgba(22, 163, 74, 0.42)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.332
+        },
+        {
+            "symbol": "XLB",
+            "name": "材料",
+            "full_name": "Materials",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "52.88",
+            "change": "+0.70%",
+            "change_pct": 0.7,
+            "tone": "up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.51)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.455
+        },
+        {
+            "symbol": "XLP",
+            "name": "必需消费",
+            "full_name": "Consumer Staples",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "85.95",
+            "change": "+0.53%",
+            "change_pct": 0.53,
+            "tone": "up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.43)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.344
+        },
+        {
+            "symbol": "XRT",
+            "name": "零售",
+            "full_name": "Retail",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "ANF",
+                    "name": "Abercrombie & Fitch"
+                },
+                {
+                    "symbol": "GPS",
+                    "name": "Gap"
+                },
+                {
+                    "symbol": "COST",
+                    "name": "Costco"
+                },
+                {
+                    "symbol": "WMT",
+                    "name": "Walmart"
+                },
+                {
+                    "symbol": "TGT",
+                    "name": "Target"
+                },
+                {
+                    "symbol": "TJX",
+                    "name": "TJX"
+                },
+                {
+                    "symbol": "HD",
+                    "name": "Home Depot"
+                },
+                {
+                    "symbol": "LOW",
+                    "name": "Lowe’s"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "87.53",
+            "change": "+0.53%",
+            "change_pct": 0.53,
+            "tone": "up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.35)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.231
+        },
+        {
+            "symbol": "XLRE",
+            "name": "房地产",
+            "full_name": "Real Estate",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "45.26",
+            "change": "+0.41%",
+            "change_pct": 0.41,
+            "tone": "up",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.37)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.266
+        },
+        {
+            "symbol": "KRE",
+            "name": "区域银行",
+            "full_name": "Regional Banks",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "HBAN",
+                    "name": "Huntington Bancshares"
+                },
+                {
+                    "symbol": "RF",
+                    "name": "Regions Financial"
+                },
+                {
+                    "symbol": "CFG",
+                    "name": "Citizens Financial"
+                },
+                {
+                    "symbol": "KEY",
+                    "name": "KeyCorp"
+                },
+                {
+                    "symbol": "FITB",
+                    "name": "Fifth Third Bancorp"
+                },
+                {
+                    "symbol": "MTB",
+                    "name": "M&T Bank"
+                },
+                {
+                    "symbol": "ZION",
+                    "name": "Zions Bancorp"
+                },
+                {
+                    "symbol": "WAL",
+                    "name": "Western Alliance"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "72.44",
+            "change": "+0.36%",
+            "change_pct": 0.36,
+            "tone": "up",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(22, 163, 74, 0.29)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.157
+        },
+        {
+            "symbol": "XLY",
+            "name": "可选消费",
+            "full_name": "Consumer Discretionary",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "119.01",
+            "change": "+0.18%",
+            "change_pct": 0.18,
+            "tone": "flat",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(22, 163, 74, 0.26)",
+            "heatmap_text_color": "#166534",
+            "heatmap_intensity": 0.117
         },
         {
             "symbol": "XLV",
@@ -902,14 +578,65 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "152.89",
-            "change": "-0.26%",
-            "change_pct": -0.26,
-            "tone": "down",
+            "price": "153.20",
+            "change": "-0.06%",
+            "change_pct": -0.06,
+            "tone": "flat",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.65)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.65
+            "heatmap_color": "rgba(220, 38, 38, 0.21)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.039
+        },
+        {
+            "symbol": "SKYY",
+            "name": "云计算",
+            "full_name": "Cloud Computing",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "MSFT",
+                    "name": "Microsoft"
+                },
+                {
+                    "symbol": "ORCL",
+                    "name": "Oracle"
+                },
+                {
+                    "symbol": "AMZN",
+                    "name": "Amazon"
+                },
+                {
+                    "symbol": "GOOGL",
+                    "name": "Alphabet"
+                },
+                {
+                    "symbol": "IBM",
+                    "name": "IBM"
+                },
+                {
+                    "symbol": "SNOW",
+                    "name": "Snowflake"
+                },
+                {
+                    "symbol": "NET",
+                    "name": "Cloudflare"
+                },
+                {
+                    "symbol": "DDOG",
+                    "name": "Datadog"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "135.62",
+            "change": "-0.64%",
+            "change_pct": -0.64,
+            "tone": "down",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(220, 38, 38, 0.38)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.279
         },
         {
             "symbol": "XLC",
@@ -920,29 +647,302 @@
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "112.19",
-            "change": "-0.34%",
-            "change_pct": -0.34,
+            "price": "111.78",
+            "change": "-0.70%",
+            "change_pct": -0.7,
             "tone": "down",
             "heatmap_scale": "sector",
-            "heatmap_color": "rgba(220, 38, 38, 0.79)",
-            "heatmap_text_color": "#ffffff",
-            "heatmap_intensity": 0.85
+            "heatmap_color": "rgba(220, 38, 38, 0.51)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.455
         },
         {
-            "symbol": "XLU",
-            "name": "公用事业",
-            "full_name": "Utilities",
+            "symbol": "XLE",
+            "name": "能源",
+            "full_name": "Energy",
             "category": "板块",
             "group": "sector",
             "holdings": [],
             "holding_scope": "none",
             "holding_note": "",
-            "price": "44.74",
-            "change": "-0.40%",
-            "change_pct": -0.4,
+            "price": "55.25",
+            "change": "-0.70%",
+            "change_pct": -0.7,
             "tone": "down",
             "heatmap_scale": "sector",
+            "heatmap_color": "rgba(220, 38, 38, 0.51)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.455
+        },
+        {
+            "symbol": "XBI",
+            "name": "生物科技",
+            "full_name": "Biotech",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "VRTX",
+                    "name": "Vertex"
+                },
+                {
+                    "symbol": "REGN",
+                    "name": "Regeneron"
+                },
+                {
+                    "symbol": "MRNA",
+                    "name": "Moderna"
+                },
+                {
+                    "symbol": "BIIB",
+                    "name": "Biogen"
+                },
+                {
+                    "symbol": "GILD",
+                    "name": "Gilead"
+                },
+                {
+                    "symbol": "ALNY",
+                    "name": "Alnylam"
+                },
+                {
+                    "symbol": "INCY",
+                    "name": "Incyte"
+                },
+                {
+                    "symbol": "EXEL",
+                    "name": "Exelixis"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "135.06",
+            "change": "-0.97%",
+            "change_pct": -0.97,
+            "tone": "down",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(220, 38, 38, 0.48)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.424
+        },
+        {
+            "symbol": "HACK",
+            "name": "网络安全",
+            "full_name": "Cybersecurity",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "PANW",
+                    "name": "Palo Alto Networks"
+                },
+                {
+                    "symbol": "CRWD",
+                    "name": "CrowdStrike"
+                },
+                {
+                    "symbol": "FTNT",
+                    "name": "Fortinet"
+                },
+                {
+                    "symbol": "ZS",
+                    "name": "Zscaler"
+                },
+                {
+                    "symbol": "OKTA",
+                    "name": "Okta"
+                },
+                {
+                    "symbol": "GEN",
+                    "name": "Gen Digital"
+                },
+                {
+                    "symbol": "CHKP",
+                    "name": "Check Point"
+                },
+                {
+                    "symbol": "CYBR",
+                    "name": "CyberArk"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "95.93",
+            "change": "-1.13%",
+            "change_pct": -1.13,
+            "tone": "strong_down",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(220, 38, 38, 0.54)",
+            "heatmap_text_color": "#991b1b",
+            "heatmap_intensity": 0.493
+        },
+        {
+            "symbol": "IGV",
+            "name": "软件",
+            "full_name": "Software",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "MSFT",
+                    "name": "Microsoft"
+                },
+                {
+                    "symbol": "CRM",
+                    "name": "Salesforce"
+                },
+                {
+                    "symbol": "ORCL",
+                    "name": "Oracle"
+                },
+                {
+                    "symbol": "ADBE",
+                    "name": "Adobe"
+                },
+                {
+                    "symbol": "NOW",
+                    "name": "ServiceNow"
+                },
+                {
+                    "symbol": "INTU",
+                    "name": "Intuit"
+                },
+                {
+                    "symbol": "PANW",
+                    "name": "Palo Alto Networks"
+                },
+                {
+                    "symbol": "CRWD",
+                    "name": "CrowdStrike"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "91.46",
+            "change": "-1.33%",
+            "change_pct": -1.33,
+            "tone": "strong_down",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(220, 38, 38, 0.60)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.581
+        },
+        {
+            "symbol": "XLK",
+            "name": "科技",
+            "full_name": "Technology",
+            "category": "板块",
+            "group": "sector",
+            "holdings": [],
+            "holding_scope": "none",
+            "holding_note": "",
+            "price": "188.61",
+            "change": "-1.54%",
+            "change_pct": -1.54,
+            "tone": "strong_down",
+            "heatmap_scale": "sector",
+            "heatmap_color": "rgba(220, 38, 38, 0.90)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 1.0
+        },
+        {
+            "symbol": "TAN",
+            "name": "太阳能",
+            "full_name": "Solar",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "FSLR",
+                    "name": "First Solar"
+                },
+                {
+                    "symbol": "ENPH",
+                    "name": "Enphase Energy"
+                },
+                {
+                    "symbol": "SEDG",
+                    "name": "SolarEdge"
+                },
+                {
+                    "symbol": "RUN",
+                    "name": "Sunrun"
+                },
+                {
+                    "symbol": "NXT",
+                    "name": "Nextracker"
+                },
+                {
+                    "symbol": "ARRY",
+                    "name": "Array Technologies"
+                },
+                {
+                    "symbol": "CSIQ",
+                    "name": "Canadian Solar"
+                },
+                {
+                    "symbol": "JKS",
+                    "name": "JinkoSolar"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "61.38",
+            "change": "-2.11%",
+            "change_pct": -2.11,
+            "tone": "strong_down",
+            "heatmap_scale": "industry",
+            "heatmap_color": "rgba(220, 38, 38, 0.84)",
+            "heatmap_text_color": "#ffffff",
+            "heatmap_intensity": 0.921
+        },
+        {
+            "symbol": "SMH",
+            "name": "半导体",
+            "full_name": "Semiconductors",
+            "category": "行业",
+            "group": "industry",
+            "holdings": [
+                {
+                    "symbol": "NVDA",
+                    "name": "NVIDIA"
+                },
+                {
+                    "symbol": "TSM",
+                    "name": "Taiwan Semiconductor"
+                },
+                {
+                    "symbol": "AVGO",
+                    "name": "Broadcom"
+                },
+                {
+                    "symbol": "ASML",
+                    "name": "ASML"
+                },
+                {
+                    "symbol": "AMD",
+                    "name": "AMD"
+                },
+                {
+                    "symbol": "QCOM",
+                    "name": "Qualcomm"
+                },
+                {
+                    "symbol": "TXN",
+                    "name": "Texas Instruments"
+                },
+                {
+                    "symbol": "MU",
+                    "name": "Micron"
+                }
+            ],
+            "holding_scope": "top10_yfinance",
+            "holding_note": "当前显示 yfinance 可稳定提供的前十大持仓；不是 ETF 全部持仓。",
+            "price": "630.84",
+            "change": "-2.29%",
+            "change_pct": -2.29,
+            "tone": "strong_down",
+            "heatmap_scale": "industry",
             "heatmap_color": "rgba(220, 38, 38, 0.90)",
             "heatmap_text_color": "#ffffff",
             "heatmap_intensity": 1.0
@@ -954,27 +954,27 @@
             {
                 "label": "等权标普 vs 标普",
                 "symbols": "RSP/SPY",
-                "left_change": "+0.15%",
-                "right_change": "+0.12%",
-                "spread": "+0.03%",
-                "tone": "neutral",
-                "note": "差异不大，市场内部扩散程度中性。"
+                "left_change": "+0.34%",
+                "right_change": "-0.05%",
+                "spread": "+0.38%",
+                "tone": "positive",
+                "note": "等权标普跑赢，说明上涨扩散到更多成分股。"
             },
             {
                 "label": "等权纳指 vs 纳指",
                 "symbols": "QQQE/QQQ",
-                "left_change": "+0.18%",
-                "right_change": "+0.15%",
-                "spread": "+0.03%",
+                "left_change": "-0.91%",
+                "right_change": "-0.97%",
+                "spread": "+0.06%",
                 "tone": "neutral",
                 "note": "差异不大，市场内部扩散程度中性。"
             },
             {
                 "label": "小盘股 vs 标普",
                 "symbols": "IWM/SPY",
-                "left_change": "+0.08%",
-                "right_change": "+0.12%",
-                "spread": "-0.04%",
+                "left_change": "-0.18%",
+                "right_change": "-0.05%",
+                "spread": "-0.13%",
                 "tone": "neutral",
                 "note": "差异不大，市场内部扩散程度中性。"
             }
@@ -986,73 +986,73 @@
             {
                 "symbol": "IWD",
                 "name": "价值",
-                "change": "+0.31%",
-                "change_pct": 0.31,
+                "change": "+0.51%",
+                "change_pct": 0.51,
                 "tone": "up"
             },
             {
-                "symbol": "IWM",
-                "name": "小盘",
-                "change": "+0.08%",
-                "change_pct": 0.08,
-                "tone": "flat"
-            },
-            {
-                "symbol": "MTUM",
-                "name": "动量",
-                "change": "+0.03%",
-                "change_pct": 0.03,
+                "symbol": "VYM",
+                "name": "高股息",
+                "change": "+0.12%",
+                "change_pct": 0.12,
                 "tone": "flat"
             },
             {
                 "symbol": "USMV",
                 "name": "低波动",
-                "change": "+0.00%",
-                "change_pct": 0.0,
+                "change": "-0.15%",
+                "change_pct": -0.15,
                 "tone": "flat"
             },
             {
-                "symbol": "IWF",
-                "name": "成长",
-                "change": "-0.05%",
-                "change_pct": -0.05,
-                "tone": "flat"
-            },
-            {
-                "symbol": "VYM",
-                "name": "高股息",
-                "change": "-0.21%",
-                "change_pct": -0.21,
+                "symbol": "IWM",
+                "name": "小盘",
+                "change": "-0.18%",
+                "change_pct": -0.18,
                 "tone": "flat"
             },
             {
                 "symbol": "QUAL",
                 "name": "质量",
-                "change": "-0.24%",
-                "change_pct": -0.24,
-                "tone": "flat"
+                "change": "-0.48%",
+                "change_pct": -0.48,
+                "tone": "down"
+            },
+            {
+                "symbol": "IWF",
+                "name": "成长",
+                "change": "-0.53%",
+                "change_pct": -0.53,
+                "tone": "down"
+            },
+            {
+                "symbol": "MTUM",
+                "name": "动量",
+                "change": "-0.98%",
+                "change_pct": -0.98,
+                "tone": "down"
             }
         ],
         "leaders": [
             {
                 "symbol": "IWD",
                 "name": "价值",
-                "change": "+0.31%",
-                "change_pct": 0.31,
+                "change": "+0.51%",
+                "change_pct": 0.51,
                 "tone": "up"
             },
             {
-                "symbol": "IWM",
-                "name": "小盘",
-                "change": "+0.08%",
-                "change_pct": 0.08,
+                "symbol": "VYM",
+                "name": "高股息",
+                "change": "+0.12%",
+                "change_pct": 0.12,
                 "tone": "flat"
             },
             {
-                "symbol": "MTUM",
-                "name": "动量",
-                "change": "+0.03%",
-                "change_pct": 0.03,
+                "symbol": "USMV",
+                "name": "低波动",
+                "change": "-0.15%",
+                "change_pct": -0.15,
                 "tone": "flat"
             }
         ],
@@ -1060,24 +1060,24 @@
         "interpretation": "资金更偏防守或估值安全边际，追逐高估值成长需谨慎。"
     },
     "trend_state": {
-        "overall": "震荡",
+        "overall": "震荡偏多",
         "items": [
             {
                 "key": "SP500",
                 "label": "标普500",
-                "state": "多头趋势",
-                "today": "+1.65%",
-                "five_day": "+1.31%",
-                "one_month": "+0.38%",
-                "momentum": "accelerating"
+                "state": "震荡偏多",
+                "today": "-0.12%",
+                "five_day": "+2.38%",
+                "one_month": "+1.93%",
+                "momentum": "stable"
             },
             {
                 "key": "NASDAQ",
                 "label": "纳斯达克",
-                "state": "震荡",
-                "today": "+3.07%",
-                "five_day": "+2.16%",
-                "one_month": "-0.77%",
+                "state": "震荡偏多",
+                "today": "-0.42%",
+                "five_day": "+3.87%",
+                "one_month": "+1.84%",
                 "momentum": "accelerating"
             }
         ],
@@ -1090,25 +1090,25 @@
                 "name": "大盘趋势",
                 "score": 1.5,
                 "max": 2.5,
-                "detail": "趋势状态：震荡；标普 +1.65%、纳指 +3.07%。"
+                "detail": "趋势状态：震荡偏多；标普 -0.12%、纳指 -0.42%。"
             },
             {
                 "name": "情绪/VIX",
                 "score": 2.0,
                 "max": 2.0,
-                "detail": "VIX 16.1，恐惧贪婪 41。"
+                "detail": "VIX 16.1，恐惧贪婪 40。"
             },
             {
                 "name": "信用环境",
                 "score": 2.0,
                 "max": 2.0,
-                "detail": "HYG/JNK 平均 +0.31%。"
+                "detail": "HYG/JNK 平均 +0.28%。"
             },
             {
                 "name": "利率美元",
                 "score": 1.2,
                 "max": 1.5,
-                "detail": "TNX 4.44%，DXY -0.08%。"
+                "detail": "TNX 4.44%，DXY -0.16%。"
             },
             {
                 "name": "市场宽度",
@@ -1121,15 +1121,15 @@
     },
     "strategy_guide": {
         "verdict": {
-            "bias": "强烈偏多",
-            "score": "8.0",
-            "allocation": "7-8成",
-            "summary": "可将仓位提升至七至八成，优先配置动能强劲的板块。标普500若出现 1-2% 的回调，是优质加仓窗口。建议配置结构：60% 标普500指数基金/ETF（SPY/VOO）+ 30% 纳斯达克成长（QQQ）+ 10% 现金待机。止损参考近期支撑位（约为当前价格的 -5%）。"
+            "bias": "中性震荡",
+            "score": "6.0",
+            "allocation": "3-4成",
+            "summary": "维持三至四成防御性仓位，以现金和短债为主。等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。"
         },
         "evidence": [
             {
                 "group": "大盘趋势",
-                "stance": "震荡",
+                "stance": "震荡偏多",
                 "detail": "趋势信号分化，等待方向确认。"
             },
             {
@@ -1140,12 +1140,12 @@
             {
                 "group": "风格因子",
                 "stance": "价值/防御占优",
-                "detail": "领涨风格：价值(IWD) +0.31%、小盘(IWM) +0.08%、动量(MTUM) +0.03%。资金更偏防守或估值安全边际，追逐高估值成长需谨慎。"
+                "detail": "领涨风格：价值(IWD) +0.51%、高股息(VYM) +0.12%、低波动(USMV) -0.15%。资金更偏防守或估值安全边际，追逐高估值成长需谨慎。"
             },
             {
                 "group": "板块/行业轮动",
                 "stance": "轮动观察",
-                "detail": "板块：科技(XLK) +0.12%、必需消费(XLP) -0.02%、材料(XLB) -0.02%；行业：运输(IYT) +1.34%、零售(XRT) +0.42%、网络安全(HACK) +0.36%。防御板块靠前，说明资金更偏谨慎。"
+                "detail": "板块：金融(XLF) +1.38%、工业(XLI) +1.16%、公用事业(XLU) +1.12%；行业：住宅建筑(XHB) +1.62%、运输(IYT) +1.53%、航空航天防务(ITA) +0.76%。强势主要来自成长/周期/主题方向，风险偏好仍有延续基础。"
             },
             {
                 "group": "风险触发",
@@ -1161,11 +1161,11 @@
         "allocation_plan": [
             {
                 "title": "核心配置",
-                "detail": "按 7-8成 执行，以 SPY/VOO 这类标普500宽基作为压舱石，避免单一个股过度集中。"
+                "detail": "按 3-4成 执行，以 SPY/VOO 这类标普500宽基作为压舱石，避免单一个股过度集中。"
             },
             {
                 "title": "进攻配置",
-                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：科技(XLK) +0.12%、必需消费(XLP) -0.02%、材料(XLB) -0.02%；细分行业重点观察 运输(IYT) +1.34%、零售(XRT) +0.42%、网络安全(HACK) +0.36%；风格上参考 价值(IWD) +0.31%、小盘(IWM) +0.08%、动量(MTUM) +0.03%。"
+                "detail": "若趋势和信用保持稳定，进攻仓优先跟随当前强势方向：金融(XLF) +1.38%、工业(XLI) +1.16%、公用事业(XLU) +1.12%；细分行业重点观察 住宅建筑(XHB) +1.62%、运输(IYT) +1.53%、航空航天防务(ITA) +0.76%；风格上参考 价值(IWD) +0.51%、高股息(VYM) +0.12%、低波动(USMV) -0.15%。"
             },
             {
                 "title": "防御配置",
@@ -1249,385 +1249,150 @@
             "date": "2026-06-15",
             "score": 8.0,
             "bias": "强烈偏多"
+        },
+        {
+            "date": "2026-06-16",
+            "score": 6.0,
+            "bias": "中性震荡"
         }
     ],
     "strategies": [
-        "📊 大盘走势：短中长三周期全面偏多——五日涨 1.3%，月内涨 0.4%，今日继续收涨 1.65%，多头趋势结构完整。",
-        "😰 情绪研判（VIX + F&G）：VIX 16.1，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。 五日持续回落 20.5%，市场情绪明显修复，风险资产配置可以积极一些。 恐惧贪婪指数 41（fear），市场情绪偏悲观。历史回测显示，在该区间分批建仓标普500指数基金，12个月平均回报率显著优于随机时机。",
-        "💧 信用市场（中性）：高收益债 HYG（+0.05%）/ JNK（+0.56%）变动温和，信用市场流动性状况平稳，对股市既无明显支撑也无拖累。 月内高收益债上涨 1.0%，信用环境整体宽松，有利于风险资产。",
-        "🏦 利率环境（TNX 4.443%）：十年期美债收益率 4.443%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。  五日 近期下跌 1.8%，月内 近期下跌 3.9%，利率处于区间震荡状态。",
-        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.34%），避险情绪无明显异动。 月内黄金跌 4.1%，持续下跌显示风险偏好的中期修复。 美元基本稳定（DXY -0.08%），对跨资产影响中性。 月内美元走强 0.7%，美元震荡，跨资产影响有限。",
-        "🟢 综合研判（评分 8.0/10 · 强烈偏多）：综合评分 8.0/10，市场处于强多头格局。当前大盘趋势、情绪面、信用市场、利率环境多维度共振向上，属于值得主动参与的上涨行情。 操作建议：可将仓位提升至七至八成，优先配置动能强劲的板块。标普500若出现 1-2% 的回调，是优质加仓窗口。建议配置结构：60% 标普500指数基金/ETF（SPY/VOO）+ 30% 纳斯达克成长（QQQ）+ 10% 现金待机。止损参考近期支撑位（约为当前价格的 -5%）。"
+        "📊 大盘走势：今日回调 0.12%，但五日维度仍上涨 2.4%，为强势上涨后的正常回踩，可视为短期布局机会。",
+        "😰 情绪研判（VIX + F&G）：VIX 16.1，处于正常偏低区间，市场波动预期温和，整体风险偏好良好。 五日持续回落 20.2%，市场情绪明显修复，风险资产配置可以积极一些。 恐惧贪婪指数 40（fear），市场情绪偏悲观。历史回测显示，在该区间分批建仓标普500指数基金，12个月平均回报率显著优于随机时机。",
+        "💧 信用市场（潜在支撑）：高收益债小幅上涨（HYG +0.02%），但股市下跌，信用市场与权益市场出现分化。信用市场通常领先于股市，这一分歧暗示今日股市下跌可能是情绪性而非系统性问题，后市不宜过度悲观。 月内高收益债上涨 1.1%，信用环境整体宽松，有利于风险资产。",
+        "🏦 利率环境（TNX 4.441%）：十年期美债收益率 4.441%，处于中高位区间。市场正在定价'Higher for Longer'的美联储政策路径，权益市场估值扩张空间受限，但尚不至于引发系统性压制。  五日 近期下跌 1.8%，月内 近期下跌 3.9%，利率处于区间震荡状态。",
+        "🥇 跨资产信号（黄金 + 美元）：黄金当日变动平淡（+0.02%），避险情绪无明显异动。 月内黄金跌 4.4%，持续下跌显示风险偏好的中期修复。 美元基本稳定（DXY -0.16%），对跨资产影响中性。 月内美元走强 0.6%，美元震荡，跨资产影响有限。",
+        "⚪ 综合研判（评分 6.0/10 · 中性震荡）：综合评分 6.0/10，多空信号相互抵消，市场方向不明朗，处于震荡寻方向阶段。贸然追涨追跌均风险较大。 操作建议：维持三至四成防御性仓位，以现金和短债为主。等待明确的方向性突破信号再行动——具体而言，若标普500站稳近期高点且 VIX 持续回落，则加仓；若信用利差走阔且大盘破位下行，则进一步减仓。当前不宜新建大仓位。"
     ],
     "charts": {
         "SP500": {
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 7538.75
+                    "v": 7561.4502
                 },
                 {
                     "t": "09:35",
-                    "v": 7542.0801
+                    "v": 7557.7998
                 },
                 {
                     "t": "09:40",
-                    "v": 7539.7202
+                    "v": 7558.8799
                 },
                 {
                     "t": "09:45",
-                    "v": 7550.1099
+                    "v": 7561.54
                 },
                 {
                     "t": "09:50",
-                    "v": 7548.9702
+                    "v": 7559.6001
                 },
                 {
                     "t": "09:55",
-                    "v": 7543.4502
+                    "v": 7550.5601
                 },
                 {
                     "t": "10:00",
-                    "v": 7547.8101
+                    "v": 7557.6602
                 },
                 {
                     "t": "10:05",
-                    "v": 7543.2798
+                    "v": 7561.29
                 },
                 {
                     "t": "10:10",
-                    "v": 7541.1602
+                    "v": 7558.2002
                 },
                 {
                     "t": "10:15",
-                    "v": 7543.8701
+                    "v": 7550.7402
                 },
                 {
                     "t": "10:20",
-                    "v": 7540.98
+                    "v": 7545.9399
                 },
                 {
                     "t": "10:25",
-                    "v": 7548.0601
+                    "v": 7541.8101
                 },
                 {
                     "t": "10:30",
-                    "v": 7543.1201
+                    "v": 7535.6401
                 },
                 {
                     "t": "10:35",
-                    "v": 7545.1201
+                    "v": 7546.1602
                 },
                 {
                     "t": "10:40",
-                    "v": 7543.9199
+                    "v": 7544.3701
                 },
                 {
                     "t": "10:45",
-                    "v": 7546.4199
+                    "v": 7541.8799
                 },
                 {
                     "t": "10:50",
-                    "v": 7550.1201
+                    "v": 7542.8101
                 },
                 {
                     "t": "10:55",
-                    "v": 7552.8901
+                    "v": 7539.4902
                 },
                 {
                     "t": "11:00",
-                    "v": 7558.1499
+                    "v": 7543.29
                 },
                 {
                     "t": "11:05",
-                    "v": 7558.25
+                    "v": 7544.48
                 },
                 {
                     "t": "11:10",
-                    "v": 7558.4102
+                    "v": 7544.7002
                 },
                 {
                     "t": "11:15",
-                    "v": 7557.7598
+                    "v": 7540.9399
                 },
                 {
                     "t": "11:20",
-                    "v": 7559.7998
+                    "v": 7539.4302
                 },
                 {
                     "t": "11:25",
-                    "v": 7562.71
+                    "v": 7536.6602
                 },
                 {
                     "t": "11:30",
-                    "v": 7559.98
+                    "v": 7541.6299
                 },
                 {
                     "t": "11:35",
-                    "v": 7563.8501
+                    "v": 7538.6499
                 },
                 {
                     "t": "11:40",
-                    "v": 7565.6499
+                    "v": 7534.8101
                 },
                 {
                     "t": "11:45",
-                    "v": 7571.77
+                    "v": 7532.0
                 },
                 {
                     "t": "11:50",
-                    "v": 7571.6802
+                    "v": 7541.7798
                 },
                 {
                     "t": "11:55",
-                    "v": 7572.7202
+                    "v": 7537.98
                 },
                 {
                     "t": "12:00",
-                    "v": 7575.96
-                },
-                {
-                    "t": "12:05",
-                    "v": 7574.3701
-                },
-                {
-                    "t": "12:10",
-                    "v": 7573.2002
-                },
-                {
-                    "t": "12:15",
-                    "v": 7573.0
-                },
-                {
-                    "t": "12:20",
-                    "v": 7575.9102
-                },
-                {
-                    "t": "12:25",
-                    "v": 7575.8599
-                },
-                {
-                    "t": "12:30",
-                    "v": 7573.2202
-                },
-                {
-                    "t": "12:35",
-                    "v": 7570.6499
-                },
-                {
-                    "t": "12:40",
-                    "v": 7571.0298
-                },
-                {
-                    "t": "12:45",
-                    "v": 7568.1299
-                },
-                {
-                    "t": "12:50",
-                    "v": 7568.4302
-                },
-                {
-                    "t": "12:55",
-                    "v": 7570.0801
-                },
-                {
-                    "t": "13:00",
-                    "v": 7569.1602
-                },
-                {
-                    "t": "13:05",
-                    "v": 7565.4902
-                },
-                {
-                    "t": "13:10",
-                    "v": 7569.1899
-                },
-                {
-                    "t": "13:15",
-                    "v": 7571.3701
-                },
-                {
-                    "t": "13:20",
-                    "v": 7573.0898
-                },
-                {
-                    "t": "13:25",
-                    "v": 7572.5298
-                },
-                {
-                    "t": "13:30",
-                    "v": 7570.46
-                },
-                {
-                    "t": "13:35",
-                    "v": 7571.6602
-                },
-                {
-                    "t": "13:40",
-                    "v": 7568.8999
-                },
-                {
-                    "t": "13:45",
-                    "v": 7569.1602
-                },
-                {
-                    "t": "13:50",
-                    "v": 7566.0698
-                },
-                {
-                    "t": "13:55",
-                    "v": 7563.3101
-                },
-                {
-                    "t": "14:00",
-                    "v": 7559.1201
-                },
-                {
-                    "t": "14:05",
-                    "v": 7561.1001
-                },
-                {
-                    "t": "14:10",
-                    "v": 7563.3398
-                },
-                {
-                    "t": "14:15",
-                    "v": 7562.6001
-                },
-                {
-                    "t": "14:20",
-                    "v": 7561.2002
-                },
-                {
-                    "t": "14:25",
-                    "v": 7558.54
-                },
-                {
-                    "t": "14:30",
-                    "v": 7559.8701
-                },
-                {
-                    "t": "14:35",
-                    "v": 7563.4199
-                },
-                {
-                    "t": "14:40",
-                    "v": 7564.21
-                },
-                {
-                    "t": "14:45",
-                    "v": 7563.8999
-                },
-                {
-                    "t": "14:50",
-                    "v": 7563.2598
-                },
-                {
-                    "t": "14:55",
-                    "v": 7560.9302
-                },
-                {
-                    "t": "15:00",
-                    "v": 7559.6099
-                },
-                {
-                    "t": "15:05",
-                    "v": 7559.79
-                },
-                {
-                    "t": "15:10",
-                    "v": 7561.1099
-                },
-                {
-                    "t": "15:15",
-                    "v": 7560.6802
-                },
-                {
-                    "t": "15:20",
-                    "v": 7557.9702
-                },
-                {
-                    "t": "15:25",
-                    "v": 7554.7998
-                },
-                {
-                    "t": "15:30",
-                    "v": 7553.8501
-                },
-                {
-                    "t": "15:35",
-                    "v": 7554.3999
-                },
-                {
-                    "t": "15:40",
-                    "v": 7555.0898
-                },
-                {
-                    "t": "15:45",
-                    "v": 7558.27
-                },
-                {
-                    "t": "15:50",
-                    "v": 7549.8999
-                },
-                {
-                    "t": "15:55",
-                    "v": 7555.2598
+                    "v": 7545.77
                 }
             ],
             "5d": [
-                {
-                    "t": "06/09 09:30",
-                    "v": 7457.2002
-                },
-                {
-                    "t": "06/09 10:00",
-                    "v": 7424.73
-                },
-                {
-                    "t": "06/09 10:30",
-                    "v": 7390.29
-                },
-                {
-                    "t": "06/09 11:00",
-                    "v": 7321.48
-                },
-                {
-                    "t": "06/09 11:30",
-                    "v": 7302.7798
-                },
-                {
-                    "t": "06/09 12:00",
-                    "v": 7285.4902
-                },
-                {
-                    "t": "06/09 12:30",
-                    "v": 7277.48
-                },
-                {
-                    "t": "06/09 13:00",
-                    "v": 7319.9502
-                },
-                {
-                    "t": "06/09 13:30",
-                    "v": 7338.5498
-                },
-                {
-                    "t": "06/09 14:00",
-                    "v": 7363.3198
-                },
-                {
-                    "t": "06/09 14:30",
-                    "v": 7380.7002
-                },
-                {
-                    "t": "06/09 15:00",
-                    "v": 7358.4502
-                },
-                {
-                    "t": "06/09 15:30",
-                    "v": 7386.3101
-                },
                 {
                     "t": "06/10 09:30",
                     "v": 7370.4902
@@ -1835,6 +1600,30 @@
                 {
                     "t": "06/15 15:30",
                     "v": 7555.2598
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 7550.5601
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 7541.8101
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 7539.4902
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 7536.6602
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 7537.98
+                },
+                {
+                    "t": "06/16 12:00",
+                    "v": 7545.77
                 }
             ],
             "1mo": [
@@ -1913,6 +1702,10 @@
                 {
                     "t": "06/12",
                     "v": 7431.46
+                },
+                {
+                    "t": "06/16",
+                    "v": 7545.7798
                 }
             ]
         },
@@ -1920,370 +1713,130 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 26471.3242
+                    "v": 26663.1484
                 },
                 {
                     "t": "09:35",
-                    "v": 26469.0508
+                    "v": 26659.1602
                 },
                 {
                     "t": "09:40",
-                    "v": 26489.4082
+                    "v": 26703.8926
                 },
                 {
                     "t": "09:45",
-                    "v": 26549.002
+                    "v": 26750.6934
                 },
                 {
                     "t": "09:50",
-                    "v": 26539.5371
+                    "v": 26771.7051
                 },
                 {
                     "t": "09:55",
-                    "v": 26505.8066
+                    "v": 26730.6719
                 },
                 {
                     "t": "10:00",
-                    "v": 26530.832
+                    "v": 26762.9297
                 },
                 {
                     "t": "10:05",
-                    "v": 26503.7578
+                    "v": 26765.6406
                 },
                 {
                     "t": "10:10",
-                    "v": 26507.2734
+                    "v": 26722.1445
                 },
                 {
                     "t": "10:15",
-                    "v": 26505.7559
+                    "v": 26665.0312
                 },
                 {
                     "t": "10:20",
-                    "v": 26476.8242
+                    "v": 26615.8477
                 },
                 {
                     "t": "10:25",
-                    "v": 26504.9492
+                    "v": 26595.6406
                 },
                 {
                     "t": "10:30",
-                    "v": 26492.6621
+                    "v": 26552.0859
                 },
                 {
                     "t": "10:35",
-                    "v": 26503.9551
+                    "v": 26602.4297
                 },
                 {
                     "t": "10:40",
-                    "v": 26497.3809
+                    "v": 26602.8164
                 },
                 {
                     "t": "10:45",
-                    "v": 26496.9004
+                    "v": 26592.1152
                 },
                 {
                     "t": "10:50",
-                    "v": 26517.4258
+                    "v": 26595.209
                 },
                 {
                     "t": "10:55",
-                    "v": 26538.9297
+                    "v": 26571.1426
                 },
                 {
                     "t": "11:00",
-                    "v": 26560.0156
+                    "v": 26603.0684
                 },
                 {
                     "t": "11:05",
-                    "v": 26569.625
+                    "v": 26622.8086
                 },
                 {
                     "t": "11:10",
-                    "v": 26575.0469
+                    "v": 26611.9473
                 },
                 {
                     "t": "11:15",
-                    "v": 26571.5547
+                    "v": 26587.6758
                 },
                 {
                     "t": "11:20",
-                    "v": 26584.5293
+                    "v": 26581.7285
                 },
                 {
                     "t": "11:25",
-                    "v": 26600.1113
+                    "v": 26562.1797
                 },
                 {
                     "t": "11:30",
-                    "v": 26583.1973
+                    "v": 26593.0059
                 },
                 {
                     "t": "11:35",
-                    "v": 26608.2344
+                    "v": 26553.3691
                 },
                 {
                     "t": "11:40",
-                    "v": 26615.7441
+                    "v": 26525.7695
                 },
                 {
                     "t": "11:45",
-                    "v": 26649.9082
+                    "v": 26497.4863
                 },
                 {
                     "t": "11:50",
-                    "v": 26662.3711
+                    "v": 26553.7754
                 },
                 {
                     "t": "11:55",
-                    "v": 26657.9141
+                    "v": 26527.2324
                 },
                 {
                     "t": "12:00",
-                    "v": 26666.6465
-                },
-                {
-                    "t": "12:05",
-                    "v": 26663.791
-                },
-                {
-                    "t": "12:10",
-                    "v": 26662.3477
-                },
-                {
-                    "t": "12:15",
-                    "v": 26657.9414
-                },
-                {
-                    "t": "12:20",
-                    "v": 26674.7363
-                },
-                {
-                    "t": "12:25",
-                    "v": 26680.2695
-                },
-                {
-                    "t": "12:30",
-                    "v": 26663.3164
-                },
-                {
-                    "t": "12:35",
-                    "v": 26652.7715
-                },
-                {
-                    "t": "12:40",
-                    "v": 26654.0332
-                },
-                {
-                    "t": "12:45",
-                    "v": 26636.8047
-                },
-                {
-                    "t": "12:50",
-                    "v": 26635.8398
-                },
-                {
-                    "t": "12:55",
-                    "v": 26647.4492
-                },
-                {
-                    "t": "13:00",
-                    "v": 26655.2461
-                },
-                {
-                    "t": "13:05",
-                    "v": 26643.0098
-                },
-                {
-                    "t": "13:10",
-                    "v": 26651.168
-                },
-                {
-                    "t": "13:15",
-                    "v": 26662.1367
-                },
-                {
-                    "t": "13:20",
-                    "v": 26668.5078
-                },
-                {
-                    "t": "13:25",
-                    "v": 26676.0449
-                },
-                {
-                    "t": "13:30",
-                    "v": 26673.5449
-                },
-                {
-                    "t": "13:35",
-                    "v": 26681.9355
-                },
-                {
-                    "t": "13:40",
-                    "v": 26676.252
-                },
-                {
-                    "t": "13:45",
-                    "v": 26680.1133
-                },
-                {
-                    "t": "13:50",
-                    "v": 26672.5879
-                },
-                {
-                    "t": "13:55",
-                    "v": 26669.4023
-                },
-                {
-                    "t": "14:00",
-                    "v": 26641.1387
-                },
-                {
-                    "t": "14:05",
-                    "v": 26645.8906
-                },
-                {
-                    "t": "14:10",
-                    "v": 26654.8496
-                },
-                {
-                    "t": "14:15",
-                    "v": 26660.0898
-                },
-                {
-                    "t": "14:20",
-                    "v": 26655.1836
-                },
-                {
-                    "t": "14:25",
-                    "v": 26645.4414
-                },
-                {
-                    "t": "14:30",
-                    "v": 26658.7344
-                },
-                {
-                    "t": "14:35",
-                    "v": 26665.0254
-                },
-                {
-                    "t": "14:40",
-                    "v": 26665.7227
-                },
-                {
-                    "t": "14:45",
-                    "v": 26672.5312
-                },
-                {
-                    "t": "14:50",
-                    "v": 26668.6719
-                },
-                {
-                    "t": "14:55",
-                    "v": 26661.8691
-                },
-                {
-                    "t": "15:00",
-                    "v": 26654.3418
-                },
-                {
-                    "t": "15:05",
-                    "v": 26647.707
-                },
-                {
-                    "t": "15:10",
-                    "v": 26640.5254
-                },
-                {
-                    "t": "15:15",
-                    "v": 26634.6484
-                },
-                {
-                    "t": "15:20",
-                    "v": 26620.5332
-                },
-                {
-                    "t": "15:25",
-                    "v": 26619.2266
-                },
-                {
-                    "t": "15:30",
-                    "v": 26622.7578
-                },
-                {
-                    "t": "15:35",
-                    "v": 26634.625
-                },
-                {
-                    "t": "15:40",
-                    "v": 26651.7656
-                },
-                {
-                    "t": "15:45",
-                    "v": 26671.9297
-                },
-                {
-                    "t": "15:50",
-                    "v": 26645.0312
-                },
-                {
-                    "t": "15:55",
-                    "v": 26686.6367
+                    "v": 26571.6113
                 }
             ],
             "5d": [
-                {
-                    "t": "06/09 09:30",
-                    "v": 26123.125
-                },
-                {
-                    "t": "06/09 10:00",
-                    "v": 25919.3242
-                },
-                {
-                    "t": "06/09 10:30",
-                    "v": 25757.9902
-                },
-                {
-                    "t": "06/09 11:00",
-                    "v": 25439.0059
-                },
-                {
-                    "t": "06/09 11:30",
-                    "v": 25329.7383
-                },
-                {
-                    "t": "06/09 12:00",
-                    "v": 25206.3301
-                },
-                {
-                    "t": "06/09 12:30",
-                    "v": 25168.1152
-                },
-                {
-                    "t": "06/09 13:00",
-                    "v": 25393.1309
-                },
-                {
-                    "t": "06/09 13:30",
-                    "v": 25468.1934
-                },
-                {
-                    "t": "06/09 14:00",
-                    "v": 25588.1875
-                },
-                {
-                    "t": "06/09 14:30",
-                    "v": 25663.2188
-                },
-                {
-                    "t": "06/09 15:00",
-                    "v": 25568.4531
-                },
-                {
-                    "t": "06/09 15:30",
-                    "v": 25675.1914
-                },
                 {
                     "t": "06/10 09:30",
                     "v": 25580.7344
@@ -2491,6 +2044,30 @@
                 {
                     "t": "06/15 15:30",
                     "v": 26686.6367
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 26730.6719
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 26595.6406
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 26571.1426
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 26562.1797
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 26527.2324
+                },
+                {
+                    "t": "06/16 12:00",
+                    "v": 26571.6113
                 }
             ],
             "1mo": [
@@ -2569,6 +2146,10 @@
                 {
                     "t": "06/12",
                     "v": 25888.8398
+                },
+                {
+                    "t": "06/16",
+                    "v": 26571.6113
                 }
             ]
         },
@@ -2853,6 +2434,138 @@
                 {
                     "t": "09:00",
                     "v": 16.08
+                },
+                {
+                    "t": "09:05",
+                    "v": 16.13
+                },
+                {
+                    "t": "09:10",
+                    "v": 16.11
+                },
+                {
+                    "t": "09:15",
+                    "v": 16.09
+                },
+                {
+                    "t": "09:20",
+                    "v": 16.08
+                },
+                {
+                    "t": "09:25",
+                    "v": 16.08
+                },
+                {
+                    "t": "09:30",
+                    "v": 16.06
+                },
+                {
+                    "t": "09:35",
+                    "v": 16.01
+                },
+                {
+                    "t": "09:40",
+                    "v": 16.03
+                },
+                {
+                    "t": "09:45",
+                    "v": 15.9
+                },
+                {
+                    "t": "09:50",
+                    "v": 15.89
+                },
+                {
+                    "t": "09:55",
+                    "v": 15.97
+                },
+                {
+                    "t": "10:00",
+                    "v": 15.87
+                },
+                {
+                    "t": "10:05",
+                    "v": 15.8
+                },
+                {
+                    "t": "10:10",
+                    "v": 15.81
+                },
+                {
+                    "t": "10:15",
+                    "v": 15.91
+                },
+                {
+                    "t": "10:20",
+                    "v": 15.99
+                },
+                {
+                    "t": "10:25",
+                    "v": 16.08
+                },
+                {
+                    "t": "10:30",
+                    "v": 16.15
+                },
+                {
+                    "t": "10:35",
+                    "v": 15.95
+                },
+                {
+                    "t": "10:40",
+                    "v": 15.98
+                },
+                {
+                    "t": "10:45",
+                    "v": 15.97
+                },
+                {
+                    "t": "10:50",
+                    "v": 15.91
+                },
+                {
+                    "t": "10:55",
+                    "v": 15.99
+                },
+                {
+                    "t": "11:00",
+                    "v": 15.91
+                },
+                {
+                    "t": "11:05",
+                    "v": 15.85
+                },
+                {
+                    "t": "11:10",
+                    "v": 15.83
+                },
+                {
+                    "t": "11:15",
+                    "v": 15.89
+                },
+                {
+                    "t": "11:20",
+                    "v": 15.93
+                },
+                {
+                    "t": "11:25",
+                    "v": 15.96
+                },
+                {
+                    "t": "11:30",
+                    "v": 15.91
+                },
+                {
+                    "t": "11:35",
+                    "v": 15.94
+                },
+                {
+                    "t": "11:40",
+                    "v": 15.98
+                },
+                {
+                    "t": "11:45",
+                    "v": 16.15
                 }
             ],
             "5d": [
@@ -3339,6 +3052,26 @@
                 {
                     "t": "06/16 09:00",
                     "v": 16.08
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 15.97
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 16.08
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 15.99
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 15.96
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 16.15
                 }
             ],
             "1mo": [
@@ -3424,7 +3157,7 @@
                 },
                 {
                     "t": "06/16",
-                    "v": 16.08
+                    "v": 16.15
                 }
             ]
         },
@@ -3432,31 +3165,31 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 80.135
+                    "v": 80.0975
                 },
                 {
                     "t": "09:35",
-                    "v": 80.145
+                    "v": 80.085
                 },
                 {
                     "t": "09:40",
-                    "v": 80.14
+                    "v": 80.09
                 },
                 {
                     "t": "09:45",
-                    "v": 80.15
+                    "v": 80.095
                 },
                 {
                     "t": "09:50",
-                    "v": 80.155
+                    "v": 80.11
                 },
                 {
                     "t": "09:55",
-                    "v": 80.135
+                    "v": 80.095
                 },
                 {
                     "t": "10:00",
-                    "v": 80.13
+                    "v": 80.09
                 },
                 {
                     "t": "10:05",
@@ -3464,338 +3197,98 @@
                 },
                 {
                     "t": "10:10",
-                    "v": 80.075
+                    "v": 80.095
                 },
                 {
                     "t": "10:15",
-                    "v": 80.085
-                },
-                {
-                    "t": "10:20",
-                    "v": 80.085
-                },
-                {
-                    "t": "10:25",
-                    "v": 80.115
-                },
-                {
-                    "t": "10:30",
-                    "v": 80.115
-                },
-                {
-                    "t": "10:35",
-                    "v": 80.095
-                },
-                {
-                    "t": "10:40",
-                    "v": 80.09
-                },
-                {
-                    "t": "10:45",
-                    "v": 80.095
-                },
-                {
-                    "t": "10:50",
-                    "v": 80.115
-                },
-                {
-                    "t": "10:55",
-                    "v": 80.125
-                },
-                {
-                    "t": "11:00",
-                    "v": 80.12
-                },
-                {
-                    "t": "11:05",
-                    "v": 80.115
-                },
-                {
-                    "t": "11:10",
                     "v": 80.1
                 },
                 {
+                    "t": "10:20",
+                    "v": 80.075
+                },
+                {
+                    "t": "10:25",
+                    "v": 80.05
+                },
+                {
+                    "t": "10:30",
+                    "v": 80.04
+                },
+                {
+                    "t": "10:35",
+                    "v": 80.045
+                },
+                {
+                    "t": "10:40",
+                    "v": 80.03
+                },
+                {
+                    "t": "10:45",
+                    "v": 80.035
+                },
+                {
+                    "t": "10:50",
+                    "v": 80.04
+                },
+                {
+                    "t": "10:55",
+                    "v": 80.03
+                },
+                {
+                    "t": "11:00",
+                    "v": 80.035
+                },
+                {
+                    "t": "11:05",
+                    "v": 80.04
+                },
+                {
+                    "t": "11:10",
+                    "v": 80.035
+                },
+                {
                     "t": "11:15",
-                    "v": 80.11
+                    "v": 80.045
                 },
                 {
                     "t": "11:20",
-                    "v": 80.105
+                    "v": 80.03
                 },
                 {
                     "t": "11:25",
-                    "v": 80.105
+                    "v": 80.025
                 },
                 {
                     "t": "11:30",
-                    "v": 80.105
+                    "v": 80.02
                 },
                 {
                     "t": "11:35",
-                    "v": 80.13
+                    "v": 79.995
                 },
                 {
                     "t": "11:40",
-                    "v": 80.135
+                    "v": 79.985
                 },
                 {
                     "t": "11:45",
-                    "v": 80.15
+                    "v": 79.98
                 },
                 {
                     "t": "11:50",
-                    "v": 80.145
+                    "v": 80.0299
                 },
                 {
                     "t": "11:55",
-                    "v": 80.155
+                    "v": 80.015
                 },
                 {
                     "t": "12:00",
-                    "v": 80.145
-                },
-                {
-                    "t": "12:05",
-                    "v": 80.14
-                },
-                {
-                    "t": "12:10",
-                    "v": 80.14
-                },
-                {
-                    "t": "12:15",
-                    "v": 80.135
-                },
-                {
-                    "t": "12:20",
-                    "v": 80.15
-                },
-                {
-                    "t": "12:25",
-                    "v": 80.14
-                },
-                {
-                    "t": "12:30",
-                    "v": 80.145
-                },
-                {
-                    "t": "12:35",
-                    "v": 80.135
-                },
-                {
-                    "t": "12:40",
-                    "v": 80.14
-                },
-                {
-                    "t": "12:45",
-                    "v": 80.13
-                },
-                {
-                    "t": "12:50",
-                    "v": 80.135
-                },
-                {
-                    "t": "12:55",
-                    "v": 80.135
-                },
-                {
-                    "t": "13:00",
-                    "v": 80.125
-                },
-                {
-                    "t": "13:05",
-                    "v": 80.115
-                },
-                {
-                    "t": "13:10",
-                    "v": 80.12
-                },
-                {
-                    "t": "13:15",
-                    "v": 80.125
-                },
-                {
-                    "t": "13:20",
-                    "v": 80.125
-                },
-                {
-                    "t": "13:25",
-                    "v": 80.125
-                },
-                {
-                    "t": "13:30",
-                    "v": 80.125
-                },
-                {
-                    "t": "13:35",
-                    "v": 80.125
-                },
-                {
-                    "t": "13:40",
-                    "v": 80.12
-                },
-                {
-                    "t": "13:45",
-                    "v": 80.12
-                },
-                {
-                    "t": "13:50",
-                    "v": 80.11
-                },
-                {
-                    "t": "13:55",
-                    "v": 80.105
-                },
-                {
-                    "t": "14:00",
-                    "v": 80.08
-                },
-                {
-                    "t": "14:05",
-                    "v": 80.071
-                },
-                {
-                    "t": "14:10",
-                    "v": 80.085
-                },
-                {
-                    "t": "14:15",
-                    "v": 80.075
-                },
-                {
-                    "t": "14:20",
-                    "v": 80.075
-                },
-                {
-                    "t": "14:25",
-                    "v": 80.065
-                },
-                {
-                    "t": "14:30",
-                    "v": 80.055
-                },
-                {
-                    "t": "14:35",
-                    "v": 80.08
-                },
-                {
-                    "t": "14:40",
-                    "v": 80.075
-                },
-                {
-                    "t": "14:45",
-                    "v": 80.0677
-                },
-                {
-                    "t": "14:50",
-                    "v": 80.07
-                },
-                {
-                    "t": "14:55",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:00",
-                    "v": 80.055
-                },
-                {
-                    "t": "15:05",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:10",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:15",
-                    "v": 80.07
-                },
-                {
-                    "t": "15:20",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:25",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:30",
-                    "v": 80.06
-                },
-                {
-                    "t": "15:35",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:40",
-                    "v": 80.065
-                },
-                {
-                    "t": "15:45",
-                    "v": 80.07
-                },
-                {
-                    "t": "15:50",
-                    "v": 80.055
-                },
-                {
-                    "t": "15:55",
-                    "v": 80.055
+                    "v": 80.02
                 }
             ],
             "5d": [
-                {
-                    "t": "06/09 09:30",
-                    "v": 79.72
-                },
-                {
-                    "t": "06/09 10:00",
-                    "v": 79.705
-                },
-                {
-                    "t": "06/09 10:30",
-                    "v": 79.66
-                },
-                {
-                    "t": "06/09 11:00",
-                    "v": 79.5477
-                },
-                {
-                    "t": "06/09 11:30",
-                    "v": 79.565
-                },
-                {
-                    "t": "06/09 12:00",
-                    "v": 79.545
-                },
-                {
-                    "t": "06/09 12:30",
-                    "v": 79.51
-                },
-                {
-                    "t": "06/09 13:00",
-                    "v": 79.575
-                },
-                {
-                    "t": "06/09 13:30",
-                    "v": 79.59
-                },
-                {
-                    "t": "06/09 14:00",
-                    "v": 79.62
-                },
-                {
-                    "t": "06/09 14:30",
-                    "v": 79.685
-                },
-                {
-                    "t": "06/09 15:00",
-                    "v": 79.615
-                },
-                {
-                    "t": "06/09 15:30",
-                    "v": 79.62
-                },
                 {
                     "t": "06/10 09:30",
                     "v": 79.6
@@ -4003,6 +3496,30 @@
                 {
                     "t": "06/15 15:30",
                     "v": 80.055
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 80.095
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 80.05
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 80.03
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 80.025
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 80.015
+                },
+                {
+                    "t": "06/16 12:00",
+                    "v": 80.02
                 }
             ],
             "1mo": [
@@ -4081,6 +3598,10 @@
                 {
                     "t": "06/12",
                     "v": 79.94
+                },
+                {
+                    "t": "06/16",
+                    "v": 80.02
                 }
             ]
         },
@@ -4088,370 +3609,130 @@
             "intraday": [
                 {
                     "t": "09:30",
-                    "v": 96.58
-                },
-                {
-                    "t": "09:35",
-                    "v": 96.61
-                },
-                {
-                    "t": "09:40",
-                    "v": 96.585
-                },
-                {
-                    "t": "09:45",
-                    "v": 96.61
-                },
-                {
-                    "t": "09:50",
-                    "v": 96.605
-                },
-                {
-                    "t": "09:55",
-                    "v": 96.585
-                },
-                {
-                    "t": "10:00",
-                    "v": 96.58
-                },
-                {
-                    "t": "10:05",
-                    "v": 96.56
-                },
-                {
-                    "t": "10:10",
-                    "v": 96.515
-                },
-                {
-                    "t": "10:15",
                     "v": 96.52
                 },
                 {
+                    "t": "09:35",
+                    "v": 96.5
+                },
+                {
+                    "t": "09:40",
+                    "v": 96.505
+                },
+                {
+                    "t": "09:45",
+                    "v": 96.505
+                },
+                {
+                    "t": "09:50",
+                    "v": 96.54
+                },
+                {
+                    "t": "09:55",
+                    "v": 96.52
+                },
+                {
+                    "t": "10:00",
+                    "v": 96.51
+                },
+                {
+                    "t": "10:05",
+                    "v": 96.53
+                },
+                {
+                    "t": "10:10",
+                    "v": 96.52
+                },
+                {
+                    "t": "10:15",
+                    "v": 96.525
+                },
+                {
                     "t": "10:20",
-                    "v": 96.5265
+                    "v": 96.493
                 },
                 {
                     "t": "10:25",
-                    "v": 96.565
+                    "v": 96.46
                 },
                 {
                     "t": "10:30",
-                    "v": 96.56
+                    "v": 96.45
                 },
                 {
                     "t": "10:35",
-                    "v": 96.535
+                    "v": 96.46
                 },
                 {
                     "t": "10:40",
-                    "v": 96.5351
+                    "v": 96.44
                 },
                 {
                     "t": "10:45",
-                    "v": 96.545
+                    "v": 96.435
                 },
                 {
                     "t": "10:50",
-                    "v": 96.55
+                    "v": 96.44
                 },
                 {
                     "t": "10:55",
-                    "v": 96.555
+                    "v": 96.43
                 },
                 {
                     "t": "11:00",
-                    "v": 96.55
+                    "v": 96.44
                 },
                 {
                     "t": "11:05",
-                    "v": 96.54
+                    "v": 96.4303
                 },
                 {
                     "t": "11:10",
-                    "v": 96.51
+                    "v": 96.435
                 },
                 {
                     "t": "11:15",
-                    "v": 96.535
+                    "v": 96.44
                 },
                 {
                     "t": "11:20",
-                    "v": 96.53
+                    "v": 96.425
                 },
                 {
                     "t": "11:25",
-                    "v": 96.5401
+                    "v": 96.415
                 },
                 {
                     "t": "11:30",
-                    "v": 96.54
+                    "v": 96.415
                 },
                 {
                     "t": "11:35",
-                    "v": 96.565
+                    "v": 96.385
                 },
                 {
                     "t": "11:40",
-                    "v": 96.58
+                    "v": 96.36
                 },
                 {
                     "t": "11:45",
-                    "v": 96.5799
+                    "v": 96.35
                 },
                 {
                     "t": "11:50",
-                    "v": 96.575
+                    "v": 96.4151
                 },
                 {
                     "t": "11:55",
-                    "v": 96.585
+                    "v": 96.42
                 },
                 {
                     "t": "12:00",
-                    "v": 96.585
-                },
-                {
-                    "t": "12:05",
-                    "v": 96.575
-                },
-                {
-                    "t": "12:10",
-                    "v": 96.575
-                },
-                {
-                    "t": "12:15",
-                    "v": 96.575
-                },
-                {
-                    "t": "12:20",
-                    "v": 96.585
-                },
-                {
-                    "t": "12:25",
-                    "v": 96.585
-                },
-                {
-                    "t": "12:30",
-                    "v": 96.585
-                },
-                {
-                    "t": "12:35",
-                    "v": 96.5699
-                },
-                {
-                    "t": "12:40",
-                    "v": 96.565
-                },
-                {
-                    "t": "12:45",
-                    "v": 96.555
-                },
-                {
-                    "t": "12:50",
-                    "v": 96.56
-                },
-                {
-                    "t": "12:55",
-                    "v": 96.5599
-                },
-                {
-                    "t": "13:00",
-                    "v": 96.545
-                },
-                {
-                    "t": "13:05",
-                    "v": 96.525
-                },
-                {
-                    "t": "13:10",
-                    "v": 96.535
-                },
-                {
-                    "t": "13:15",
-                    "v": 96.54
-                },
-                {
-                    "t": "13:20",
-                    "v": 96.54
-                },
-                {
-                    "t": "13:25",
-                    "v": 96.54
-                },
-                {
-                    "t": "13:30",
-                    "v": 96.545
-                },
-                {
-                    "t": "13:35",
-                    "v": 96.545
-                },
-                {
-                    "t": "13:40",
-                    "v": 96.525
-                },
-                {
-                    "t": "13:45",
-                    "v": 96.53
-                },
-                {
-                    "t": "13:50",
-                    "v": 96.515
-                },
-                {
-                    "t": "13:55",
-                    "v": 96.51
-                },
-                {
-                    "t": "14:00",
-                    "v": 96.495
-                },
-                {
-                    "t": "14:05",
-                    "v": 96.485
-                },
-                {
-                    "t": "14:10",
-                    "v": 96.49
-                },
-                {
-                    "t": "14:15",
-                    "v": 96.485
-                },
-                {
-                    "t": "14:20",
-                    "v": 96.4797
-                },
-                {
-                    "t": "14:25",
-                    "v": 96.465
-                },
-                {
-                    "t": "14:30",
-                    "v": 96.45
-                },
-                {
-                    "t": "14:35",
-                    "v": 96.48
-                },
-                {
-                    "t": "14:40",
-                    "v": 96.48
-                },
-                {
-                    "t": "14:45",
-                    "v": 96.48
-                },
-                {
-                    "t": "14:50",
-                    "v": 96.465
-                },
-                {
-                    "t": "14:55",
-                    "v": 96.465
-                },
-                {
-                    "t": "15:00",
-                    "v": 96.445
-                },
-                {
-                    "t": "15:05",
-                    "v": 96.455
-                },
-                {
-                    "t": "15:10",
-                    "v": 96.48
-                },
-                {
-                    "t": "15:15",
-                    "v": 96.48
-                },
-                {
-                    "t": "15:20",
-                    "v": 96.48
-                },
-                {
-                    "t": "15:25",
-                    "v": 96.47
-                },
-                {
-                    "t": "15:30",
-                    "v": 96.465
-                },
-                {
-                    "t": "15:35",
-                    "v": 96.47
-                },
-                {
-                    "t": "15:40",
-                    "v": 96.465
-                },
-                {
-                    "t": "15:45",
-                    "v": 96.465
-                },
-                {
-                    "t": "15:50",
-                    "v": 96.45
-                },
-                {
-                    "t": "15:55",
-                    "v": 96.46
+                    "v": 96.425
                 }
             ],
             "5d": [
-                {
-                    "t": "06/09 09:30",
-                    "v": 96.0514
-                },
-                {
-                    "t": "06/09 10:00",
-                    "v": 96.045
-                },
-                {
-                    "t": "06/09 10:30",
-                    "v": 95.98
-                },
-                {
-                    "t": "06/09 11:00",
-                    "v": 95.845
-                },
-                {
-                    "t": "06/09 11:30",
-                    "v": 95.865
-                },
-                {
-                    "t": "06/09 12:00",
-                    "v": 95.84
-                },
-                {
-                    "t": "06/09 12:30",
-                    "v": 95.79
-                },
-                {
-                    "t": "06/09 13:00",
-                    "v": 95.88
-                },
-                {
-                    "t": "06/09 13:30",
-                    "v": 95.895
-                },
-                {
-                    "t": "06/09 14:00",
-                    "v": 95.93
-                },
-                {
-                    "t": "06/09 14:30",
-                    "v": 96.02
-                },
-                {
-                    "t": "06/09 15:00",
-                    "v": 95.925
-                },
-                {
-                    "t": "06/09 15:30",
-                    "v": 95.94
-                },
                 {
                     "t": "06/10 09:30",
                     "v": 95.925
@@ -4659,6 +3940,30 @@
                 {
                     "t": "06/15 15:30",
                     "v": 96.46
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 96.52
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 96.46
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 96.43
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 96.415
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 96.42
+                },
+                {
+                    "t": "06/16 12:00",
+                    "v": 96.425
                 }
             ],
             "1mo": [
@@ -4737,6 +4042,10 @@
                 {
                     "t": "06/12",
                     "v": 96.3
+                },
+                {
+                    "t": "06/16",
+                    "v": 96.425
                 }
             ]
         },
@@ -4777,6 +4086,138 @@
                 {
                     "t": "09:00",
                     "v": 4.443
+                },
+                {
+                    "t": "09:05",
+                    "v": 4.445
+                },
+                {
+                    "t": "09:10",
+                    "v": 4.445
+                },
+                {
+                    "t": "09:15",
+                    "v": 4.449
+                },
+                {
+                    "t": "09:20",
+                    "v": 4.453
+                },
+                {
+                    "t": "09:25",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:30",
+                    "v": 4.451
+                },
+                {
+                    "t": "09:35",
+                    "v": 4.453
+                },
+                {
+                    "t": "09:40",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:45",
+                    "v": 4.457
+                },
+                {
+                    "t": "09:50",
+                    "v": 4.453
+                },
+                {
+                    "t": "09:55",
+                    "v": 4.453
+                },
+                {
+                    "t": "10:00",
+                    "v": 4.453
+                },
+                {
+                    "t": "10:05",
+                    "v": 4.455
+                },
+                {
+                    "t": "10:10",
+                    "v": 4.453
+                },
+                {
+                    "t": "10:15",
+                    "v": 4.453
+                },
+                {
+                    "t": "10:20",
+                    "v": 4.451
+                },
+                {
+                    "t": "10:25",
+                    "v": 4.449
+                },
+                {
+                    "t": "10:30",
+                    "v": 4.451
+                },
+                {
+                    "t": "10:35",
+                    "v": 4.449
+                },
+                {
+                    "t": "10:40",
+                    "v": 4.451
+                },
+                {
+                    "t": "10:45",
+                    "v": 4.451
+                },
+                {
+                    "t": "10:50",
+                    "v": 4.451
+                },
+                {
+                    "t": "10:55",
+                    "v": 4.445
+                },
+                {
+                    "t": "11:00",
+                    "v": 4.447
+                },
+                {
+                    "t": "11:05",
+                    "v": 4.449
+                },
+                {
+                    "t": "11:10",
+                    "v": 4.447
+                },
+                {
+                    "t": "11:15",
+                    "v": 4.445
+                },
+                {
+                    "t": "11:20",
+                    "v": 4.445
+                },
+                {
+                    "t": "11:25",
+                    "v": 4.445
+                },
+                {
+                    "t": "11:30",
+                    "v": 4.441
+                },
+                {
+                    "t": "11:35",
+                    "v": 4.441
+                },
+                {
+                    "t": "11:40",
+                    "v": 4.441
+                },
+                {
+                    "t": "11:45",
+                    "v": 4.441
                 }
             ],
             "5d": [
@@ -5014,7 +4455,27 @@
                 },
                 {
                     "t": "06/16 09:00",
-                    "v": 4.443
+                    "v": 4.451
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 4.453
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 4.451
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 4.447
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 4.441
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 4.441
                 }
             ],
             "1mo": [
@@ -5096,7 +4557,7 @@
                 },
                 {
                     "t": "06/16",
-                    "v": 4.443
+                    "v": 4.441
                 }
             ]
         },
@@ -5540,7 +5001,139 @@
                 },
                 {
                     "t": "09:05",
-                    "v": 4366.0
+                    "v": 4364.5
+                },
+                {
+                    "t": "09:10",
+                    "v": 4364.7002
+                },
+                {
+                    "t": "09:15",
+                    "v": 4361.5
+                },
+                {
+                    "t": "09:20",
+                    "v": 4359.1001
+                },
+                {
+                    "t": "09:25",
+                    "v": 4356.2002
+                },
+                {
+                    "t": "09:30",
+                    "v": 4359.2998
+                },
+                {
+                    "t": "09:35",
+                    "v": 4359.0
+                },
+                {
+                    "t": "09:40",
+                    "v": 4359.8999
+                },
+                {
+                    "t": "09:45",
+                    "v": 4358.7998
+                },
+                {
+                    "t": "09:50",
+                    "v": 4358.1001
+                },
+                {
+                    "t": "09:55",
+                    "v": 4352.7002
+                },
+                {
+                    "t": "10:00",
+                    "v": 4359.8999
+                },
+                {
+                    "t": "10:05",
+                    "v": 4354.7998
+                },
+                {
+                    "t": "10:10",
+                    "v": 4356.6001
+                },
+                {
+                    "t": "10:15",
+                    "v": 4344.2002
+                },
+                {
+                    "t": "10:20",
+                    "v": 4346.0
+                },
+                {
+                    "t": "10:25",
+                    "v": 4340.5
+                },
+                {
+                    "t": "10:30",
+                    "v": 4338.3999
+                },
+                {
+                    "t": "10:35",
+                    "v": 4345.8999
+                },
+                {
+                    "t": "10:40",
+                    "v": 4345.1001
+                },
+                {
+                    "t": "10:45",
+                    "v": 4346.3999
+                },
+                {
+                    "t": "10:50",
+                    "v": 4345.2002
+                },
+                {
+                    "t": "10:55",
+                    "v": 4344.3999
+                },
+                {
+                    "t": "11:00",
+                    "v": 4344.0
+                },
+                {
+                    "t": "11:05",
+                    "v": 4345.0
+                },
+                {
+                    "t": "11:10",
+                    "v": 4345.1001
+                },
+                {
+                    "t": "11:15",
+                    "v": 4345.7002
+                },
+                {
+                    "t": "11:20",
+                    "v": 4342.2002
+                },
+                {
+                    "t": "11:25",
+                    "v": 4346.7002
+                },
+                {
+                    "t": "11:30",
+                    "v": 4347.0
+                },
+                {
+                    "t": "11:35",
+                    "v": 4346.3999
+                },
+                {
+                    "t": "11:40",
+                    "v": 4347.2998
+                },
+                {
+                    "t": "11:45",
+                    "v": 4345.7998
+                },
+                {
+                    "t": "11:50",
+                    "v": 4352.3999
                 }
             ],
             "5d": [
@@ -6170,7 +5763,27 @@
                 },
                 {
                     "t": "06/16 09:00",
-                    "v": 4366.0
+                    "v": 4356.2002
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 4352.7002
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 4340.5
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 4344.3999
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 4346.7002
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 4352.3999
                 }
             ],
             "1mo": [
@@ -6256,7 +5869,7 @@
                 },
                 {
                     "t": "06/16",
-                    "v": 4366.0
+                    "v": 4352.3999
                 }
             ]
         },
@@ -6700,7 +6313,139 @@
                 },
                 {
                     "t": "09:05",
-                    "v": 99.615
+                    "v": 99.62
+                },
+                {
+                    "t": "09:10",
+                    "v": 99.629
+                },
+                {
+                    "t": "09:15",
+                    "v": 99.634
+                },
+                {
+                    "t": "09:20",
+                    "v": 99.654
+                },
+                {
+                    "t": "09:25",
+                    "v": 99.65
+                },
+                {
+                    "t": "09:30",
+                    "v": 99.607
+                },
+                {
+                    "t": "09:35",
+                    "v": 99.614
+                },
+                {
+                    "t": "09:40",
+                    "v": 99.62
+                },
+                {
+                    "t": "09:45",
+                    "v": 99.638
+                },
+                {
+                    "t": "09:50",
+                    "v": 99.655
+                },
+                {
+                    "t": "09:55",
+                    "v": 99.664
+                },
+                {
+                    "t": "10:00",
+                    "v": 99.657
+                },
+                {
+                    "t": "10:05",
+                    "v": 99.667
+                },
+                {
+                    "t": "10:10",
+                    "v": 99.641
+                },
+                {
+                    "t": "10:15",
+                    "v": 99.657
+                },
+                {
+                    "t": "10:20",
+                    "v": 99.637
+                },
+                {
+                    "t": "10:25",
+                    "v": 99.667
+                },
+                {
+                    "t": "10:30",
+                    "v": 99.69
+                },
+                {
+                    "t": "10:35",
+                    "v": 99.656
+                },
+                {
+                    "t": "10:40",
+                    "v": 99.637
+                },
+                {
+                    "t": "10:45",
+                    "v": 99.617
+                },
+                {
+                    "t": "10:50",
+                    "v": 99.596
+                },
+                {
+                    "t": "10:55",
+                    "v": 99.556
+                },
+                {
+                    "t": "11:00",
+                    "v": 99.576
+                },
+                {
+                    "t": "11:05",
+                    "v": 99.592
+                },
+                {
+                    "t": "11:10",
+                    "v": 99.598
+                },
+                {
+                    "t": "11:15",
+                    "v": 99.591
+                },
+                {
+                    "t": "11:20",
+                    "v": 99.59
+                },
+                {
+                    "t": "11:25",
+                    "v": 99.595
+                },
+                {
+                    "t": "11:30",
+                    "v": 99.562
+                },
+                {
+                    "t": "11:35",
+                    "v": 99.561
+                },
+                {
+                    "t": "11:40",
+                    "v": 99.566
+                },
+                {
+                    "t": "11:45",
+                    "v": 99.576
+                },
+                {
+                    "t": "11:50",
+                    "v": 99.534
                 }
             ],
             "5d": [
@@ -7330,7 +7075,27 @@
                 },
                 {
                     "t": "06/16 09:00",
-                    "v": 99.615
+                    "v": 99.65
+                },
+                {
+                    "t": "06/16 09:30",
+                    "v": 99.664
+                },
+                {
+                    "t": "06/16 10:00",
+                    "v": 99.667
+                },
+                {
+                    "t": "06/16 10:30",
+                    "v": 99.556
+                },
+                {
+                    "t": "06/16 11:00",
+                    "v": 99.595
+                },
+                {
+                    "t": "06/16 11:30",
+                    "v": 99.534
                 }
             ],
             "1mo": [
@@ -7412,7 +7177,7 @@
                 },
                 {
                     "t": "06/16",
-                    "v": 99.615
+                    "v": 99.534
                 }
             ]
         }
