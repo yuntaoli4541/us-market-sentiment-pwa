@@ -114,11 +114,11 @@
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "17.13",
+            "previous": "16.78",
             "current": "16.78",
-            "delta": "-0.35",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
