@@ -94,51 +94,51 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7730.99",
+            "previous": "7711.76",
             "current": "7711.76",
-            "delta": "-19.23",
-            "direction": "down",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "26541.35",
+            "previous": "26402.42",
             "current": "26402.42",
-            "delta": "-138.93",
-            "direction": "down",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "14.51",
+            "previous": "14.43",
             "current": "14.43",
-            "delta": "-0.08",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "58.00",
+            "previous": "54.00",
             "current": "54.00",
-            "delta": "-4.00",
-            "direction": "down",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "positive"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.67",
+            "previous": "4.72",
             "current": "4.72",
-            "delta": "+0.05",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
