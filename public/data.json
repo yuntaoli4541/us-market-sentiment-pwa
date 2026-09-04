@@ -94,51 +94,51 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7747.71",
+            "previous": "7718.60",
             "current": "7718.60",
-            "delta": "-29.11",
-            "direction": "down",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "26584.06",
+            "previous": "26506.99",
             "current": "26506.99",
-            "delta": "-77.07",
-            "direction": "down",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "14.32",
+            "previous": "14.53",
             "current": "14.53",
-            "delta": "+0.21",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "35.00",
+            "previous": "42.00",
             "current": "42.00",
-            "delta": "+7.00",
-            "direction": "up",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "neutral"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.76",
+            "previous": "4.78",
             "current": "4.78",
-            "delta": "+0.02",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
