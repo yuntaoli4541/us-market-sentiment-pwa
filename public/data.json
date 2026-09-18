@@ -94,31 +94,31 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7637.76",
+            "previous": "7650.50",
             "current": "7650.50",
-            "delta": "+12.74",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "26418.30",
+            "previous": "26522.54",
             "current": "26522.54",
-            "delta": "+104.24",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "15.44",
+            "previous": "14.81",
             "current": "14.81",
-            "delta": "-0.63",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
@@ -134,11 +134,11 @@
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "4.95",
+            "previous": "5.00",
             "current": "5.00",
-            "delta": "+0.05",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
