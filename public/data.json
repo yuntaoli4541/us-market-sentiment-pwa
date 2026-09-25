@@ -94,51 +94,51 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7704.13",
+            "previous": "7743.41",
             "current": "7743.41",
-            "delta": "+39.28",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "26939.37",
+            "previous": "27068.72",
             "current": "27068.72",
-            "delta": "+129.35",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "15.67",
+            "previous": "14.87",
             "current": "14.87",
-            "delta": "-0.80",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "36.00",
+            "previous": "37.00",
             "current": "37.00",
-            "delta": "+1.00",
-            "direction": "up",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "neutral"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "5.16",
+            "previous": "5.18",
             "current": "5.18",
-            "delta": "+0.02",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
