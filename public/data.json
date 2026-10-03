@@ -94,51 +94,51 @@
             "key": "SP500_price",
             "label": "标普500",
             "unit": "指数点位",
-            "previous": "7666.45",
+            "previous": "7722.72",
             "current": "7722.72",
-            "delta": "+56.27",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "NASDAQ_price",
             "label": "纳斯达克",
             "unit": "指数点位",
-            "previous": "26871.60",
+            "previous": "27190.86",
             "current": "27190.86",
-            "delta": "+319.26",
-            "direction": "up",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "VIX_price",
             "label": "VIX",
             "unit": "恐慌指数",
-            "previous": "16.39",
+            "previous": "15.31",
             "current": "15.31",
-            "delta": "-1.08",
-            "direction": "down",
-            "tone": "positive"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         },
         {
             "key": "FG_Score",
             "label": "恐惧贪婪",
             "unit": "情绪分数",
-            "previous": "28.00",
+            "previous": "31.00",
             "current": "31.00",
-            "delta": "+3.00",
-            "direction": "up",
+            "delta": "+0.00",
+            "direction": "flat",
             "tone": "neutral"
         },
         {
             "key": "TNX_price",
             "label": "十年期美债",
             "unit": "收益率",
-            "previous": "5.24",
+            "previous": "5.28",
             "current": "5.28",
-            "delta": "+0.04",
-            "direction": "up",
-            "tone": "negative"
+            "delta": "+0.00",
+            "direction": "flat",
+            "tone": "neutral"
         }
     ],
     "watchlist_triggers": [
@@ -4612,10 +4612,6 @@
                 {
                     "t": "10/01",
                     "v": 76.9
-                },
-                {
-                    "t": "10/02",
-                    "v": 76.91
                 }
             ]
         },
@@ -5276,10 +5272,6 @@
                 {
                     "t": "10/01",
                     "v": 92.3
-                },
-                {
-                    "t": "10/02",
-                    "v": 92.39
                 }
             ]
         },
